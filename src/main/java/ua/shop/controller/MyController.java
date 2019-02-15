@@ -157,8 +157,9 @@ public class MyController {
     }
 
     @RequestMapping(value = "/product/change_price", method = RequestMethod.POST)
-    public ResponseEntity<Void> changePrice(@RequestParam(value = "toDo[]", required = false) long[] toChange,
-                                            @RequestParam(required = false) int newPrice) {
+    public ResponseEntity<Void> changePrice(@RequestParam(required = false) int newPrice,
+
+        @RequestParam(value = "toDo[]", required = false) long[] toChange) {
 //        int newPrice = 1000;
 
         if (toChange != null && toChange.length > 0){
