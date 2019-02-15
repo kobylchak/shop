@@ -158,19 +158,30 @@ public class MyController {
 
     @RequestMapping(value = "/product/change_price", method = RequestMethod.POST)
     public ResponseEntity<Void> changePrice(@RequestParam(required = false) int newPrice,
+                                            @RequestParam(value = "toDo[]", required = false) long[] toChange) {
 
-        @RequestParam(value = "toDo[]", required = false) long[] toChange) {
-//        int newPrice = 1000;
-
-        if (toChange != null && toChange.length > 0){
+        if (toChange != null && toChange.length > 0) {
             for (long id : toChange) {
                 Product product = productService.findProductById(id);
                 product.setPrice(newPrice);
                 productService.saveProduct(product);
             }
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-//            productService.deleteProducts(toChange);
+    @RequestMapping(value = "/product/change_discount", method = RequestMethod.POST)
+    public ResponseEntity<Void> changeDiscount(
+            @RequestParam(required = false) int newDiscount,
+            @RequestParam(value = "toDo[]", required = false) long[] toChange) {
+
+        if (toChange != null && toChange.length > 0) {
+            for (long id : toChange) {
+                Product product = productService.findProductById(id);
+                product.setDiscount(newDiscount);
+                productService.saveProduct(product);
+            }
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

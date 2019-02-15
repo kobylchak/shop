@@ -14,7 +14,7 @@
     <p>Click to logout: <a href="${logoutUrl}">LOGOUT</a></p>
 </div>
 <div align="left">
-<%--<div align="left" class="container">--%>
+    <%--<div align="left" class="container">--%>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -26,11 +26,17 @@
                         <button type="button" id="add_brand" class="btn btn-default navbar-btn">Add Brand</button>
                     </li>
                     <li>
-                        <button type="button" id="delete_product" class="btn btn-default navbar-btn">Delete Product</button>
+                        <button type="button" id="delete_product" class="btn btn-default navbar-btn">Delete Product
+                        </button>
                     </li>
                     <li>
-                        <button type="button" id="change_price" class="btn btn-default navbar-btn">Change price</button>
                         <input type="text" name="newPrice" id="newPrice" placeholder="Enter new price">
+                        <button type="button" id="change_price" class="btn btn-default navbar-btn">Change price</button>
+                    </li>
+                    <li>
+                        <input type="text" name="newDiscount" id="newDiscount" placeholder="Enter new discount">
+                        <button type="button" id="change_discount" class="btn btn-default navbar-btn">Change discount
+                        </button>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -82,7 +88,8 @@
                 <td>${product.price}</td>
                 <td>${product.description}</td>
                 <td>${product.color}</td>
-                <td>${product.discount}</td>    <%--можно попробывать здесь создать ссылку на изменение скидки--%>
+                <td>${product.discount}</td>
+                    <%--можно попробывать здесь создать ссылку на изменение скидки--%>
 
             </tr>
         </c:forEach>
@@ -132,108 +139,17 @@
             window.location.reload();
         });
     });
+    $('#change_discount').click(function () {
+        var newDiscount = document.getElementById("newDiscount").value;
+        var data = {newDiscount: newDiscount, 'toDo[]': []};
+        $(":checked").each(function () {
+            data['toDo[]'].push($(this).val());
+        });
+
+        $.post("/product/change_discount", data, function (data, status) {
+            window.location.reload();
+        });
+    });
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
