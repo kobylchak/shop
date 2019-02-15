@@ -126,7 +126,8 @@
         $(":checked").each(function () {
             data['toDo[]'].push($(this).val());
         });
-        $.post("/product/change_price", data, newPrice, function (data, newPrice, status) {
+
+        $.post("/product/change_price", data, function (data, newPrice, status) {
             window.location.reload();
         });
     });
