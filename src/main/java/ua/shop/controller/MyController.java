@@ -14,28 +14,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.shop.dao.Brand;
-import ua.shop.dao.CustomUser;
-import ua.shop.dao.Product;
-import ua.shop.dao.UserRole;
+import ua.shop.dao.*;
 import ua.shop.exception.PhotoErrorException;
 import ua.shop.exception.PhotoNotFoundException;
+import ua.shop.service.PhotoService;
 import ua.shop.service.ProductService;
 import ua.shop.service.UserService;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class MyController {
     static final int DEFAULT_BRAND_ID = -1;
+    static final int DEFAULT_PRODUCT_ID = -1;
     static final int ITEMS_PER_PAGE = 6;
     @Autowired
     private UserService userService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private PhotoService photoService;
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -84,12 +83,10 @@ public class MyController {
         return "register";
     }
 
-
     @RequestMapping("/forgot")
     public String forgot() {
         return "forgot";
     }
-
 
     @RequestMapping("/unauthorized")
     public String unauthorized(Model model) {
@@ -98,20 +95,13 @@ public class MyController {
         return "unauthorized";
     }
 
-
     @RequestMapping("/admin")
     public String admin(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-
         if (page < 0) page = 0;
-
         List<Product> products = productService
                 .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-
-
         model.addAttribute("brands", productService.findBrands());
-
         model.addAttribute("allPages", getPageCount());
-
         model.addAttribute("products", products);
         return "admin";
     }
@@ -127,13 +117,18 @@ public class MyController {
         return "brand_add_page";
     }
 
+    @RequestMapping("/photo_add_page")
+    public String photoAddPage(Model model) {
+        model.addAttribute("brands", productService.findBrands());
+        return "photo_add_page";
+    }
+
     @RequestMapping("/brand/{id}")
     public String listBrand(@PathVariable(value = "id") long brandId,
                             @RequestParam(required = false, defaultValue = "0") Integer page,
                             Model model) {
         Brand brand = (brandId != DEFAULT_BRAND_ID) ? productService.findBrand(brandId) : null;
         if (page < 0) page = 0;
-
         List<Product> products = productService.findByBrand(brand, new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
         model.addAttribute("brands", productService.findBrands());
         model.addAttribute("products", products);
@@ -159,7 +154,6 @@ public class MyController {
     @RequestMapping(value = "/product/change_price", method = RequestMethod.POST)
     public ResponseEntity<Void> changePrice(@RequestParam(required = false) int newPrice,
                                             @RequestParam(value = "toDo[]", required = false) long[] toChange) {
-
         if (toChange != null && toChange.length > 0) {
             for (long id : toChange) {
                 Product product = productService.findProductById(id);
@@ -174,7 +168,6 @@ public class MyController {
     public ResponseEntity<Void> changeDiscount(
             @RequestParam(required = false) int newDiscount,
             @RequestParam(value = "toDo[]", required = false) long[] toChange) {
-
         if (toChange != null && toChange.length > 0) {
             for (long id : toChange) {
                 Product product = productService.findProductById(id);
@@ -185,24 +178,39 @@ public class MyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/product/add", method = RequestMethod.POST)
     public String productAdd(Model model,
                              @RequestParam(value = "brand") long brandId,
-                             @RequestParam String product,
-                             @RequestParam MultipartFile photo,
+                             @RequestParam String name,
                              @RequestParam Integer price,
                              @RequestParam String color,
                              @RequestParam String description,
                              @RequestParam int discount) {
+        Brand brand = (brandId != DEFAULT_BRAND_ID) ? productService.findBrand(brandId) : null;
+        Product prod = new Product(brand, name, price, color, description, discount);
+        productService.addProduct(prod);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/photo/add")
+    public String photoAdd(Model model,
+                           @RequestParam(value = "productId") long productId,
+                           @RequestParam MultipartFile photo) {
         try {
-            Brand brand = (brandId != DEFAULT_BRAND_ID) ? productService.findBrand(brandId) : null;
-            Product prod = new Product(brand, product, photo.getBytes(), price, color, description, discount);
-            productService.addProduct(prod);
+            Product product = (productId != DEFAULT_PRODUCT_ID) ? productService.findProductById(productId) : null;
+            product.getPhotos().add(new Photo(product, photo.getBytes()));
+            productService.saveProduct(product);
             return "redirect:/admin";
         } catch (IOException ex) {
             throw new PhotoErrorException();
         }
+    }
+
+    @GetMapping("/download/photo/{product.id}")
+    public String downloadPhoto(@PathVariable("product.id") long id,
+                                Model model) {
+        model.addAttribute("productId", id);
+        return "photo_add_page";
     }
 
     @RequestMapping(value = "/brand/add", method = RequestMethod.POST)
@@ -210,26 +218,22 @@ public class MyController {
         productService.addBrand(new Brand(name));
         return "redirect:/admin";
     }
-//    @PostMapping("/brand/add")
-//    public String brandAdd(@Valid @RequestBody Brand brand) {
-//        productService.addBrand(brand);
-//        return "redirect:/admin";
-//    }
 
-    @RequestMapping("/photo/{product.id}")
-    public ResponseEntity<byte[]> onPhoto(@PathVariable("product.id") long id) {
+    @RequestMapping("/photo/{photo.id}")
+    public ResponseEntity<byte[]> onPhoto(@PathVariable("photo.id") long id) {
         return photoById(id);
     }
 
     private ResponseEntity<byte[]> photoById(long id) {
-        Product product = productService.findProductById(id);
-        byte[] bytes = product.getPhoto();
+        Photo photo = photoService.findPhotoById(id);
+        byte[] bytes = photo.getPhoto();
         if (bytes == null)
             throw new PhotoNotFoundException();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);
         return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
     }
+
 
     private long getPageCount() {
         long totalCount = productService.count();
