@@ -1,7 +1,8 @@
 package ua.shop.dao;
 
 import javax.persistence.*;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,23 +14,20 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
-    private String product;
-
-    @Column(columnDefinition = "LONGBLOB NOT NULL")
-    private byte[] photo;
+    private String name;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Photo> photos = new ArrayList<>();
     private int price;
     private String color;
     private String description;
     private int discount;
 
-
     public Product() {
     }
 
-    public Product(Brand brand, String product, byte[] photo, int price, String color, String description, int discount) {
+    public Product(Brand brand, String name, int price, String color, String description, int discount) {
         this.brand = brand;
-        this.product = product;
-        this.photo = photo;
+        this.name = name;
         this.price = price;
         this.color = color;
         this.description = description;
@@ -44,20 +42,28 @@ public class Product {
         this.id = id;
     }
 
-    public String getProduct() {
-        return product;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public String getName() {
+        return name;
     }
 
-    public void setPhoto(byte[] photo) {
-        this.photo = photo;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
     }
 
     public int getPrice() {
@@ -84,14 +90,6 @@ public class Product {
         this.description = description;
     }
 
-    public Brand getBrand() {
-        return brand;
-    }
-
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
-
     public int getDiscount() {
         return discount;
     }
@@ -100,25 +98,21 @@ public class Product {
         this.discount = discount;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product product1 = (Product) o;
-        return id == product1.id &&
-                price == product1.price &&
-                Objects.equals(brand, product1.brand) &&
-                Objects.equals(product, product1.product) &&
-                Arrays.equals(photo, product1.photo) &&
-                Objects.equals(color, product1.color) &&
-                Objects.equals(description, product1.description);
+        Product product = (Product) o;
+        return id == product.id &&
+                price == product.price &&
+                Objects.equals(brand, product.brand) &&
+                Objects.equals(name, product.name) &&
+                Objects.equals(color, product.color) &&
+                Objects.equals(description, product.description);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, brand, product, price, color, description);
-        result = 31 * result + Arrays.hashCode(photo);
-        return result;
+        return Objects.hash(id, brand, name, price, color, description);
     }
 }

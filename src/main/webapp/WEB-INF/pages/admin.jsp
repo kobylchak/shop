@@ -20,10 +20,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul id="moduleList" class="nav navbar-nav">
                     <li>
-                        <button type="button" id="add_product" class="btn btn-default navbar-btn">Add Product</button>
+                        <button type="button" id="add_brand" class="btn btn-default navbar-btn">Add Brand</button>
                     </li>
                     <li>
-                        <button type="button" id="add_brand" class="btn btn-default navbar-btn">Add Brand</button>
+                        <button type="button" id="add_product" class="btn btn-default navbar-btn">Add Product</button>
                     </li>
                     <li>
                         <button type="button" id="delete_product" class="btn btn-default navbar-btn">Delete Product
@@ -37,6 +37,9 @@
                         <input type="text" name="newDiscount" id="newDiscount" placeholder="Enter new discount">
                         <button type="button" id="change_discount" class="btn btn-default navbar-btn">Change discount
                         </button>
+                    </li>
+                    <li>
+                        <button type="button" id="add_photo" class="btn btn-default navbar-btn">Add Photo</button>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -82,15 +85,14 @@
                         <td>Default</td>
                     </c:otherwise>
                 </c:choose>
-                <td>${product.product}</td>
-                <td><img src="/photo/${product.id}"
-                         height="100" alt="${product.product}"/></td>
+                <td>${product.name}</td>
+                <td><a href="/download/photo/${product.id}">download photo</a><c:forEach items="${product.photos}" var="photo">
+                    <img src="/photo/${photo.id}"
+                         height="100" alt="${product.name}"/></c:forEach></td>
                 <td>${product.price}</td>
                 <td>${product.description}</td>
                 <td>${product.color}</td>
                 <td>${product.discount}</td>
-                    <%--можно попробывать здесь создать ссылку на изменение скидки--%>
-
             </tr>
         </c:forEach>
     </table>
@@ -114,6 +116,7 @@
     $('#add_product').click(function () {
         window.location.href = '/product_add_page';
     });
+
     $('#add_brand').click(function () {
         window.location.href = '/brand_add_page';
     });

@@ -7,8 +7,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<%--<div class="container">--%>
+    <%--<form role="form" class="form-horizontal" action="/product/add" enctype="multipart/form-data" method="POST">--%>
 <div class="container">
-    <form role="form" class="form-horizontal" action="/product/add" enctype="multipart/form-data" method="POST">
+    <form role="form" class="form-horizontal" content="application/x-www-form-urlencoded" accept-charset="UTF-8"
+          action="/product/add" method="POST">
         <h3>New product</h3>
         <select class="selectpicker form-control form-group" name="brand">
             <option value="-1">Default</option>
@@ -16,8 +19,8 @@
                 <option value="${brand.id}">${brand.name}</option>
             </c:forEach>
         </select>
-        <input class="form-control form-group" type="text" name="product" placeholder="product model">
-        <input type="file" name="photo">
+        <input class="form-control form-group" type="text" name="name" placeholder="product model">
+        <%--<input type="file" name="photo">--%>
         <input class="form-control form-group" type="text" name="price" placeholder="enter price 100">
         <input class="form-control form-group" type="text" name="color" placeholder="enter color">
         <input class="form-control form-group" type="text" name="description" placeholder="description">

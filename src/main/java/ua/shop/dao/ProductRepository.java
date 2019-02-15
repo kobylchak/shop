@@ -18,9 +18,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByPattern(@Param("pattern") String pattern, Pageable pageable);
 
     Product findProductById(long id);
-
-
-
-
-
 }
