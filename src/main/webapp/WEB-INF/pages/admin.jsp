@@ -38,9 +38,9 @@
                         <button type="button" id="change_discount" class="btn btn-default navbar-btn">Change discount
                         </button>
                     </li>
-                    <li>
-                        <button type="button" id="add_photo" class="btn btn-default navbar-btn">Add Photo</button>
-                    </li>
+                    <%--<li>--%>
+                        <%--<button type="button" id="add_photo" class="btn btn-default navbar-btn">Add Photo</button>--%>
+                    <%--</li>--%>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Brands <span class="caret"></span></a>
@@ -86,7 +86,7 @@
                     </c:otherwise>
                 </c:choose>
                 <td>${product.name}</td>
-                <td><a href="/download/photo/${product.id}">download photo</a><c:forEach items="${product.photos}" var="photo">
+                <td><a href="/download/photo/${product.id}"><img height="100" width="60" src="<c:url value="/static/addPhoto.png"/>"/></a><c:forEach items="${product.photos}" var="photo">
                     <img src="/photo/${photo.id}"
                          height="100" alt="${product.name}"/></c:forEach></td>
                 <td>${product.price}</td>
