@@ -14,7 +14,7 @@ public class Brand {
     @NotNull(message = "Name cannot be null")
     private String name;
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();
+    private List<Mobile> mobiles = new ArrayList<>();
 
     public Brand(String name) {
         this.name = name;
@@ -39,11 +39,11 @@ public class Brand {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<Mobile> getMobiles() {
+        return mobiles;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setMobiles(List<Mobile> mobiles) {
+        this.mobiles = mobiles;
     }
 }

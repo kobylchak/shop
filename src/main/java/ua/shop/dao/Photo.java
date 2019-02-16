@@ -10,14 +10,14 @@ public class Photo {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "mobile_id")
+    private Mobile mobile;
 
     @Column(columnDefinition = "LONGBLOB NOT NULL")
     private byte[] photo;
 
-    public Photo(Product product, byte[] photo) {
-        this.product = product;
+    public Photo(Mobile mobile, byte[] photo) {
+        this.mobile = mobile;
         this.photo = photo;
     }
 
@@ -32,12 +32,12 @@ public class Photo {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Mobile getMobile() {
+        return mobile;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setMobile(Mobile mobile) {
+        this.mobile = mobile;
     }
 
     public byte[] getPhoto() {
