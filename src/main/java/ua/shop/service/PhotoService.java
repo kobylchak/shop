@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Photo;
 import ua.shop.dao.impl.PhotoRepository;
-import ua.shop.dao.Product;
-import ua.shop.dao.impl.ProductRepository;
+import ua.shop.dao.Mobile;
+import ua.shop.dao.impl.MobileRepository;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class PhotoService {
     private PhotoRepository photoRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private MobileRepository mobileRepository;
 
     @Transactional
     public void savePhoto(Photo photo) {
@@ -29,8 +29,8 @@ public class PhotoService {
     }
 
     @Transactional
-    public List<Product> findProducts() {
-        return productRepository.findAll();
+    public List<Mobile> findProducts() {
+        return mobileRepository.findAll();
     }
 
     @Transactional
