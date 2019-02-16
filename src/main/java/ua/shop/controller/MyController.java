@@ -145,11 +145,27 @@ public class MyController {
     }
 
     @RequestMapping(value = "/product/delete", method = RequestMethod.POST)
-    public ResponseEntity<Void> delete(@RequestParam(value = "toDo[]", required = false) long[] toDelete) {
+    public ResponseEntity<Void> deleteProduct(@RequestParam(value = "toDo[]", required = false) long[] toDelete) {
         if (toDelete != null && toDelete.length > 0)
             productService.deleteProducts(toDelete);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    @PostMapping("/photo/delete")
+    public ResponseEntity<Void> deletePhoto(@RequestParam(value = "toDeletePhoto[]", required = false) long[] toDelete) {
+        if (toDelete != null && toDelete.length > 0)
+            photoService.deletePhotos(toDelete);
+
+
+//            productService.deleteProducts(toDelete);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
+
+
 
     @RequestMapping(value = "/product/change_price", method = RequestMethod.POST)
     public ResponseEntity<Void> changePrice(@RequestParam(required = false) int newPrice,

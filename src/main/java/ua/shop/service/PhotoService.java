@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Photo;
-import ua.shop.dao.PhotoRepository;
+import ua.shop.dao.impl.PhotoRepository;
 import ua.shop.dao.Product;
-import ua.shop.dao.ProductRepository;
+import ua.shop.dao.impl.ProductRepository;
 
 import java.util.List;
 
@@ -19,17 +19,23 @@ public class PhotoService {
     private ProductRepository productRepository;
 
     @Transactional
-    public void savePhoto(Photo photo){
+    public void savePhoto(Photo photo) {
         photoRepository.save(photo);
     }
-    @Transactional
-    public Photo findPhotoById(long id){
-        return photoRepository.getOne(id);
 
+    @Transactional
+    public Photo findPhotoById(long id) {
+        return photoRepository.getOne(id);
     }
 
     @Transactional
-    public List<Product> findProducts(){
+    public List<Product> findProducts() {
         return productRepository.findAll();
+    }
+
+    @Transactional
+    public void deletePhotos(long[] idList) {
+        for (long id : idList)
+            photoRepository.deleteById(id);
     }
 }

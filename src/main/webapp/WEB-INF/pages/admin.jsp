@@ -29,6 +29,9 @@
                         <button type="button" id="delete_product" class="btn btn-default navbar-btn">Delete Product
                         </button>
                     </li>
+                  <li>
+                        <button type="button" id="delete_photo" class="btn btn-default navbar-btn">Delete Photo</button>
+                    </li>
                     <li>
                         <input type="text" name="newPrice" id="newPrice" placeholder="Enter new price">
                         <button type="button" id="change_price" class="btn btn-default navbar-btn">Change price</button>
@@ -39,7 +42,7 @@
                         </button>
                     </li>
                     <%--<li>--%>
-                        <%--<button type="button" id="add_photo" class="btn btn-default navbar-btn">Add Photo</button>--%>
+                    <%--<button type="button" id="add_photo" class="btn btn-default navbar-btn">Add Photo</button>--%>
                     <%--</li>--%>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -86,9 +89,13 @@
                     </c:otherwise>
                 </c:choose>
                 <td>${product.name}</td>
-                <td><a href="/download/photo/${product.id}"><img height="100" width="60" src="<c:url value="/static/addPhoto.png"/>"/></a><c:forEach items="${product.photos}" var="photo">
-                    <img src="/photo/${photo.id}"
-                         height="100" alt="${product.name}"/></c:forEach></td>
+                <td><a href="/download/photo/${product.id}"><img height="100" width="60"
+                                                                 src="<c:url value="/static/addPhoto.png"/>"/></a>
+                    <c:forEach items="${product.photos}" var="photo">
+                        <input type="checkbox" name="toDeletePhoto[]" value="${photo.id}" id="checkbox_${photo.id}"/>
+                        <img src="/photo/${photo.id}" height="100" alt="${product.name}"/>
+                    </c:forEach>
+                </td>
                 <td>${product.price}</td>
                 <td>${product.description}</td>
                 <td>${product.color}</td>
@@ -129,6 +136,25 @@
             window.location.reload();
         });
     });
+
+
+ $('#delete_photo').click(function () {
+        var data = {'toDeletePhoto[]': []};
+        $(":checked").each(function () {
+            data['toDeletePhoto[]'].push($(this).val());
+        });
+        $.post("/photo/delete", data, function (data, status) {
+            window.location.reload();
+        });
+    });
+
+
+
+
+
+
+
+
     $('#change_price').click(function () {
         // var newPrice = $('newPrice').val();
         var newPrice = document.getElementById("newPrice").value;
