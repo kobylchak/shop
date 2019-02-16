@@ -11,7 +11,7 @@
     <form role="form" class="form-horizontal" content="application/x-www-form-urlencoded" accept-charset="UTF-8"
           action="/brand/add" method="post">
         <div class="form-group"><h3>New Brand</h3></div>
-        <div class="form-group"><input type="text" class="form-control" name="name" placeholder="Name"></div>
+        <div class="form-group"><input type="text" class="form-control" name="name" required placeholder="Name"></div>
         <div class="form-group"><input type="submit" class="btn btn-primary" value="Add"></div>
     </form>
 </div>

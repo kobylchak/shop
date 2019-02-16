@@ -14,7 +14,6 @@
     <p>Click to logout: <a href="${logoutUrl}">LOGOUT</a></p>
 </div>
 <div align="left">
-    <%--<div align="left" class="container">--%>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -23,17 +22,17 @@
                         <button type="button" id="add_brand" class="btn btn-default navbar-btn">Add Brand</button>
                     </li>
                     <li>
-                        <button type="button" id="add_product" class="btn btn-default navbar-btn">Add Product</button>
+                        <button type="button" id="add_mobile" class="btn btn-default navbar-btn">Add Mobile</button>
                     </li>
                     <li>
-                        <button type="button" id="delete_product" class="btn btn-default navbar-btn">Delete Product
+                        <button type="button" id="delete_mobile" class="btn btn-default navbar-btn">Delete Mobile
                         </button>
                     </li>
-                  <li>
+                    <li>
                         <button type="button" id="delete_photo" class="btn btn-default navbar-btn">Delete Photo</button>
                     </li>
                     <li>
-                        <input type="text" name="newPrice" id="newPrice" placeholder="Enter new price">
+                        <input type="text" name="newPrice" id="newPrice" placeholder="Check and enter new price">
                         <button type="button" id="change_price" class="btn btn-default navbar-btn">Change price</button>
                     </li>
                     <li>
@@ -41,14 +40,11 @@
                         <button type="button" id="change_discount" class="btn btn-default navbar-btn">Change discount
                         </button>
                     </li>
-                    <%--<li>--%>
-                    <%--<button type="button" id="add_photo" class="btn btn-default navbar-btn">Add Photo</button>--%>
-                    <%--</li>--%>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false">Brands <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin">All products</a></li>
+                            <li><a href="/admin">All mobiles</a></li>
                             <c:forEach items="${brands}" var="brand">
                                 <li><a href="/brand/${brand.id}">${brand.name}</a></li>
                             </c:forEach>
@@ -57,7 +53,7 @@
                 </ul>
                 <form class="navbar-form navbar-left" role="search" action="/search" method="post">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="pattern" placeholder="Search">
+                        <input type="text" class="form-control" name="pattern" placeholder="Search by mobile name">
                     </div>
                     <button type="submit" class="btn btn-default">Submit</button>
                 </form>
@@ -69,7 +65,7 @@
         <tr>
             <td></td>
             <td><b>Brand</b></td>
-            <td><b>Product</b></td>
+            <td><b>Mobile</b></td>
             <td><b>Photo</b></td>
             <td><b>Price</b></td>
             <td><b>Description</b></td>
@@ -77,29 +73,22 @@
             <td><b>Discount</b></td>
         </tr>
         </thead>
-        <c:forEach items="${products}" var="product">
+        <c:forEach items="${mobiles}" var="mobile">
             <tr>
-                <td><input type="checkbox" name="toDo[]" value="${product.id}" id="checkbox_${product.id}"/></td>
-                <c:choose>
-                    <c:when test="${product.brand ne null}">
-                        <td>${product.brand.name}</td>
-                    </c:when>
-                    <c:otherwise>
-                        <td>Default</td>
-                    </c:otherwise>
-                </c:choose>
-                <td>${product.name}</td>
-                <td><a href="/download/photo/${product.id}"><img height="100" width="60"
+                <td><input type="checkbox" name="toDo[]" value="${mobile.id}" id="checkbox_${mobile.id}"/></td>
+                    <td>${mobile.brand.name}</td>
+                <td>${mobile.name}</td>
+                <td><a href="/download/photo/${mobile.id}"><img height="100" width="60"
                                                                  src="<c:url value="/static/addPhoto.png"/>"/></a>
-                    <c:forEach items="${product.photos}" var="photo">
+                    <c:forEach items="${mobile.photos}" var="photo">
                         <input type="checkbox" name="toDeletePhoto[]" value="${photo.id}" id="checkbox_${photo.id}"/>
-                        <img src="/photo/${photo.id}" height="100" alt="${product.name}"/>
+                        <img src="/photo/${photo.id}" height="100" alt="${mobile.name}"/>
                     </c:forEach>
                 </td>
-                <td>${product.price}</td>
-                <td>${product.description}<a href="/product/description/${product.id}"> change</a></td>
-                <td>${product.color}</td>
-                <td>${product.discount}</td>
+                <td>${mobile.price}</td>
+                <td>${mobile.description}<a href="/mobile/description/${mobile.id}"> change</a></td>
+                <td>${mobile.color}</td>
+                <td>${mobile.discount}</td>
             </tr>
         </c:forEach>
     </table>
@@ -120,25 +109,23 @@
 </div>
 <script>
     $('.dropdown-toggle').dropdown();
-    $('#add_product').click(function () {
-        window.location.href = '/product_add_page';
+    $('#add_mobile').click(function () {
+        window.location.href = '/mobile/add_page';
     });
 
     $('#add_brand').click(function () {
         window.location.href = '/brand_add_page';
     });
-    $('#delete_product').click(function () {
+    $('#delete_mobile').click(function () {
         var data = {'toDo[]': []};
         $(":checked").each(function () {
             data['toDo[]'].push($(this).val());
         });
-        $.post("/product/delete", data, function (data, status) {
+        $.post("/mobile/delete", data, function (data, status) {
             window.location.reload();
         });
     });
-
-
- $('#delete_photo').click(function () {
+    $('#delete_photo').click(function () {
         var data = {'toDeletePhoto[]': []};
         $(":checked").each(function () {
             data['toDeletePhoto[]'].push($(this).val());
@@ -147,24 +134,13 @@
             window.location.reload();
         });
     });
-
-
-
-
-
-
-
-
     $('#change_price').click(function () {
-        // var newPrice = $('newPrice').val();
         var newPrice = document.getElementById("newPrice").value;
-        // var newPrice = 'newPrice';
         var data = {newPrice: newPrice, 'toDo[]': []};
         $(":checked").each(function () {
             data['toDo[]'].push($(this).val());
         });
-
-        $.post("/product/change_price", data, function (data, status) {
+        $.post("/mobile/change_price", data, function (data, status) {
             window.location.reload();
         });
     });
@@ -174,8 +150,7 @@
         $(":checked").each(function () {
             data['toDo[]'].push($(this).val());
         });
-
-        $.post("/product/change_discount", data, function (data, status) {
+        $.post("/mobile/change_discount", data, function (data, status) {
             window.location.reload();
         });
     });
