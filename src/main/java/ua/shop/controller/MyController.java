@@ -26,9 +26,9 @@ import java.util.List;
 
 @Controller
 public class MyController {
-    static final int DEFAULT_BRAND_ID = -1;
-    static final int DEFAULT_PRODUCT_ID = -1;
-    static final int ITEMS_PER_PAGE = 6;
+    private static final int DEFAULT_BRAND_ID = -1;
+    private static final int DEFAULT_PRODUCT_ID = -1;
+    private static final int ITEMS_PER_PAGE = 6;
     @Autowired
     private UserService userService;
     @Autowired
@@ -106,12 +106,6 @@ public class MyController {
         return "admin";
     }
 
-    @RequestMapping("/product_add_page")
-    public String productAddPage(Model model) {
-        model.addAttribute("brands", productService.findBrands());
-        return "product_add_page";
-    }
-
     @RequestMapping("/brand_add_page")
     public String brandAddPage() {
         return "brand_add_page";
@@ -144,81 +138,11 @@ public class MyController {
         return "admin";
     }
 
-    @GetMapping("/product/description/{product.id}")
-    public String description(Model model,
-                                    @PathVariable(value = "product.id") long productId) {
-        Product product = productService.findProductById(productId);
-        model.addAttribute("product", product);
-        return "product_change_description";
-    }
-
-    @PostMapping("procuct/description")
-    public String changeDescription(@RequestParam long productId,
-                                    @RequestParam String newDescription){
-        Product product = productService.findProductById(productId);
-        product.setDescription(newDescription);
-        productService.saveProduct(product);
-        return "redirect:/admin";
-    }
-
-    @RequestMapping(value = "/product/delete", method = RequestMethod.POST)
-    public ResponseEntity<Void> deleteProduct(@RequestParam(value = "toDo[]", required = false) long[] toDelete) {
-        if (toDelete != null && toDelete.length > 0)
-            productService.deleteProducts(toDelete);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
     @PostMapping("/photo/delete")
     public ResponseEntity<Void> deletePhoto(@RequestParam(value = "toDeletePhoto[]", required = false) long[] toDelete) {
         if (toDelete != null && toDelete.length > 0)
             photoService.deletePhotos(toDelete);
-
-
-//            productService.deleteProducts(toDelete);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-    @RequestMapping(value = "/product/change_price", method = RequestMethod.POST)
-    public ResponseEntity<Void> changePrice(@RequestParam(required = false) int newPrice,
-                                            @RequestParam(value = "toDo[]", required = false) long[] toChange) {
-        if (toChange != null && toChange.length > 0) {
-            for (long id : toChange) {
-                Product product = productService.findProductById(id);
-                product.setPrice(newPrice);
-                productService.saveProduct(product);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/product/change_discount", method = RequestMethod.POST)
-    public ResponseEntity<Void> changeDiscount(
-            @RequestParam(required = false) int newDiscount,
-            @RequestParam(value = "toDo[]", required = false) long[] toChange) {
-        if (toChange != null && toChange.length > 0) {
-            for (long id : toChange) {
-                Product product = productService.findProductById(id);
-                product.setDiscount(newDiscount);
-                productService.saveProduct(product);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/product/add", method = RequestMethod.POST)
-    public String productAdd(Model model,
-                             @RequestParam(value = "brand") long brandId,
-                             @RequestParam String name,
-                             @RequestParam Integer price,
-                             @RequestParam String color,
-                             @RequestParam String description,
-                             @RequestParam int discount) {
-        Brand brand = (brandId != DEFAULT_BRAND_ID) ? productService.findBrand(brandId) : null;
-        Product prod = new Product(brand, name, price, color, description, discount);
-        productService.addProduct(prod);
-        return "redirect:/admin";
     }
 
     @PostMapping("/photo/add")
