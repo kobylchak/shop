@@ -5,27 +5,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Brand;
+import ua.shop.dao.Mobile;
 import ua.shop.dao.impl.BrandRepository;
-import ua.shop.dao.Product;
-import ua.shop.dao.impl.ProductRepository;
+import ua.shop.dao.impl.MobileRepository;
 
 import java.util.List;
 
 @Service
-public class ProductService {
+public class MobileService {
     @Autowired
-    private ProductRepository productRepository;
+    private MobileRepository mobileRepository;
     @Autowired
     private BrandRepository brandRepository;
 
     @Transactional
-    public void addProduct(Product product) {
-        productRepository.save(product);
+    public void addMobile(Mobile mobile) {
+        mobileRepository.save(mobile);
     }
 
     @Transactional
-    public void saveProduct(Product product) {
-        productRepository.save(product);
+    public void saveMobile(Mobile mobile) {
+        mobileRepository.save(mobile);
     }
 
     @Transactional
@@ -34,9 +34,9 @@ public class ProductService {
     }
 
     @Transactional
-    public void deleteProducts(long[] idList) {
+    public void deleteMobiles(long[] idList) {
         for (long id : idList)
-            productRepository.deleteById(id);
+            mobileRepository.deleteById(id);
     }
 
     @Transactional()
@@ -45,38 +45,38 @@ public class ProductService {
     }
 
     @Transactional
-    public Product findProductById(long id){
-        return productRepository.findProductById(id);
+    public Mobile findMobileById(long id){
+        return mobileRepository.findProductById(id);
     }
 
     @Transactional(readOnly=true)
-    public List<Product> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable).getContent();
+    public List<Mobile> findAll(Pageable pageable) {
+        return mobileRepository.findAll(pageable).getContent();
     }
 
     @Transactional(readOnly = true)
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<Mobile> findAll() {
+        return mobileRepository.findAll();
     }
 
     @Transactional(readOnly=true)
-    public List<Product> findByBrand(Brand brand, Pageable pageable) {
-        return productRepository.findByBrand(brand, pageable);
+    public List<Mobile> findByBrand(Brand brand, Pageable pageable) {
+        return mobileRepository.findByBrand(brand, pageable);
     }
 
     @Transactional(readOnly = true)
     public long countByBrand(Brand brand) {
-        return productRepository.countByBrand(brand);
+        return mobileRepository.countByBrand(brand);
     }
 
     @Transactional(readOnly = true)
-    public List<Product> findByPattern(String pattern, Pageable pageable) {
-        return productRepository.findByPattern(pattern, pageable);
+    public List<Mobile> findByPattern(String pattern, Pageable pageable) {
+        return mobileRepository.findByPattern(pattern, pageable);
     }
 
     @Transactional(readOnly = true)
     public long count() {
-        return productRepository.count();
+        return mobileRepository.count();
     }
 
     @Transactional(readOnly = true)

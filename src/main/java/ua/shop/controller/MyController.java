@@ -18,7 +18,7 @@ import ua.shop.dao.*;
 import ua.shop.exception.PhotoErrorException;
 import ua.shop.exception.PhotoNotFoundException;
 import ua.shop.service.PhotoService;
-import ua.shop.service.ProductService;
+import ua.shop.service.MobileService;
 import ua.shop.service.UserService;
 
 import java.io.IOException;
@@ -27,12 +27,12 @@ import java.util.List;
 @Controller
 public class MyController {
     private static final int DEFAULT_BRAND_ID = -1;
-    private static final int DEFAULT_PRODUCT_ID = -1;
+    private static final int DEFAULT_MOBILE_ID = -1;
     private static final int ITEMS_PER_PAGE = 6;
     @Autowired
     private UserService userService;
     @Autowired
-    private ProductService productService;
+    private MobileService mobileService;
     @Autowired
     private PhotoService photoService;
 
@@ -98,14 +98,22 @@ public class MyController {
     @RequestMapping("/admin")
     public String admin(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
         if (page < 0) page = 0;
-        List<Product> products = productService
+        List<Mobile> mobiles = mobileService
                 .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-        model.addAttribute("brands", productService.findBrands());
+        model.addAttribute("brands", mobileService.findBrands());
         model.addAttribute("allPages", getPageCount());
-        model.addAttribute("products", products);
+        model.addAttribute("mobiles", mobiles);
         return "admin";
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String search(Model model,
+                         @RequestParam String pattern) {
+
+        model.addAttribute("brands", mobileService.findBrands());
+        model.addAttribute("mobiles", mobileService.findByPattern(pattern, null));
+        return "admin";
+    }
     @RequestMapping("/brand_add_page")
     public String brandAddPage() {
         return "brand_add_page";
@@ -113,7 +121,7 @@ public class MyController {
 
     @RequestMapping("/photo_add_page")
     public String photoAddPage(Model model) {
-        model.addAttribute("brands", productService.findBrands());
+        model.addAttribute("brands", mobileService.findBrands());
         return "photo_add_page";
     }
 
@@ -121,22 +129,17 @@ public class MyController {
     public String listBrand(@PathVariable(value = "id") long brandId,
                             @RequestParam(required = false, defaultValue = "0") Integer page,
                             Model model) {
-        Brand brand = (brandId != DEFAULT_BRAND_ID) ? productService.findBrand(brandId) : null;
+        Brand brand = (brandId != DEFAULT_BRAND_ID) ? mobileService.findBrand(brandId) : null;
         if (page < 0) page = 0;
-        List<Product> products = productService.findByBrand(brand, new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-        model.addAttribute("brands", productService.findBrands());
-        model.addAttribute("products", products);
+        List<Mobile> mobiles = mobileService.findByBrand(brand, new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
+        model.addAttribute("brands", mobileService.findBrands());
+        model.addAttribute("mobiles", mobiles);
         model.addAttribute("byGroupPages", getPageCount(brand));
         model.addAttribute("brandId", brandId);
         return "admin";
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String search(@RequestParam String pattern, Model model) {
-        model.addAttribute("brands", productService.findBrands());
-        model.addAttribute("products", productService.findByPattern(pattern, null));
-        return "admin";
-    }
+
 
     @PostMapping("/photo/delete")
     public ResponseEntity<Void> deletePhoto(@RequestParam(value = "toDeletePhoto[]", required = false) long[] toDelete) {
@@ -147,28 +150,28 @@ public class MyController {
 
     @PostMapping("/photo/add")
     public String photoAdd(Model model,
-                           @RequestParam(value = "productId") long productId,
+                           @RequestParam(value = "mobileId") long mobileId,
                            @RequestParam MultipartFile photo) {
         try {
-            Product product = (productId != DEFAULT_PRODUCT_ID) ? productService.findProductById(productId) : null;
-            product.getPhotos().add(new Photo(product, photo.getBytes()));
-            productService.saveProduct(product);
+            Mobile mobile = (mobileId != DEFAULT_MOBILE_ID) ? mobileService.findMobileById(mobileId) : null;
+            mobile.getPhotos().add(new Photo(mobile, photo.getBytes()));
+            mobileService.saveMobile(mobile);
             return "redirect:/admin";
         } catch (IOException ex) {
             throw new PhotoErrorException();
         }
     }
 
-    @GetMapping("/download/photo/{product.id}")
-    public String downloadPhoto(@PathVariable("product.id") long id,
+    @GetMapping("/download/photo/{mobile.id}")
+    public String downloadPhoto(@PathVariable("mobile.id") long id,
                                 Model model) {
-        model.addAttribute("productId", id);
+        model.addAttribute("mobileId", id);
         return "photo_add_page";
     }
 
     @RequestMapping(value = "/brand/add", method = RequestMethod.POST)
     public String brandAdd(@RequestParam String name) {
-        productService.addBrand(new Brand(name));
+        mobileService.addBrand(new Brand(name));
         return "redirect:/admin";
     }
 
@@ -189,12 +192,12 @@ public class MyController {
 
 
     private long getPageCount() {
-        long totalCount = productService.count();
+        long totalCount = mobileService.count();
         return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
     }
 
     private long getPageCount(Brand brand) {
-        long totalCount = productService.countByBrand(brand);
+        long totalCount = mobileService.countByBrand(brand);
         return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
     }
 }

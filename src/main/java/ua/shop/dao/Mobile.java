@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Products")
-public class Product {
+@Table(name = "Mobiles")
+public class Mobile {
     @Id
     @GeneratedValue
     private long id;
@@ -15,17 +15,17 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
     private String name;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mobile", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
     private int price;
     private String color;
     private String description;
     private int discount;
 
-    public Product() {
+    public Mobile() {
     }
 
-    public Product(Brand brand, String name, int price, String color, String description, int discount) {
+    public Mobile(Brand brand, String name, int price, String color, String description, int discount) {
         this.brand = brand;
         this.name = name;
         this.price = price;
@@ -102,13 +102,13 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id == product.id &&
-                price == product.price &&
-                Objects.equals(brand, product.brand) &&
-                Objects.equals(name, product.name) &&
-                Objects.equals(color, product.color) &&
-                Objects.equals(description, product.description);
+        Mobile mobile = (Mobile) o;
+        return id == mobile.id &&
+                price == mobile.price &&
+                Objects.equals(brand, mobile.brand) &&
+                Objects.equals(name, mobile.name) &&
+                Objects.equals(color, mobile.color) &&
+                Objects.equals(description, mobile.description);
     }
 
     @Override
