@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Brand;
-import ua.shop.dao.BrandRepository;
+import ua.shop.dao.impl.BrandRepository;
 import ua.shop.dao.Product;
-import ua.shop.dao.ProductRepository;
+import ua.shop.dao.impl.ProductRepository;
 
 import java.util.List;
 

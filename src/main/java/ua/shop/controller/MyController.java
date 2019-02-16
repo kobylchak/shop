@@ -144,6 +144,23 @@ public class MyController {
         return "admin";
     }
 
+    @GetMapping("/product/description/{product.id}")
+    public String description(Model model,
+                                    @PathVariable(value = "product.id") long productId) {
+        Product product = productService.findProductById(productId);
+        model.addAttribute("product", product);
+        return "product_change_description";
+    }
+
+    @PostMapping("procuct/description")
+    public String changeDescription(@RequestParam long productId,
+                                    @RequestParam String newDescription){
+        Product product = productService.findProductById(productId);
+        product.setDescription(newDescription);
+        productService.saveProduct(product);
+        return "redirect:/admin";
+    }
+
     @RequestMapping(value = "/product/delete", method = RequestMethod.POST)
     public ResponseEntity<Void> deleteProduct(@RequestParam(value = "toDo[]", required = false) long[] toDelete) {
         if (toDelete != null && toDelete.length > 0)
@@ -161,10 +178,6 @@ public class MyController {
 //            productService.deleteProducts(toDelete);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
 
 
     @RequestMapping(value = "/product/change_price", method = RequestMethod.POST)

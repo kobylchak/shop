@@ -97,7 +97,7 @@
                     </c:forEach>
                 </td>
                 <td>${product.price}</td>
-                <td>${product.description}</td>
+                <td>${product.description}<a href="/product/description/${product.id}"> change</a></td>
                 <td>${product.color}</td>
                 <td>${product.discount}</td>
             </tr>
