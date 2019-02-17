@@ -12,7 +12,7 @@
           action="/mobile/add" method="POST">
         <h3>New mobile</h3>
         <h6>Choose mobile brand or at first create mobile brand
-            <input type="submit" value="Add brand" onclick="window.location='/brand_add_page';"/>
+            <input type="submit" value="Add brand" onclick="window.location='/brand';"/>
         </h6>
         <select class="selectpicker form-control form-group" name="brand" required>
             <c:forEach items="${brands}" var="brand">

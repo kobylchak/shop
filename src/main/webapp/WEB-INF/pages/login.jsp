@@ -10,12 +10,8 @@
     <form action="${loginUrl}" method="POST">
         Login:<br/><input type="text" name="j_login"><br/>
         Password:<br/><input type="password" name="j_password"><br/>
-
-
-
         <input type="submit"/><br>
         <a href="/forgot">Forgot password!!!</a>
-
         <p><a href="/register">Register new user</a></p>
         <c:if test="${param.error ne null}">
             <p>Wrong login or password!</p>

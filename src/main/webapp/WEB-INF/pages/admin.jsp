@@ -81,7 +81,7 @@
                 <td><input type="checkbox" name="toDo[]" value="${mobile.id}" id="checkbox_${mobile.id}"/></td>
                     <td>${mobile.brand.name}</td>
                 <td>${mobile.name}</td>
-                <td><a href="/download/photo/${mobile.id}"><img height="100" width="60"
+                <td><a href="/photo/download/${mobile.id}"><img height="100" width="60"
                                                                  src="<c:url value="/static/addPhoto.png"/>"/></a>
                     <c:forEach items="${mobile.photos}" var="photo">
                         <input type="checkbox" name="toDeletePhoto[]" value="${photo.id}" id="checkbox_${photo.id}"/>
@@ -113,11 +113,11 @@
 <script>
     $('.dropdown-toggle').dropdown();
     $('#add_mobile').click(function () {
-        window.location.href = '/mobile/add_page';
+        window.location.href = '/mobile';
     });
 
     $('#add_brand').click(function () {
-        window.location.href = '/brand_add_page';
+        window.location.href = '/brand';
     });
     $('#delete_mobile').click(function () {
         var data = {'toDo[]': []};
