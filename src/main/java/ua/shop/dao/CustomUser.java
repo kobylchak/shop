@@ -17,11 +17,11 @@ public class CustomUser {
     private String phone;
     private String address;
 
-    public CustomUser(String login, String password, UserRole role) {
-        this.login = login;
-        this.password = password;
-        this.role = role;
-    }
+//    public CustomUser(String login, String password, UserRole role) {
+//        this.login = login;
+//        this.password = password;
+//        this.role = role;
+//    }
 
     public CustomUser(String login, String password, UserRole role, String email, String phone) {
         this.login = login;
