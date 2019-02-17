@@ -13,7 +13,7 @@ import ua.shop.service.MobileService;
 
 @Controller
 @RequestMapping("/mobile")
-@PreAuthorize("hasAnyAuthority('ADMIN')")
+@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class MobileController {
     private static final int DEFAULT_BRAND_ID = -1;
 
