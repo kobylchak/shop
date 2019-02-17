@@ -114,6 +114,15 @@ public class MyController {
         model.addAttribute("mobiles", mobileService.findByPattern(pattern, null));
         return "admin";
     }
+
+    @GetMapping("/find_users")
+    public String findUsers(Model model){
+        List<CustomUser> users = userService.findAllCustomUser();
+        model.addAttribute("users", users);
+        return "users_page";
+    }
+
+
     @RequestMapping("/brand_add_page")
     public String brandAddPage() {
         return "brand_add_page";

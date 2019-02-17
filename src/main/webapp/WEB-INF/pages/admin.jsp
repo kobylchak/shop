@@ -50,6 +50,9 @@
                             </c:forEach>
                         </ul>
                     </li>
+                    <li>
+                        <button type="button" id="find_users" class="btn btn-default navbar-btn">Find Users</button>
+                    </li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search" action="/search" method="post">
                     <div class="form-group">
@@ -153,6 +156,9 @@
         $.post("/mobile/change_discount", data, function (data, status) {
             window.location.reload();
         });
+    });
+    $('#find_users').click(function () {
+        window.location.href = '/users';
     });
 </script>
 </body>
