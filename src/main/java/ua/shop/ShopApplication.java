@@ -20,8 +20,8 @@ public class ShopApplication {
         return new CommandLineRunner() {
             @Override
             public void run(String... strings) throws Exception {
-                userService.addUser(new CustomUser("admin", "$2a$10$QTLi3Raw8MPC1XTk83d63.n8STr3p.hgqGwhD1yWjmzTU0XmRuj36", UserRole.ADMIN));
-                userService.addUser(new CustomUser("user", "$2a$10$s0nvPz6NO8oOvIvFYljjJekQ3BkXgDy2NZsjOawQH8Gj1cNfLp9SO", UserRole.USER));
+                userService.addUser(new CustomUser("admin", "$2a$10$QTLi3Raw8MPC1XTk83d63.n8STr3p.hgqGwhD1yWjmzTU0XmRuj36", UserRole.ADMIN, "admin@gmailcom", "38208208282"));
+                userService.addUser(new CustomUser("user", "$2a$10$s0nvPz6NO8oOvIvFYljjJekQ3BkXgDy2NZsjOawQH8Gj1cNfLp9SO", UserRole.USER, "user@gmail.com", "777"));
             }
         };
     }
