@@ -20,7 +20,7 @@ public class MobileController {
     @Autowired
     private MobileService mobileService;
 
-    @GetMapping("/add_page")
+    @GetMapping
     public String mobileAddPage(Model model) {
         model.addAttribute("brands", mobileService.findBrands());
         return "mobile_add_page";
