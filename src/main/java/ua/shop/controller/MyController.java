@@ -115,18 +115,18 @@ public class MyController {
         return "admin";
     }
 
-    @GetMapping("/find_users")
-    public String findUsers(Model model){
-        List<CustomUser> users = userService.findAllCustomUser();
-        model.addAttribute("users", users);
-        return "users_page";
-    }
+//    @GetMapping("/find_users")
+//    public String findUsers(Model model){
+//        List<CustomUser> users = userService.findAllCustomUser();
+//        model.addAttribute("users", users);
+//        return "users_page";
+//    }
 
 
-    @RequestMapping("/brand_add_page")
-    public String brandAddPage() {
-        return "brand_add_page";
-    }
+//    @RequestMapping("/brand_add_page")
+//    public String brandAddPage() {
+//        return "brand_add_page";
+//    }
 
     @RequestMapping("/photo_add_page")
     public String photoAddPage(Model model) {
@@ -134,19 +134,19 @@ public class MyController {
         return "photo_add_page";
     }
 
-    @RequestMapping("/brand/{id}")
-    public String listBrand(@PathVariable(value = "id") long brandId,
-                            @RequestParam(required = false, defaultValue = "0") Integer page,
-                            Model model) {
-        Brand brand = (brandId != DEFAULT_BRAND_ID) ? mobileService.findBrand(brandId) : null;
-        if (page < 0) page = 0;
-        List<Mobile> mobiles = mobileService.findByBrand(brand, new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-        model.addAttribute("brands", mobileService.findBrands());
-        model.addAttribute("mobiles", mobiles);
-        model.addAttribute("byGroupPages", getPageCount(brand));
-        model.addAttribute("brandId", brandId);
-        return "admin";
-    }
+//    @RequestMapping("/brand/{id}")
+//    public String listBrand(@PathVariable(value = "id") long brandId,
+//                            @RequestParam(required = false, defaultValue = "0") Integer page,
+//                            Model model) {
+//        Brand brand = (brandId != DEFAULT_BRAND_ID) ? mobileService.findBrand(brandId) : null;
+//        if (page < 0) page = 0;
+//        List<Mobile> mobiles = mobileService.findByBrand(brand, new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
+//        model.addAttribute("brands", mobileService.findBrands());
+//        model.addAttribute("mobiles", mobiles);
+//        model.addAttribute("byGroupPages", getPageCount(brand));
+//        model.addAttribute("brandId", brandId);
+//        return "admin";
+//    }
 
 
 
@@ -178,11 +178,11 @@ public class MyController {
         return "photo_add_page";
     }
 
-    @RequestMapping(value = "/brand/add", method = RequestMethod.POST)
-    public String brandAdd(@RequestParam String name) {
-        mobileService.addBrand(new Brand(name));
-        return "redirect:/admin";
-    }
+//    @RequestMapping(value = "/brand/add", method = RequestMethod.POST)
+//    public String brandAdd(@RequestParam String name) {
+//        mobileService.addBrand(new Brand(name));
+//        return "redirect:/admin";
+//    }
 
     @RequestMapping("/photo/{photo.id}")
     public ResponseEntity<byte[]> onPhoto(@PathVariable("photo.id") long id) {
@@ -204,9 +204,9 @@ public class MyController {
         long totalCount = mobileService.count();
         return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
     }
-
-    private long getPageCount(Brand brand) {
-        long totalCount = mobileService.countByBrand(brand);
-        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
-    }
+//
+//    private long getPageCount(Brand brand) {
+//        long totalCount = mobileService.countByBrand(brand);
+//        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
+//    }
 }
