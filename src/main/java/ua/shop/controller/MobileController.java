@@ -34,8 +34,8 @@ public class MobileController {
                              @RequestParam String color,
                              @RequestParam String description,
                              @RequestParam int discount) {
-        Brand brand = (brandId != DEFAULT_BRAND_ID) ? mobileService.findBrand(brandId) : null;
-        Mobile mob = new Mobile(brand, name, price, color, description, discount);
+        Brand brand = mobileService.findBrand(brandId);
+        Mobile mob = new Mobile(brand, name, price, color, description, discount, null);
         mobileService.addMobile(mob);
         return "redirect:/admin";
     }
