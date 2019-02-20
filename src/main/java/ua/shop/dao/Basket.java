@@ -12,6 +12,9 @@ public class Basket {
     private long id;
 
     private String name;
+    private int totalQuantity;
+    private double totalPrice;
+
 
     @ManyToMany(mappedBy = "baskets", cascade = CascadeType.ALL)
     private List<Mobile> mobiles = new ArrayList<>();
@@ -21,6 +24,26 @@ public class Basket {
     }
 
     public Basket() {
+    }
+
+    public int getTotalQuantity() {
+        return totalQuantity;
+    }
+
+    public void setTotalQuantity(int totalQuantity) {
+        this.totalQuantity = totalQuantity;
+    }
+
+    public double getTotalPrice() {
+        double totalPrice = 0.0;
+        for (Mobile mobile : mobiles) {
+            totalPrice += mobile.getPrice();
+        }
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public List<Mobile> getMobiles() {

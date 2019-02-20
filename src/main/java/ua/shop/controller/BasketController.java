@@ -44,28 +44,21 @@ public class BasketController {
         Mobile mobile = mobileService.findMobileById(mobileId);
         mobile.setBaskets(baskets);
         basket.getMobiles().add(mobile);
-        double totalPrice = basket.getTotalPrice();
-        basket.setTotalPrice(totalPrice + mobile.getPrice());
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
-//        return "basket";
         return "redirect:/";
     }
     @GetMapping("/delete/{mobile.id}")
     public String deleteMobileFromBasket(Model model,
                                     @PathVariable(value = "mobile.id") long mobileId) {
-
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
-//        List<Basket> baskets = basketService.findBaskets();
         Mobile mobile = mobileService.findMobileById(mobileId);
         Basket basket = basketService.findBasketByName(login + "Basket");
-
         mobile.setBaskets(null);
         basket.getMobiles().remove(mobile);
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
-//        return "basket";
         return "redirect:/";
     }
 }
