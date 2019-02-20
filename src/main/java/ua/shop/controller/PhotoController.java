@@ -57,18 +57,18 @@ public class PhotoController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/{photo.id}")
-    public ResponseEntity<byte[]> onPhoto(@PathVariable("photo.id") long id) {
-        return photoById(id);
-    }
-
-    private ResponseEntity<byte[]> photoById(long id) {
-        Photo photo = photoService.findPhotoById(id);
-        byte[] bytes = photo.getPhoto();
-        if (bytes == null)
-            throw new PhotoNotFoundException();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
-        return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
-    }
+//    @GetMapping("/{photo.id}")
+//    public ResponseEntity<byte[]> onPhoto(@PathVariable("photo.id") long id) {
+//        return photoById(id);
+//    }
+//
+//    private ResponseEntity<byte[]> photoById(long id) {
+//        Photo photo = photoService.findPhotoById(id);
+//        byte[] bytes = photo.getPhoto();
+//        if (bytes == null)
+//            throw new PhotoNotFoundException();
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.IMAGE_PNG);
+//        return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
+//    }
 }

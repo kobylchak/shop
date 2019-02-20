@@ -3,7 +3,6 @@ package ua.shop.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +12,8 @@ import ua.shop.service.MobileService;
 
 @Controller
 @RequestMapping("/mobile")
-@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+//@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class MobileController {
-    private static final int DEFAULT_BRAND_ID = -1;
 
     @Autowired
     private MobileService mobileService;
@@ -30,7 +28,7 @@ public class MobileController {
     public String mobileAdd(Model model,
                              @RequestParam(value = "brand") long brandId,
                              @RequestParam String name,
-                             @RequestParam Integer price,
+                             @RequestParam Double price,
                              @RequestParam String color,
                              @RequestParam String description,
                              @RequestParam int discount) {
@@ -65,7 +63,7 @@ public class MobileController {
     }
 
     @PostMapping("/change_price")
-    public ResponseEntity<Void> changePrice(@RequestParam(required = false) int newPrice,
+    public ResponseEntity<Void> changePrice(@RequestParam(required = false) double newPrice,
                                             @RequestParam(value = "toDo[]", required = false) long[] toChange) {
         if (toChange != null && toChange.length > 0) {
             for (long id : toChange) {

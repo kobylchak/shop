@@ -35,15 +35,16 @@ public class MyController {
         String login = user.getUsername();
         if (login.equals("admin")) model.addAttribute("admin", "admin");
         else model.addAttribute("user", "user");
-        CustomUser dbUser = userService.getUserByLogin(login);
+//        CustomUser dbUser = userService.getUserByLogin(login);
         List<Brand> brands = mobileService.findBrands();
         Basket basket = basketService.findBasketByName(login+"Basket");
         model.addAttribute("basket", basket);
+        model.addAttribute("basketName", login+"Basket");
         model.addAttribute("brands", brands);
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
-        model.addAttribute("email", dbUser.getEmail());
-        model.addAttribute("phone", dbUser.getPhone());
+//        model.addAttribute("email", dbUser.getEmail());
+//        model.addAttribute("phone", dbUser.getPhone());
         return "index";
     }
 
