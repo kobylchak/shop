@@ -21,17 +21,32 @@ public class Mobile {
     private String color;
     private String description;
     private int discount;
+    @ManyToMany
+    @JoinTable(
+            name = "MobileBasket",
+            joinColumns = @JoinColumn(name = "mob_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "basket_id", referencedColumnName = "id"))
+    private List<Basket> baskets = new ArrayList<>();
 
     public Mobile() {
     }
 
-    public Mobile(Brand brand, String name, int price, String color, String description, int discount) {
+    public Mobile(Brand brand, String name, int price, String color, String description, int discount, List<Basket> baskets) {
         this.brand = brand;
         this.name = name;
         this.price = price;
         this.color = color;
         this.description = description;
         this.discount = discount;
+        this.baskets = baskets;
+    }
+
+    public List<Basket> getBaskets() {
+        return baskets;
+    }
+
+    public void setBaskets(List<Basket> baskets) {
+        this.baskets = baskets;
     }
 
     public long getId() {

@@ -1,8 +1,11 @@
 package ua.shop.dao;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 @Entity
+@Table(name = "Users")
 public class CustomUser {
     @Id
     @GeneratedValue
@@ -16,12 +19,6 @@ public class CustomUser {
     private String email;
     private String phone;
     private String address;
-
-//    public CustomUser(String login, String password, UserRole role) {
-//        this.login = login;
-//        this.password = password;
-//        this.role = role;
-//    }
 
     public CustomUser(String login, String password, UserRole role, String email, String phone) {
         this.login = login;
@@ -104,5 +101,22 @@ public class CustomUser {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomUser that = (CustomUser) o;
+        return id == that.id &&
+                Objects.equals(login, that.login) &&
+                Objects.equals(password, that.password) &&
+                role == that.role &&
+                Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, password, role, email);
     }
 }

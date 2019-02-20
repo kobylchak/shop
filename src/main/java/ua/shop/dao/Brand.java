@@ -1,7 +1,6 @@
 package ua.shop.dao;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,6 @@ public class Brand {
     @Id
     @GeneratedValue
     private long id;
-    @NotNull(message = "Name cannot be null")
     private String name;
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     private List<Mobile> mobiles = new ArrayList<>();
