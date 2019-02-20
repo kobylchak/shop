@@ -18,6 +18,4 @@ public interface MobileRepository extends JpaRepository<Mobile, Long> {
 
     @Query("SELECT m FROM Mobile m WHERE LOWER(m.name) LIKE LOWER(CONCAT('%', :pattern, '%'))")
     List<Mobile> findByPattern(@Param("pattern") String pattern, Pageable pageable);
-
-    Mobile findProductById(long id);
 }
