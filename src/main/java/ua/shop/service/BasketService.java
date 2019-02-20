@@ -14,20 +14,22 @@ public class BasketService {
     private BasketRepository basketRepository;
 
     @Transactional
-    public void saveBasket(Basket basket){
+    public void saveBasket(Basket basket) {
         basketRepository.save(basket);
     }
+
     @Transactional
-    public Basket findBasketByName(String name){
+    public Basket findBasketByName(String name) {
         return basketRepository.findBasketByName(name);
     }
+
     @Transactional
-    public Basket findBasketById(long basketId){
+    public Basket findBasketById(long basketId) {
         return basketRepository.getOne(basketId);
     }
 
     @Transactional
-    public List<Basket> findBaskets(){
+    public List<Basket> findBaskets() {
         return basketRepository.findAll();
     }
 }
