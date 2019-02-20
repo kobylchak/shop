@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Brand;
 import ua.shop.dao.Mobile;
+import ua.shop.dao.impl.BasketRepository;
 import ua.shop.dao.impl.BrandRepository;
 import ua.shop.dao.impl.MobileRepository;
 
@@ -17,6 +18,8 @@ public class MobileService {
     private MobileRepository mobileRepository;
     @Autowired
     private BrandRepository brandRepository;
+    @Autowired
+    private BasketRepository basketRepository;
 
     @Transactional
     public void addMobile(Mobile mobile) {
@@ -46,7 +49,7 @@ public class MobileService {
 
     @Transactional
     public Mobile findMobileById(long id){
-        return mobileRepository.findProductById(id);
+        return mobileRepository.getOne(id);
     }
 
     @Transactional(readOnly=true)
