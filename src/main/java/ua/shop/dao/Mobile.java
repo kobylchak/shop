@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Mobiles")
-public class Mobile {
+public class    Mobile {
     @Id
     @GeneratedValue
     private long id;
