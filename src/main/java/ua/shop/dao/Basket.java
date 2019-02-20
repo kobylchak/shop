@@ -13,8 +13,6 @@ public class Basket {
 
     private String name;
 
-//    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL) //++++++++++++
-//    private List<Mobile> mobs = new ArrayList<>();
     @ManyToMany(mappedBy = "baskets", cascade = CascadeType.ALL)
     private List<Mobile> mobiles = new ArrayList<>();
 
@@ -33,8 +31,6 @@ public class Basket {
         this.mobiles = mobiles;
     }
 
-
-
     public String getName() {
         return name;
     }
@@ -42,14 +38,6 @@ public class Basket {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public List<Mobile> getMobs() {
-//        return mobs;
-//    }
-//
-//    public void setMobs(List<Mobile> mobs) {
-//        this.mobs = mobs;
-//    }
 
     public long getId() {
         return id;
