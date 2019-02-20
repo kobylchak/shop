@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.shop.dao.*;
+import ua.shop.service.BasketService;
 import ua.shop.service.PhotoService;
 import ua.shop.service.MobileService;
 import ua.shop.service.UserService;
@@ -25,6 +26,8 @@ public class MyController {
     private MobileService mobileService;
     @Autowired
     private PhotoService photoService;
+    @Autowired
+    private BasketService basketService;
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -33,6 +36,10 @@ public class MyController {
         if (login.equals("admin")) model.addAttribute("admin", "admin");
         else model.addAttribute("user", "user");
         CustomUser dbUser = userService.getUserByLogin(login);
+        List<Brand> brands = mobileService.findBrands();
+        Basket basket = basketService.findBasketByName(login+"Basket");
+        model.addAttribute("basket", basket);
+        model.addAttribute("brands", brands);
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
         model.addAttribute("email", dbUser.getEmail());
@@ -65,6 +72,8 @@ public class MyController {
         String passHash = passwordEncoder.encode(password);
         CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, email, phone);
         userService.addUser(dbUser);
+        Basket basket = new Basket(login + "Basket");
+        basketService.saveBasket(basket);
         return "redirect:/";
     }
 
