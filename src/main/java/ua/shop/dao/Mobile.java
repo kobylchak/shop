@@ -17,7 +17,7 @@ public class Mobile {
     private String name;
     @OneToMany(mappedBy = "mobile", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
-    private int price;
+    private double price;
     private String color;
     private String description;
     private int discount;
@@ -31,7 +31,7 @@ public class Mobile {
     public Mobile() {
     }
 
-    public Mobile(Brand brand, String name, int price, String color, String description, int discount, List<Basket> baskets) {
+    public Mobile(Brand brand, String name, double price, String color, String description, int discount, List<Basket> baskets) {
         this.brand = brand;
         this.name = name;
         this.price = price;
@@ -81,11 +81,11 @@ public class Mobile {
         this.photos = photos;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
