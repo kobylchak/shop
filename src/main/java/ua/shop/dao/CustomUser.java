@@ -2,6 +2,7 @@ package ua.shop.dao;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +20,8 @@ public class CustomUser {
     private String email;
     private String phone;
     private String address;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 
     public CustomUser(String login, String password, UserRole role, String email, String phone) {
         this.login = login;
@@ -101,6 +104,14 @@ public class CustomUser {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

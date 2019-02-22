@@ -6,5 +6,6 @@ import ua.shop.dao.Basket;
 public interface BasketRepository extends JpaRepository<Basket, Long> {
 
     Basket findBasketByName(String name);
+    Basket findById(long id);
 
 }

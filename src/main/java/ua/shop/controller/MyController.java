@@ -10,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.shop.dao.*;
-import ua.shop.service.BasketService;
-import ua.shop.service.PhotoService;
-import ua.shop.service.MobileService;
-import ua.shop.service.UserService;
+import ua.shop.service.*;
 
 import java.util.List;
 
@@ -28,6 +25,8 @@ public class MyController {
     private PhotoService photoService;
     @Autowired
     private BasketService basketService;
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping("/")
     public String index(Model model) {

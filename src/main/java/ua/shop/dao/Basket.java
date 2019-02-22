@@ -15,15 +15,25 @@ public class Basket {
     private int totalQuantity;
     private double totalPrice;
 
-
     @ManyToMany(mappedBy = "baskets", cascade = CascadeType.ALL)
     private List<Mobile> mobiles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 
     public Basket(String name) {
         this.name = name;
     }
 
     public Basket() {
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public int getTotalQuantity() {
@@ -69,4 +79,5 @@ public class Basket {
     public void setId(long id) {
         this.id = id;
     }
+
 }

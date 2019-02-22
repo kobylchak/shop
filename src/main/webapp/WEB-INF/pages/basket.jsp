@@ -23,6 +23,7 @@
     </h2>
 
     <button type="button" id="back" class="btn btn-default navbar-btn">back</button>
+    <button type="button" id="buy" class="btn btn-default navbar-btn">buy</button>
 
 
     <%--<table align="left" class="table table-striped">--%>
@@ -94,6 +95,9 @@
     $('.dropdown-toggle').dropdown();
     $('#back').click(function () {
         window.location.href = '/';
+    });
+    $('#buy').click(function () {
+        window.location.href = '/basket/buy';
     });
 </script>
 </body>

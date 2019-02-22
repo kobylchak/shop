@@ -10,7 +10,9 @@
 </head>
 <body>
 <div align="center">
+
     <h1>Your login is: ${login}, your roles are:</h1>
+    <h2>basketid = ${basketId}</h2>
     <h1>All mobiles</h1>
     <button type="button" id="basket" class="btn btn-default navbar-btn">basket</button>
     <table align="left" class="table table-striped">

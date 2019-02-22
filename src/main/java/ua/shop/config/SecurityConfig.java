@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/admin", "/mobile").hasRole("ADMIN")
                 .antMatchers("/register").permitAll()
                 .and()
                 .exceptionHandling().accessDeniedPage("/unauthorized")
@@ -54,7 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder;
+        return new BCryptPasswordEncoder(8);
     }
 }
