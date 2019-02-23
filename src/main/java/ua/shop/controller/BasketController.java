@@ -48,8 +48,11 @@ public class BasketController {
                                     @PathVariable(value = "mobile.id") long mobileId) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
-        List<Basket> baskets = basketService.findBaskets();
-        Basket basket = basketService.findBasketByName(login + "Basket");
+        CustomUser dbUser = userService.getUserByLogin(login);
+
+        List<Basket> baskets = basketService.findByCystomUser(dbUser);
+        String basketName = login + "Basket" + dbUser.getBasketNumber();
+        Basket basket = basketService.findBasketByName(basketName);
         Mobile mobile = mobileService.findMobileById(mobileId);
         mobile.setBaskets(baskets);
         basket.getMobiles().add(mobile);
@@ -64,10 +67,14 @@ public class BasketController {
                                          @PathVariable(value = "mobile.id") long mobileId) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
+        CustomUser dbUser = userService.getUserByLogin(login);
+        String basketName = login + "Basket" + dbUser.getBasketNumber();
+        Basket basket = basketService.findBasketByName(basketName);
+
         Mobile mobile = mobileService.findMobileById(mobileId);
-        Basket basket = basketService.findBasketByName(login + "Basket");
-        mobile.setBaskets(null);
+
         basket.getMobiles().remove(mobile);
+        mobile.setBaskets(null);
         basket.setTotalPrice(basket.getTotalPrice());
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
@@ -78,8 +85,12 @@ public class BasketController {
     public String showBuy(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
-        Basket basket = basketService.findBasketByName(login + "Basket");
+        CustomUser dbUser = userService.getUserByLogin(login);
+        String basketName = login + "Basket" + dbUser.getBasketNumber();
+        Basket basket = basketService.findBasketByName(basketName);
         if (basket.getMobiles().isEmpty()) {
+//            model.addAttribute("basket", basket);
+//            model.addAttribute("basketName", basketName);
             return "redirect:/";
         } else return "basket_buy_page";
     }
@@ -93,22 +104,33 @@ public class BasketController {
     ) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
-
+        CustomUser dbUser = userService.getUserByLogin(login);
 
         String date = LocalDate.now().toString();
         String time = LocalTime.now().toString();
 
-        Basket basket = basketService.findBasketByName(login + "Basket");
+        String basketName = login + "Basket" + dbUser.getBasketNumber();
 
+        Basket basket = basketService.findBasketByName(basketName);
 
-
-        CustomUser customUser = userService.getUserByLogin(login);
+        basket.setPaid("paid");
 
         String ip = request.getRemoteAddr();
-        Order order = new Order(customUser, basket, delMethod, delAddress, ip);
+        Order order = new Order(dbUser, basket, delMethod, delAddress, ip);
         orderService.saveOrder(order);
-        basket.getMobiles().clear();
-        basketService.saveBasket(basket);
+
+//        basket.getMobiles().clear();
+
+//        for (Mobile mobile : basket.getMobiles()) {
+//            mobile.setBaskets(null);
+//
+//        }
+//basketService.saveBasket(basket);
+//        basketService.saveBasket(basket);
+        dbUser.setBasketNumber(dbUser.getBasketNumber()+1);
+        userService.updateUser(dbUser);
+        Basket bas = new Basket(login + "Basket" + dbUser.getBasketNumber(), dbUser);
+        basketService.saveBasket(bas);
         return "redirect:/";
     }
 

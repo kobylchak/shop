@@ -23,15 +23,47 @@ public class CustomUser {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
-    public CustomUser(String login, String password, UserRole role, String email, String phone) {
+    @OneToMany(mappedBy = "us", cascade = CascadeType.ALL)
+    private List<Basket> baskets = new ArrayList<>();
+    private int basketNumber;
+
+    public CustomUser(String login, String password, UserRole role, String email, String phone, List<Basket> baskets) {
         this.login = login;
         this.password = password;
         this.role = role;
         this.email = email;
         this.phone = phone;
+        this.baskets = baskets;
+    }
+
+    //    public CustomUser(String login, String password, UserRole role, String email, String phone) {
+//        this.login = login;
+//        this.password = password;
+//        this.role = role;
+//        this.email = email;
+//        this.phone = phone;
+//    }
+
+    public CustomUser(String login, String password, UserRole role, String name, String surname, String email, String phone, String address) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
     }
 
     public CustomUser() {
+    }
+
+    public List<Basket> getBaskets() {
+        return baskets;
+    }
+
+    public void setBaskets(List<Basket> baskets) {
+        this.baskets = baskets;
     }
 
     public String getName() {
@@ -112,6 +144,14 @@ public class CustomUser {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public int getBasketNumber() {
+        return basketNumber;
+    }
+
+    public void setBasketNumber(int basketNumber) {
+        this.basketNumber = basketNumber;
     }
 
     @Override

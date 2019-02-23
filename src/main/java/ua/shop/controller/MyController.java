@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ua.shop.dao.*;
 import ua.shop.service.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -34,11 +35,12 @@ public class MyController {
         String login = user.getUsername();
         if (login.equals("admin")) model.addAttribute("admin", "admin");
         else model.addAttribute("user", "user");
-//        CustomUser dbUser = userService.getUserByLogin(login);
+        CustomUser dbUser = userService.getUserByLogin(login);
         List<Brand> brands = mobileService.findBrands();
-        Basket basket = basketService.findBasketByName(login+"Basket");
+        String basketName = login+"Basket"+ dbUser.getBasketNumber();
+        Basket basket = basketService.findBasketByName(basketName);
         model.addAttribute("basket", basket);
-        model.addAttribute("basketName", login+"Basket");
+        model.addAttribute("basketName", basketName);
         model.addAttribute("brands", brands);
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
@@ -70,9 +72,11 @@ public class MyController {
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String passHash = passwordEncoder.encode(password);
-        CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, email, phone);
+        List<Basket> baskets = new ArrayList<>();
+        CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, email, phone, baskets);
         userService.addUser(dbUser);
-        Basket basket = new Basket(login + "Basket");
+        String basketName = login + "Basket" + dbUser.getBasketNumber();
+        Basket basket = new Basket(basketName, dbUser);
         basketService.saveBasket(basket);
         return "redirect:/";
     }

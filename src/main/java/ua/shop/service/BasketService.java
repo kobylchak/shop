@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Basket;
+import ua.shop.dao.CustomUser;
 import ua.shop.dao.impl.BasketRepository;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class BasketService {
         return basketRepository.findBasketByName(name);
     }
 
+
     @Transactional
     public Basket findBasketById(long basketId) {
         return basketRepository.getOne(basketId);
@@ -32,5 +34,12 @@ public class BasketService {
     public List<Basket> findBaskets() {
         return basketRepository.findAll();
     }
+
+    @Transactional
+    public List<Basket> findByCystomUser(CustomUser us){
+        return basketRepository.findByUs(us);
+    }
+
+
 }
 

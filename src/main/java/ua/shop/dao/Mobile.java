@@ -1,6 +1,7 @@
 package ua.shop.dao;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,9 @@ public class    Mobile {
     private String color;
     private String description;
     private int discount;
+//    @ManyToOne
+//    @JoinColumn(name="basket_id")
+//    private Basket bask;
     @ManyToMany
     @JoinTable(
             name = "MobileBasket",
@@ -32,6 +36,7 @@ public class    Mobile {
     }
 
     public Mobile(Brand brand, String name, double price, String color, String description, int discount, List<Basket> baskets) {
+//    public Mobile(Brand brand, String name, double price, String color, String description, int discount, Basket bask) {
         this.brand = brand;
         this.name = name;
         this.price = price;

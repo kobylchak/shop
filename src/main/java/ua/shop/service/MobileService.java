@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.shop.dao.Basket;
 import ua.shop.dao.Brand;
 import ua.shop.dao.Mobile;
 import ua.shop.dao.impl.BasketRepository;
@@ -48,11 +49,11 @@ public class MobileService {
     }
 
     @Transactional
-    public Mobile findMobileById(long id){
+    public Mobile findMobileById(long id) {
         return mobileRepository.getOne(id);
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<Mobile> findAll(Pageable pageable) {
         return mobileRepository.findAll(pageable).getContent();
     }
@@ -62,10 +63,16 @@ public class MobileService {
         return mobileRepository.findAll();
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<Mobile> findByBrand(Brand brand, Pageable pageable) {
         return mobileRepository.findByBrand(brand, pageable);
     }
+
+//    @Transactional(readOnly = true)
+//    public List<Mobile> findByBasket(Basket basket, Pageable pageable) {
+//        return mobileRepository.findByBasket(basket, pageable);
+//    }
+
 
     @Transactional(readOnly = true)
     public long countByBrand(Brand brand) {

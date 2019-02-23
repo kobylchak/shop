@@ -15,14 +15,33 @@ public class Basket {
     private int totalQuantity;
     private double totalPrice;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private CustomUser us;
+
     @ManyToMany(mappedBy = "baskets", cascade = CascadeType.ALL)
     private List<Mobile> mobiles = new ArrayList<>();
+//    @OneToMany(mappedBy = "bask", cascade = CascadeType.ALL)
+//    private List<Mobile> mobiles = new ArrayList<>();
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
-    public Basket(String name) {
+    private String paid;
+
+    public Basket(String name, CustomUser us) {
         this.name = name;
+        this.us = us;
+        this.paid = "not paid";
+    }
+
+
+    public CustomUser getUs() {
+        return us;
+    }
+
+    public void setUs(CustomUser us) {
+        this.us = us;
     }
 
     public Basket() {
@@ -80,4 +99,11 @@ public class Basket {
         this.id = id;
     }
 
+    public String getPaid() {
+        return paid;
+    }
+
+    public void setPaid(String paid) {
+        this.paid = paid;
+    }
 }
