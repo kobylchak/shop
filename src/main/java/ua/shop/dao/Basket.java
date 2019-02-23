@@ -19,10 +19,8 @@ public class Basket {
     @JoinColumn(name = "user_id")
     private CustomUser us;
 
-    @ManyToMany(mappedBy = "baskets", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "baskets", cascade = CascadeType.MERGE)
     private List<Mobile> mobiles = new ArrayList<>();
-//    @OneToMany(mappedBy = "bask", cascade = CascadeType.ALL)
-//    private List<Mobile> mobiles = new ArrayList<>();
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
