@@ -36,10 +36,13 @@ public class BasketService {
     }
 
     @Transactional
-    public List<Basket> findByCystomUser(CustomUser us){
+    public List<Basket> findByCustomUser(CustomUser us) {
         return basketRepository.findByUs(us);
     }
 
-
+    @Transactional
+    public List<Basket> findByCustomUserAndPaid(CustomUser us, String paid) {
+        return basketRepository.findByUsAndPaidEquals(us, paid);
+    }
 }
 
