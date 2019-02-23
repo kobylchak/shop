@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.shop.dao.*;
 import ua.shop.service.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,11 +22,7 @@ public class MyController {
     @Autowired
     private MobileService mobileService;
     @Autowired
-    private PhotoService photoService;
-    @Autowired
     private BasketService basketService;
-    @Autowired
-    private OrderService orderService;
 
     @RequestMapping("/")
     public String index(Model model) {
@@ -37,15 +32,13 @@ public class MyController {
         else model.addAttribute("user", "user");
         CustomUser dbUser = userService.getUserByLogin(login);
         List<Brand> brands = mobileService.findBrands();
-        String basketName = login+"Basket"+ dbUser.getBasketNumber();
+        String basketName = login + "Basket" + dbUser.getBasketNumber();
         Basket basket = basketService.findBasketByName(basketName);
         model.addAttribute("basket", basket);
         model.addAttribute("basketName", basketName);
         model.addAttribute("brands", brands);
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
-//        model.addAttribute("email", dbUser.getEmail());
-//        model.addAttribute("phone", dbUser.getPhone());
         return "index";
     }
 
@@ -57,27 +50,6 @@ public class MyController {
         dbUser.setEmail(email);
         dbUser.setPhone(phone);
         userService.updateUser(dbUser);
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = "/newuser", method = RequestMethod.POST)
-    public String update(@RequestParam String login,
-                         @RequestParam String password,
-                         @RequestParam(required = false) String email,
-                         @RequestParam(required = false) String phone,
-                         Model model) {
-        if (userService.existsByLogin(login)) {
-            model.addAttribute("exists", true);
-            return "register";
-        }
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String passHash = passwordEncoder.encode(password);
-        List<Basket> baskets = new ArrayList<>();
-        CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, email, phone, baskets);
-        userService.addUser(dbUser);
-        String basketName = login + "Basket" + dbUser.getBasketNumber();
-        Basket basket = new Basket(basketName, dbUser);
-        basketService.saveBasket(basket);
         return "redirect:/";
     }
 
