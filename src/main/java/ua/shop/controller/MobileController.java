@@ -8,23 +8,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.shop.dao.Brand;
 import ua.shop.dao.Mobile;
+import ua.shop.service.BrandService;
 import ua.shop.service.MobileService;
 
 @Controller
 @RequestMapping("/mobile")
-//@PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
 public class MobileController {
+
+    @Autowired
+    private BrandService brandService;
 
     @Autowired
     private MobileService mobileService;
 
     @GetMapping
     public String mobileAddPage(Model model) {
-        model.addAttribute("brands", mobileService.findBrands());
+        model.addAttribute("brands", brandService.findBrands());
         return "mobile_add_page";
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public String mobileAdd(Model model,
                              @RequestParam(value = "brand") long brandId,
                              @RequestParam String name,
@@ -32,8 +35,8 @@ public class MobileController {
                              @RequestParam String color,
                              @RequestParam String description,
                              @RequestParam int discount) {
-        Brand brand = mobileService.findBrand(brandId);
-        Mobile mob = new Mobile(brand, name, price, color, description, discount, null);
+        Brand brand = brandService.findBrandById(brandId);
+        Mobile mob = new Mobile(brand, name, price, color, description, discount);
         mobileService.addMobile(mob);
         return "redirect:/admin";
     }
@@ -88,6 +91,4 @@ public class MobileController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 }

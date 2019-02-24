@@ -55,7 +55,7 @@ public class BrandController {
 
     @ResponseBody
     @GetMapping("/all")
-    public List<Brand> showAllBrand(){
+    public List<Brand> showAllBrands(){
         return brandService.findBrands();
     }
 
