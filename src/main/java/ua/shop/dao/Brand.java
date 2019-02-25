@@ -44,4 +44,8 @@ public class Brand {
     public void setMobiles(List<Mobile> mobiles) {
         this.mobiles = mobiles;
     }
+
+    public boolean checkName(String name){
+        return this.getName().equals(name);
+    }
 }

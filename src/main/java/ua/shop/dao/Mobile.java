@@ -1,14 +1,13 @@
 package ua.shop.dao;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Mobiles")
-public class    Mobile {
+public class Mobile {
     @Id
     @GeneratedValue
     private long id;
@@ -22,36 +21,19 @@ public class    Mobile {
     private String color;
     private String description;
     private int discount;
-//    @ManyToOne
-//    @JoinColumn(name="basket_id")
-//    private Basket bask;
-    @ManyToMany
-    @JoinTable(
-            name = "MobileBasket",
-            joinColumns = @JoinColumn(name = "mob_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "basket_id", referencedColumnName = "id"))
-    private List<Basket> baskets = new ArrayList<>();
+    @OneToMany(mappedBy = "mobile", cascade = CascadeType.ALL)
+    private List<MobilePhone> phones = new ArrayList<>();
 
     public Mobile() {
     }
 
-    public Mobile(Brand brand, String name, double price, String color, String description, int discount, List<Basket> baskets) {
-//    public Mobile(Brand brand, String name, double price, String color, String description, int discount, Basket bask) {
+    public Mobile(Brand brand, String name, double price, String color, String description, int discount) {
         this.brand = brand;
         this.name = name;
         this.price = price;
         this.color = color;
         this.description = description;
         this.discount = discount;
-        this.baskets = baskets;
-    }
-
-    public List<Basket> getBaskets() {
-        return baskets;
-    }
-
-    public void setBaskets(List<Basket> baskets) {
-        this.baskets = baskets;
     }
 
     public long getId() {
@@ -116,6 +98,14 @@ public class    Mobile {
 
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    public List<MobilePhone> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<MobilePhone> phones) {
+        this.phones = phones;
     }
 
     @Override
