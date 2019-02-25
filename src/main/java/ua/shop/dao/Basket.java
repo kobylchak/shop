@@ -9,6 +9,7 @@ import java.util.List;
 public class Basket {
     @Id
     @GeneratedValue
+    @Column(name = "basket_id")
     private long id;
 
     private String name;
@@ -19,8 +20,8 @@ public class Basket {
     @JoinColumn(name = "user_id")
     private CustomUser us;
 
-    @ManyToMany(mappedBy = "baskets", cascade = CascadeType.MERGE)
-    private List<Mobile> mobiles = new ArrayList<>();
+    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
+    private List<MobilePhone> phones = new ArrayList<>();
 
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
@@ -33,6 +34,8 @@ public class Basket {
         this.paid = "not paid";
     }
 
+    public Basket() {
+    }
 
     public CustomUser getUs() {
         return us;
@@ -42,15 +45,20 @@ public class Basket {
         this.us = us;
     }
 
-    public Basket() {
+    public long getId() {
+        return id;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getTotalQuantity() {
@@ -62,10 +70,6 @@ public class Basket {
     }
 
     public double getTotalPrice() {
-        double totalPrice = 0.0;
-        for (Mobile mobile : mobiles) {
-            totalPrice += mobile.getPrice();
-        }
         return totalPrice;
     }
 
@@ -73,28 +77,20 @@ public class Basket {
         this.totalPrice = totalPrice;
     }
 
-    public List<Mobile> getMobiles() {
-        return mobiles;
+    public List<MobilePhone> getPhones() {
+        return phones;
     }
 
-    public void setMobiles(List<Mobile> mobiles) {
-        this.mobiles = mobiles;
+    public void setPhones(List<MobilePhone> phones) {
+        this.phones = phones;
     }
 
-    public String getName() {
-        return name;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public String getPaid() {
@@ -103,5 +99,16 @@ public class Basket {
 
     public void setPaid(String paid) {
         this.paid = paid;
+    }
+
+    public double countTotalPrice() {
+        double totalPrice = 0.0;
+        for (MobilePhone phone : phones) {
+            totalPrice += phone.getMobile().getPrice();
+        }
+        return totalPrice;
+    }
+    public int countTotalQuantity(){
+        return phones.size();
     }
 }
