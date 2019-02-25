@@ -10,15 +10,11 @@ import java.util.List;
 
 public interface BasketRepository extends JpaRepository<Basket, Long> {
 
-    @Query("SELECT b FROM Basket b WHERE b.us = :us")
-    List<Basket> findByUs(@Param("us") CustomUser us);
-
     @Query("SELECT b FROM Basket b WHERE b.us = :us and b.paid = :paid")
     List<Basket> findByUsAndPaidEquals(@Param("us") CustomUser us, @Param("paid") String paid);
 
-    Basket findBasketByName(String name);
+    Basket findBasketByUsAndPaid(CustomUser user, String paid);
 
-    Basket findById(long id);
-
+    Basket findByName(String name);
 
 }
