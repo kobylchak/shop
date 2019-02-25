@@ -4,7 +4,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ua.shop.dao.Basket;
 import ua.shop.dao.Brand;
 import ua.shop.dao.Mobile;
 
@@ -13,9 +12,6 @@ import java.util.List;
 public interface MobileRepository extends JpaRepository<Mobile, Long> {
     @Query("SELECT m FROM Mobile m WHERE m.brand = :brand")
     List<Mobile> findByBrand(@Param("brand") Brand brand, Pageable pageable);
-
-//    @Query("SELECT m FROM Mobile m WHERE m.basket = :basket")
-//    List<Mobile> findByBasket(@Param("basket") Basket basket, Pageable pageable);
 
     @Query("SELECT COUNT(m) FROM Mobile m WHERE m.brand = :brand")
     long countByBrand(@Param("brand") Brand brand);
