@@ -21,9 +21,8 @@ public class BasketService {
 
     @Transactional
     public Basket findBasketByName(String name) {
-        return basketRepository.findBasketByName(name);
+        return basketRepository.findByName(name);
     }
-
 
     @Transactional
     public Basket findBasketById(long basketId) {
@@ -36,10 +35,9 @@ public class BasketService {
     }
 
     @Transactional
-    public List<Basket> findByCustomUser(CustomUser us) {
-        return basketRepository.findByUs(us);
+    public Basket findBasketByUsAndPaid(CustomUser us, String paid){
+        return basketRepository.findBasketByUsAndPaid(us, paid);
     }
-
     @Transactional
     public List<Basket> findByCustomUserAndPaid(CustomUser us, String paid) {
         return basketRepository.findByUsAndPaidEquals(us, paid);
