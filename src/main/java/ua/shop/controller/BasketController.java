@@ -6,14 +6,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.shop.dao.Basket;
-import ua.shop.dao.CustomUser;
-import ua.shop.dao.Mobile;
-import ua.shop.dao.Order;
-import ua.shop.service.BasketService;
-import ua.shop.service.MobileService;
-import ua.shop.service.OrderService;
-import ua.shop.service.UserService;
+import ua.shop.dao.*;
+import ua.shop.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -29,6 +23,8 @@ public class BasketController {
     private UserService userService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private MobilePhoneService mobilePhoneService;
 
     @GetMapping("/show/{basketName}")
     public String showBasket(Model model,
@@ -41,26 +37,30 @@ public class BasketController {
     @GetMapping("/{mobile.id}")
     public String addMobileToBasket(Model model,
                                     @PathVariable(value = "mobile.id") long mobileId) {
-            CustomUser dbUser = getCustomUser();
-        List<Basket> baskets = basketService.findByCustomUserAndPaid(dbUser, "not paid");
-        Basket basket = basketService.findBasketByName(dbUser.getLogin()+"Basket"+dbUser.getBasketNumber());
+        CustomUser dbUser = getCustomUser();
+        Basket basket = basketService.findBasketByUsAndPaid(dbUser, "not paid");
         Mobile mobile = mobileService.findMobileById(mobileId);
-        mobile.setBaskets(baskets);
-        basket.getMobiles().add(mobile);
-        basket.setTotalPrice(basket.getTotalPrice()); // -додати кількість товару
+        if (checkAbsentMobilePhones(mobile)) return "redirect:/";
+        MobilePhone mobilePhone = mobilePhoneService.getFirstByBasketIsNullAndMobile(mobile);
+        mobilePhone.setBasket(basket);
+        basket.getPhones().add(mobilePhone);
+        basket.setTotalPrice(basket.countTotalPrice());
+        basket.setTotalQuantity(basket.countTotalQuantity());// -додати кількість товару
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
         return "redirect:/";
     }
 
-    @GetMapping("/delete/{mobile.id}")
+    @GetMapping("/delete/{phone.id}")
     public String deleteMobileFromBasket(Model model,
-                                         @PathVariable(value = "mobile.id") long mobileId) {
+                                         @PathVariable(value = "phone.id") long mobilePhoneId) {
         CustomUser dbUser = getCustomUser();
-        Basket basket = basketService.findBasketByName(dbUser.getLogin()+"Basket"+dbUser.getBasketNumber());
-        Mobile mobile = mobileService.findMobileById(mobileId);
-        mobile.setBaskets(null);
-        basket.setTotalPrice(basket.getTotalPrice());
+        Basket basket = basketService.findBasketByUsAndPaid(dbUser, "not paid");
+        MobilePhone phone = mobilePhoneService.findMobilePhoneById(mobilePhoneId);
+        basket.getPhones().remove(phone);
+        basket.setTotalPrice(basket.countTotalPrice());
+        phone.setBasket(null);
+        basket.setTotalQuantity(basket.countTotalQuantity());
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
         return "redirect:/";
@@ -69,8 +69,8 @@ public class BasketController {
     @GetMapping("/buy")
     public String showBuy(Model model) {
         CustomUser dbUser = getCustomUser();
-        Basket basket = basketService.findBasketByName(dbUser.getLogin()+"Basket"+dbUser.getBasketNumber());
-        if (basket.getMobiles().isEmpty()) {
+        Basket basket = basketService.findBasketByName(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber());
+        if (basket.getPhones().isEmpty()) {
             return "redirect:/";
         } else return "basket_buy_page";
     }
@@ -82,7 +82,7 @@ public class BasketController {
                             HttpServletRequest request
     ) {
         CustomUser dbUser = getCustomUser();
-        Basket basket = basketService.findBasketByName(dbUser.getLogin()+"Basket"+dbUser.getBasketNumber());
+        Basket basket = basketService.findBasketByName(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber());
         basket.setPaid("paid");
         String ip = request.getRemoteAddr();
         Order order = new Order(dbUser, basket, delMethod, delAddress, ip);
@@ -101,5 +101,10 @@ public class BasketController {
         String login = user.getUsername();
         dbUser = userService.getUserByLogin(login);
         return dbUser;
+    }
+
+    private boolean checkAbsentMobilePhones(Mobile mobile) {
+        List<MobilePhone> mobilePhones = mobilePhoneService.findByBasketIsNullAndMobile(mobile);
+        return mobilePhones.isEmpty();
     }
 }
