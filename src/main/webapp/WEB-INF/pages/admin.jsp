@@ -50,6 +50,16 @@
                             </c:forEach>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Add mobile phone<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <%--<li><a href="/admin">All mobiles</a></li>--%>
+                            <c:forEach items="${brands}" var="brand">
+                                <li><a href="/mobilephone/${brand.id}">${brand.name}</a></li>
+                            </c:forEach>
+                        </ul>
+                    </li>
                     <li>
                         <button type="button" id="find_users" class="btn btn-default navbar-btn">Find Users</button>
                     </li>
@@ -79,10 +89,10 @@
         <c:forEach items="${mobiles}" var="mobile">
             <tr>
                 <td><input type="checkbox" name="toDo[]" value="${mobile.id}" id="checkbox_${mobile.id}"/></td>
-                    <td>${mobile.brand.name}</td>
+                <td>${mobile.brand.name}</td>
                 <td>${mobile.name}</td>
                 <td><a href="/photo/download/${mobile.id}"><img height="100" width="60"
-                                                                 src="<c:url value="/static/addPhoto.png"/>"/></a>
+                                                                src="<c:url value="/static/addPhoto.png"/>"/></a>
                     <c:forEach items="${mobile.photos}" var="photo">
                         <input type="checkbox" name="toDeletePhoto[]" value="${photo.id}" id="checkbox_${photo.id}"/>
                         <img src="/photo/${photo.id}" height="100" alt="${mobile.name}"/>
