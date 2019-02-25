@@ -9,11 +9,8 @@
 <body>
 <div class="container">
     <form role="form" class="form-horizontal" content="application/x-www-form-urlencoded" accept-charset="UTF-8"
-          action="/mobile/add" method="POST">
+          action="/mobile" method="POST">
         <h3>New mobile</h3>
-        <h6>Choose mobile brand or at first create mobile brand
-            <input type="submit" value="Add brand" onclick="window.location='/brand';"/>
-        </h6>
         <select class="selectpicker form-control form-group" name="brand" required>
             <c:forEach items="${brands}" var="brand">
                 <option value="${brand.id}">${brand.name}</option>
