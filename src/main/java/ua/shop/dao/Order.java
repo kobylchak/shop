@@ -1,15 +1,13 @@
 package ua.shop.dao;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "Orders")
 public class Order {
     @Id
     @GeneratedValue
-    @Column(name = "order_id")          //         +++++++++++++++++++++++++++++++++++++
+    @Column(name = "order_id")
     private long id;
 
     @ManyToOne
