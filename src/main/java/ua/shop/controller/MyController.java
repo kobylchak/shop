@@ -5,18 +5,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import ua.shop.dao.*;
-import ua.shop.service.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import ua.shop.dao.Basket;
+import ua.shop.dao.Brand;
+import ua.shop.dao.CustomUser;
+import ua.shop.dao.Mobile;
+import ua.shop.service.BasketService;
+import ua.shop.service.BrandService;
+import ua.shop.service.MobileService;
+import ua.shop.service.UserService;
 
 import java.util.List;
 
 @Controller
 public class MyController {
     private static final int ITEMS_PER_PAGE = 6;
+    @Autowired
+    private BrandService brandService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -31,7 +40,7 @@ public class MyController {
         if (login.equals("admin")) model.addAttribute("admin", "admin");
         else model.addAttribute("user", "user");
         CustomUser dbUser = userService.getUserByLogin(login);
-        List<Brand> brands = mobileService.findBrands();
+        List<Brand> brands = brandService.findBrands();
         String basketName = login + "Basket" + dbUser.getBasketNumber();
         Basket basket = basketService.findBasketByName(basketName);
         model.addAttribute("basket", basket);
@@ -75,7 +84,7 @@ public class MyController {
         if (page < 0) page = 0;
         List<Mobile> mobiles = mobileService
                 .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-        model.addAttribute("brands", mobileService.findBrands());
+        model.addAttribute("brands", brandService.findBrands());
         model.addAttribute("allPages", getPageCount());
         model.addAttribute("mobiles", mobiles);
         return "admin";
@@ -85,7 +94,7 @@ public class MyController {
     public String search(Model model,
                          @RequestParam String pattern) {
 
-        model.addAttribute("brands", mobileService.findBrands());
+        model.addAttribute("brands", brandService.findBrands());
         model.addAttribute("mobiles", mobileService.findByPattern(pattern, null));
         return "admin";
     }
