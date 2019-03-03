@@ -10,6 +10,8 @@ import ua.shop.dao.*;
 import ua.shop.service.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Controller
@@ -40,12 +42,20 @@ public class BasketController {
         CustomUser dbUser = getCustomUser();
         Basket basket = basketService.findBasketByUsAndPaid(dbUser, "not paid");
         Mobile mobile = mobileService.findMobileById(mobileId);
+
         if (checkAbsentMobilePhones(mobile)) return "redirect:/";
-        MobilePhone mobilePhone = mobilePhoneService.getFirstByBasketIsNullAndMobile(mobile);
+//        MobilePhone mobilePhone = mobilePhoneService.getFirstByBasketIsNullAndMobile(mobile);
+        MobilePhone mobilePhone = mobilePhoneService.getFirstMobilePhoneByMobileAndStatus(mobile, PhoneStatus.FORSALE);
+
+        mobilePhone.setStatus(PhoneStatus.INBASKET);
+        mobilePhoneService.saveMobilePhone(mobilePhone);
         mobilePhone.setBasket(basket);
         basket.getPhones().add(mobilePhone);
+
         basket.setTotalPrice(basket.countTotalPrice());
         basket.setTotalQuantity(basket.countTotalQuantity());// -додати кількість товару
+//        mobile.setDiscount(100);
+//        mobileService.saveMobile(mobile);
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
         return "redirect:/";
@@ -57,6 +67,8 @@ public class BasketController {
         CustomUser dbUser = getCustomUser();
         Basket basket = basketService.findBasketByUsAndPaid(dbUser, "not paid");
         MobilePhone phone = mobilePhoneService.findMobilePhoneById(mobilePhoneId);
+        phone.setStatus(PhoneStatus.FORSALE);
+        mobilePhoneService.saveMobilePhone(phone);
         basket.getPhones().remove(phone);
         basket.setTotalPrice(basket.countTotalPrice());
         phone.setBasket(null);
@@ -76,16 +88,18 @@ public class BasketController {
     }
 
     @PostMapping("/buy")
-    public String buyBasket(Model model,
-                            @RequestParam String delMethod,
+    public String buyBasket(@RequestParam String delMethod,
                             @RequestParam String delAddress,
                             HttpServletRequest request
     ) {
         CustomUser dbUser = getCustomUser();
         Basket basket = basketService.findBasketByName(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber());
         basket.setPaid("paid");
+        subtractionSoldPhones(basket);
         String ip = request.getRemoteAddr();
-        Order order = new Order(dbUser, basket, delMethod, delAddress, ip);
+        GregorianCalendar gc = new GregorianCalendar();
+        Date orderDate = gc.getTime();
+        Order order = new Order(dbUser, basket, delMethod, delAddress, ip, orderDate, OrderStatus.NOTFULFILLED);
         orderService.saveOrder(order);
         basketService.saveBasket(basket);
         dbUser.setBasketNumber(dbUser.getBasketNumber() + 1);
@@ -93,6 +107,14 @@ public class BasketController {
         Basket bas = new Basket(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber(), dbUser);
         basketService.saveBasket(bas);
         return "redirect:/";
+    }
+
+    private void subtractionSoldPhones(Basket basket) {
+        for (MobilePhone phone : basket.getPhones()) {
+            phone.getMobile().delete();
+            phone.setStatus(PhoneStatus.SOLD);
+            mobilePhoneService.saveMobilePhone(phone);
+        }
     }
 
     private CustomUser getCustomUser() {
