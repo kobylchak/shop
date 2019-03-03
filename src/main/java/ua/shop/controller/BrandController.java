@@ -34,9 +34,9 @@ public class BrandController {
 
     @PostMapping
     public String brandAdd(@RequestParam String name) {
-        if (checkExistBrandName(name)) return "redirect:/admin";
+        if (checkExistBrandName(name)) return "redirect:/admin/mobile";
         brandService.addBrand(new Brand(name));
-        return "redirect:/admin";
+        return "redirect:/admin/mobile";
     }
 
     @GetMapping("/{id}")
@@ -50,7 +50,7 @@ public class BrandController {
         model.addAttribute("mobiles", mobiles);
         model.addAttribute("byGroupPages", getPageCount(brand));
         model.addAttribute("brandId", brandId);
-        return "admin";
+        return "mobile";
     }
 
     @ResponseBody
