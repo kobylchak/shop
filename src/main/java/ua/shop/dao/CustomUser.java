@@ -27,12 +27,12 @@ public class CustomUser {
     private List<Basket> baskets = new ArrayList<>();
     private int basketNumber;
 
-    public CustomUser(String login, String password, UserRole role, String email, String phone, List<Basket> baskets) {
+    public CustomUser(String login, String password, UserRole role, String email, List<Basket> baskets) {
         this.login = login;
         this.password = password;
         this.role = role;
         this.email = email;
-        this.phone = phone;
+//        this.phone = phone;
         this.baskets = baskets;
     }
 

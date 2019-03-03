@@ -16,14 +16,42 @@ public class MobilePhone {
     @ManyToOne
     @JoinColumn(name = "basket_id")
     private Basket basket;
+    @Enumerated(EnumType.STRING)
+    private PhoneStatus status;
+//    private String status;
 
     public MobilePhone(String imei, Mobile mobile) {
         this.imei = imei;
         this.mobile = mobile;
+        this.status = PhoneStatus.FORSALE;
+
+//        this.status = "free";
     }
+
+//    public MobilePhone(String imei, Mobile mobile, PhoneStatus status) {
+//        this.imei = imei;
+//        this.mobile = mobile;
+//        this.status = status;
+//    }
 
     public MobilePhone() {
     }
+
+    public PhoneStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PhoneStatus status) {
+        this.status = status;
+    }
+
+    //    public String getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
 
     public long getId() {
         return id;
