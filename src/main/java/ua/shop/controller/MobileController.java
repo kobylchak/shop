@@ -38,7 +38,7 @@ public class MobileController {
         Brand brand = brandService.findBrandById(brandId);
         Mobile mob = new Mobile(brand, name, price, color, description, discount);
         mobileService.addMobile(mob);
-        return "redirect:/admin";
+        return "redirect:/admin/mobile";
     }
 
     @GetMapping("/description/{mobile.id}")
@@ -55,7 +55,7 @@ public class MobileController {
         Mobile mobile = mobileService.findMobileById(mobileId);
         mobile.setDescription(newDescription);
         mobileService.saveMobile(mobile);
-        return "redirect:/admin";
+        return "redirect:/admin/mobile";
     }
 
     @PostMapping("/delete")

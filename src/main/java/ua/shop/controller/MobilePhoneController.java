@@ -34,13 +34,13 @@ public class MobilePhoneController {
     }
 
     @PostMapping
-    public String mobileAdd(Model model,
-                            @RequestParam(value = "mobile") long mobileId,
+    public String addMobile(@RequestParam(value = "mobile") long mobileId,
                             @RequestParam String imei){
         Mobile mobile = mobileService.findMobileById(mobileId);
         MobilePhone mobilePhone = new MobilePhone(imei, mobile);
+        mobile.add();
         mobilePhoneService.saveMobilePhone(mobilePhone);
-        return "redirect:/admin";
+        return "redirect:/admin/mobile";
     }
 
 }
