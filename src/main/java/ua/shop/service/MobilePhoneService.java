@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Mobile;
 import ua.shop.dao.MobilePhone;
+import ua.shop.dao.PhoneStatus;
 import ua.shop.dao.impl.MobilePhoneRepository;
 
 import java.util.List;
@@ -15,22 +16,27 @@ public class MobilePhoneService {
     private MobilePhoneRepository mobilePhoneRepository;
 
     @Transactional
-    public void saveMobilePhone(MobilePhone mobilePhone){
+    public void saveMobilePhone(MobilePhone mobilePhone) {
         mobilePhoneRepository.save(mobilePhone);
     }
 
     @Transactional
-    public MobilePhone findMobilePhoneById(long id){
+    public MobilePhone findMobilePhoneById(long id) {
         return mobilePhoneRepository.findById(id);
     }
 
+//    @Transactional
+//    public MobilePhone getFirstByBasketIsNullAndMobile(Mobile mobile){
+//        return mobilePhoneRepository.getFirstByBasketIsNullAndMobile(mobile);
+//    }
+
     @Transactional
-    public MobilePhone getFirstByBasketIsNullAndMobile(Mobile mobile){
-        return mobilePhoneRepository.getFirstByBasketIsNullAndMobile(mobile);
+    public MobilePhone getFirstMobilePhoneByMobileAndStatus(Mobile mobile, PhoneStatus status) {
+        return mobilePhoneRepository.getFirstByMobileAndStatus(mobile, status);
     }
 
     @Transactional
-    public List<MobilePhone> findByBasketIsNullAndMobile(Mobile mobile){
+    public List<MobilePhone> findByBasketIsNullAndMobile(Mobile mobile) {
         return mobilePhoneRepository.findByBasketIsNullAndMobile(mobile);
     }
 }

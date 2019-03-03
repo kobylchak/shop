@@ -61,8 +61,13 @@ public class MobileService {
         return mobileRepository.findByPattern(pattern, pageable);
     }
 
+    @Transactional
+    public List<Mobile> findMobilesByPattern(String pattern){
+        return mobileRepository.findMobilesByNameContains(pattern);
+    }
+
     @Transactional(readOnly = true)
     public long count() {
         return mobileRepository.count();
     }
-}
+    }
