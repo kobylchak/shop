@@ -1,8 +1,6 @@
 package ua.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ua.shop.dao.Basket;
 import ua.shop.dao.Brand;
 import ua.shop.dao.CustomUser;
-import ua.shop.dao.Mobile;
 import ua.shop.service.BasketService;
 import ua.shop.service.BrandService;
 import ua.shop.service.MobileService;
@@ -23,7 +20,7 @@ import java.util.List;
 
 @Controller
 public class MyController {
-    private static final int ITEMS_PER_PAGE = 6;
+//    private static final int ITEMS_PER_PAGE = 6;
     @Autowired
     private BrandService brandService;
     @Autowired
@@ -62,10 +59,10 @@ public class MyController {
         return "redirect:/";
     }
 
-    @RequestMapping("/register")
-    public String register() {
-        return "register";
-    }
+//    @RequestMapping("/register")
+//    public String register() {
+//        return "register";
+//    }
 
     @RequestMapping("/forgot")
     public String forgot() {
@@ -79,28 +76,28 @@ public class MyController {
         return "unauthorized";
     }
 
-    @RequestMapping("/admin")
-    public String admin(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-        if (page < 0) page = 0;
-        List<Mobile> mobiles = mobileService
-                .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-        model.addAttribute("brands", brandService.findBrands());
-        model.addAttribute("allPages", getPageCount());
-        model.addAttribute("mobiles", mobiles);
-        return "admin";
-    }
+//    @RequestMapping("/admin")
+//    public String admin(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
+//        if (page < 0) page = 0;
+//        List<Mobile> mobiles = mobileService
+//                .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
+//        model.addAttribute("brands", brandService.findBrands());
+//        model.addAttribute("allPages", getPageCount());
+//        model.addAttribute("mobiles", mobiles);
+//        return "admin";
+//    }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public String search(Model model,
-                         @RequestParam String pattern) {
+//    @RequestMapping(value = "/admin/search", method = RequestMethod.POST)
+//    public String search(Model model,
+//                         @RequestParam String pattern) {
+//
+//        model.addAttribute("brands", brandService.findBrands());
+//        model.addAttribute("mobiles", mobileService.findByPattern(pattern, null));
+//        return "mobile";
+//    }
 
-        model.addAttribute("brands", brandService.findBrands());
-        model.addAttribute("mobiles", mobileService.findByPattern(pattern, null));
-        return "admin";
-    }
-
-    private long getPageCount() {
-        long totalCount = mobileService.count();
-        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
-    }
+//    private long getPageCount() {
+//        long totalCount = mobileService.count();
+//        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
+//    }
 }

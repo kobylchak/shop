@@ -34,14 +34,13 @@ public class PhotoController {
     }
 
     @PostMapping("/add")
-    public String photoAdd(Model model,
-                           @RequestParam(value = "mobileId") long mobileId,
+    public String photoAdd(@RequestParam(value = "mobileId") long mobileId,
                            @RequestParam MultipartFile photo) {
         try {
             Mobile mobile = mobileService.findMobileById(mobileId);
             mobile.getPhotos().add(new Photo(mobile, photo.getBytes()));
             mobileService.saveMobile(mobile);
-            return "redirect:/admin";
+            return "redirect:/admin/mobile";
         } catch (IOException ex) {
             throw new PhotoErrorException();
         }
