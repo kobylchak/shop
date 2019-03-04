@@ -63,7 +63,11 @@
 
     <nav row class="navbar navbar-expand-lg navbar-light bg-light justify-content-around sticky-top">
 
-        <div class="col-xs-12 col-sm-3 col-md-4 col-lg-1 btn-group" role="group">
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="/admin/orders" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">All orders</a>
+            <%--<button type="button" id="all_orders" class="btn btn-secondary">All orders</button>--%>
+        </div>
+        <div class="btn-group" role="group">
             <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Find by status
@@ -71,46 +75,53 @@
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <a class="dropdown-item" href="/admin/orders">All orders</a>
                 <a class="dropdown-item" href="/admin">Not fulfilled</a>
-                <a class="dropdown-item" href="/admin/orders/sent">Sent</a>
+                <a class="dropdown-item" href="/admin/orders/sold">Sold</a>
                 <a class="dropdown-item" href="/admin/orders/returned">Returned</a>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 btn-group" role="group" aria-label="Basic example">
-            <button type="button" id="delete_mobile" class="btn btn-danger"><i class="fas fa-times"></i> Model</button>
-            <button type="button" id="delete_photo" class="btn btn-danger"><i class="fas fa-times"></i> Photo</button>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 btn-group" role="toolbar"
-             aria-label="Toolbar with button groups">
-            <div class="input-group">
+        <%--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 btn-group" role="group" aria-label="Basic example">--%>
+            <%--<button type="button" id="delete_mobile" class="btn btn-danger"><i class="fas fa-times"></i> Model</button>--%>
+            <%--<button type="button" id="delete_photo" class="btn btn-danger"><i class="fas fa-times"></i> Photo</button>--%>
+        <%--</div>--%>
+        <%--<div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 btn-group" role="toolbar"--%>
+             <%--aria-label="Toolbar with button groups">--%>
+            <%--<div class="input-group">--%>
 
-                <input type="text" name="newPrice" id="newPrice" placeholder="new price..."
-                       class="form-control"
-                       placeholder="Input group example" aria-label="Input group example"
-                       aria-describedby="btnGroupAddon">
-                <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button type="button" id="change_price" class="btn btn-secondary"><i class="fas fa-pen-alt"></i>
-                        price
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 btn-group" role="toolbar"
-             aria-label="Toolbar with button groups">
-            <div class="input-group">
-                <input type="text" name="newDiscount" id="newDiscount" placeholder="new discount..."
-                       class="form-control"
-                       placeholder="Input group example" aria-label="Input group example"
-                       aria-describedby="btnGroupAddon">
-                <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button type="button" id="change_discount" class="btn btn-secondary"><i class="fas fa-pen-alt"></i>
-                        discount
-                    </button>
-                </div>
-            </div>
+                <%--<input type="text" name="newPrice" id="newPrice" placeholder="new price..."--%>
+                       <%--class="form-control"--%>
+                       <%--placeholder="Input group example" aria-label="Input group example"--%>
+                       <%--aria-describedby="btnGroupAddon">--%>
+                <%--<div class="btn-group mr-2" role="group" aria-label="First group">--%>
+                    <%--<button type="button" id="change_price" class="btn btn-secondary"><i class="fas fa-pen-alt"></i>--%>
+                        <%--price--%>
+                    <%--</button>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="col-xs-12 col-sm-6 col-md-6 col-lg-2 btn-group" role="toolbar"--%>
+             <%--aria-label="Toolbar with button groups">--%>
+            <%--<div class="input-group">--%>
+                <%--<input type="text" name="newDiscount" id="newDiscount" placeholder="new discount..."--%>
+                       <%--class="form-control"--%>
+                       <%--placeholder="Input group example" aria-label="Input group example"--%>
+                       <%--aria-describedby="btnGroupAddon">--%>
+                <%--<div class="btn-group mr-2" role="group" aria-label="First group">--%>
+                    <%--<button type="button" id="change_discount" class="btn btn-secondary"><i class="fas fa-pen-alt"></i>--%>
+                        <%--discount--%>
+                    <%--</button>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <div>
+            <form action="/admin/orders/search" method="post" class="form-inline my-2 my-lg-0">
+                <input type="text" name="orderId" class="form-control mr-sm-2" placeholder="By order id"
+                       aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+            </form>
         </div>
         <div>
-            <form action="/admin/search" method="post" class="d-none d-sm-block d-lg-none form-inline my-2 my-lg-0">
-                <input type="text" name="pattern" class="form-control mr-sm-2" placeholder="search mobiles by model"
+            <form action="/admin/orders/user" method="post" class="form-inline my-2 my-lg-0">
+                <input type="text" name="login" class="form-control mr-sm-2" placeholder="By user login"
                        aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
             </form>
@@ -126,11 +137,11 @@
                 </c:forEach>
             </c:if>
             <%--<c:if test="${byGroupPages ne null}">--%>
-                <%--<c:forEach var="i" begin="1" end="${byGroupPages}">--%>
-                    <%--<li class="page-item"><a class="page-link"--%>
-                                             <%--href="/brand/${brandId}?page=<c:out value="${i - 1}"/>"><c:out--%>
-                            <%--value="${i}"/></a></li>--%>
-                <%--</c:forEach>--%>
+            <%--<c:forEach var="i" begin="1" end="${byGroupPages}">--%>
+            <%--<li class="page-item"><a class="page-link"--%>
+            <%--href="/brand/${brandId}?page=<c:out value="${i - 1}"/>"><c:out--%>
+            <%--value="${i}"/></a></li>--%>
+            <%--</c:forEach>--%>
             <%--</c:if>--%>
         </ul>
     </nav>
@@ -138,7 +149,7 @@
     <c:choose>
         <c:when test="${emp ne null}">
             <div align="center" class="alert alert-success" role="alert">
-                <p class="h3"><i class="fab fa-java"></i> No orders executed!</p>
+                <p class="h3"><i class="fab fa-java"></i> There are no orders executed!</p>
             </div>
         </c:when>
         <c:otherwise>
@@ -149,8 +160,8 @@
                         <tr>
                             <td></td>
                             <td><p class="h5"><b>Order</b></td>
-                            <td><a class="h5" href="#"><i class="fas fa-user-circle"></i></a></td>
-                            <td><a class="h5" href="#"><i class="fas fa-cart-arrow-down"></i></a></td>
+                            <td><p class="h5"><i class="fas fa-user-circle"></i></p></td>
+                            <td><p class="h5"><i class="fas fa-cart-arrow-down"></i></p></td>
                             <td><p class="h5"><b>Mobiles</b></p></td>
                             <td><p class="h5"><b>Ip</b></p></td>
                             <td><p class="h5"><b>Delivery method</b></p></td>
@@ -166,7 +177,7 @@
                             <td><input type="checkbox" name="toDo[]" value="${order.id}" id="checkbox_${order.id}"/>
                             </td>
                             <td><span class="badge badge-danger">${order.id}</span></td>
-                            <td><span class="h6">${order.user.login}</span></td>
+                            <td><a class="h6" href="/admin/orders/user/${order.user.login}">${order.user.login}</a></td>
                             <td><span class="h6">${order.basket.id}</span></td>
                             <td>
                                 <c:forEach items="${order.basket.phones}" var="phone">
@@ -185,9 +196,16 @@
                                 <a class="h5" href="/admin/orders/declaration/${order.id}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-
                             </td>
-                            <td><span class="h6">${order.status}</span></td>
+                            <td><c:choose>
+                                <c:when test="${fishka ne null}">
+                                    <a class="h6" href="/admin/orders/status/${order.id}">${order.status}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="h6">${order.status}</span>
+                                </c:otherwise>
+                            </c:choose>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -243,8 +261,8 @@
     <%--<c:forEach items="${brands}" var="brand">--%>
     <%--<li><a href="/mobilephone/${brand.id}">${brand.name}</a></li>--%>
     <%--</c:forEach>--%>
-    <%--</ul>--%>
-    <%--</li>--%>
+    <%--&lt;%&ndash;</ul>&ndash;%&gt;--%>
+    <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
 
 
     <%--</ul>--%>
@@ -383,9 +401,11 @@
 </div>
 
 <%--<script>--%>
-<%--$('.dropdown-toggle').dropdown();--%>
-<%--$('#add_mobile').click(function () {--%>
-<%--window.location.href = '/mobile';--%>
+    <%--$('.dropdown-toggle').dropdown();--%>
+    <%--$('#all_orders').click(function () {--%>
+        <%--window.location.href = '/admin/orders';--%>
+    <%--});--%>
+<%--</script>--%>
 <%--});--%>
 
 <%--$('#add_brand').click(function () {--%>
@@ -442,7 +462,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script src="/static/js/admin.js"></script>
+<%--<script src="/static/js/admin.js"></script>--%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 

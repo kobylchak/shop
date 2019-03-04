@@ -29,16 +29,16 @@
                 <c:set var="who" value="admin"/>
                 <c:choose>
                     <c:when test="${who eq login}">
-                        <p class="h2"><a href="/admin"><i class="fab fa-redhat"></i></a></p>
+                        <p class="h2 align-self-end"><a href="/admin"><i class="fab fa-redhat"></i></a></p>
                     </c:when>
                     <c:otherwise>
-                        <p class="h2"><a href="#"><i class="fas fa-user-circle"></i></a></p>
+                        <p class="h3 align-self-end"><a href="#"><i class="fas fa-user-circle"></i></a></p>
                     </c:otherwise>
                 </c:choose>
             </div>
             <%--<div class="col"> <p>${login}</p></div>--%>
-            <div class="col-xs-4 align-self-end"><a class="h3" href="/basket/show/${basketName}"><i
-                    class="fas fa-shopping-cart"></i></a></div>
+            <div class="col-xs-4 align-self-end"><a class="h3" href="/basket/show/${basketName}">
+                <i class="fas fa-shopping-cart"></i></a></div>
             <div class="col-xs-4 align-self-end">
                 <c:url value="/logout" var="logoutUrl"/>
                 <p class="h3"><a href="${logoutUrl}"><i class="fas fa-sign-out-alt"></i></a></p></div>
@@ -326,12 +326,12 @@
     <c:url value="/logout" var="logoutUrl"/>
     <p>Click to logout: <a href="${logoutUrl}">LOGOUT</a></p>
 </div>
-<script>
-$('.dropdown-toggle').dropdown();
-$('#basket').click(function () {
-window.location.href = '/basket/show/${basketName}';
-});
-</script>
+<%--<script>--%>
+<%--$('.dropdown-toggle').dropdown();--%>
+<%--$('#basket').click(function () {--%>
+<%--window.location.href = '/basket/show/${basketName}';--%>
+<%--});--%>
+<%--</script>--%>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
