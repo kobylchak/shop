@@ -50,10 +50,12 @@ public class BasketController {
         mobilePhone.setStatus(PhoneStatus.INBASKET);
         mobilePhoneService.saveMobilePhone(mobilePhone);
         mobilePhone.setBasket(basket);
+//        mobilePhoneService.saveMobilePhone(mobilePhone);
         basket.getPhones().add(mobilePhone);
 
         basket.setTotalPrice(basket.countTotalPrice());
         basket.setTotalQuantity(basket.countTotalQuantity());// -додати кількість товару
+        basket.setContent(true);
 //        mobile.setDiscount(100);
 //        mobileService.saveMobile(mobile);
         basketService.saveBasket(basket);
@@ -73,9 +75,12 @@ public class BasketController {
         basket.setTotalPrice(basket.countTotalPrice());
         phone.setBasket(null);
         basket.setTotalQuantity(basket.countTotalQuantity());
+        if (basket.getTotalQuantity() == 0){
+            basket.setContent(false);
+        }
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
-        return "redirect:/";
+        return "basket";
     }
 
     @GetMapping("/buy")

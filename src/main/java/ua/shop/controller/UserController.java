@@ -74,7 +74,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{brand.id}")
     public String findMobilesByBrand(@PathVariable(value = "id") long brandId,
                                      @RequestParam(required = false, defaultValue = "0") Integer page,
                                      Model model) {
@@ -85,7 +85,8 @@ public class UserController {
         model.addAttribute("mobiles", mobiles);
         model.addAttribute("byGroupPages", getPageCount(brand));
         model.addAttribute("brandId", brandId);
-        return "index";
+        return "redirect:/";
+//        return "index";
     }
 
     private long getPageCount(Brand brand) {

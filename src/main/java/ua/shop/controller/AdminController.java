@@ -51,17 +51,17 @@ public class AdminController {
         return "mobile";
     }
 
-    @RequestMapping("/orders")
-    public String getOrders(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-        if (page < 0) page = 0;
-        List<Order> orders = orderService.findAllOrders(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-//                mobileService
-//                .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-//        model.addAttribute("brands", brandService.findBrands());
-        model.addAttribute("allPages", getPageCount());
-        model.addAttribute("orders", orders);
-        return "admin";
-    }
+//    @RequestMapping("/orders")
+//    public String getOrders(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
+//        if (page < 0) page = 0;
+//        List<Order> orders = orderService.findAllOrders(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
+////                mobileService
+////                .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
+////        model.addAttribute("brands", brandService.findBrands());
+//        model.addAttribute("allPages", getPageCount());
+//        model.addAttribute("orders", orders);
+//        return "admin";
+//    }
 
     @GetMapping("/orders/sold")
     public String getSentOrders(Model model) {

@@ -45,6 +45,7 @@ public class MyController {
         model.addAttribute("brands", brands);
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
+        model.addAttribute("mobiles", mobileService.findAll());
         return "index";
     }
 
