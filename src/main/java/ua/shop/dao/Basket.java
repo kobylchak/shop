@@ -26,6 +26,8 @@ public class Basket {
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
+    private boolean content;
+
     private String paid;
 
     public Basket(String name, CustomUser us) {
@@ -35,6 +37,14 @@ public class Basket {
     }
 
     public Basket() {
+    }
+
+    public boolean isContent() {
+        return content;
+    }
+
+    public void setContent(boolean content) {
+        this.content = content;
     }
 
     public CustomUser getUs() {
