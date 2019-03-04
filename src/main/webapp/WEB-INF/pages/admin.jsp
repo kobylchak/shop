@@ -63,12 +63,13 @@
 
     <nav row class="navbar navbar-expand-lg navbar-light bg-light justify-content-around sticky-top">
 
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="/admin/orders" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">All orders</a>
-            <%--<button type="button" id="all_orders" class="btn btn-secondary">All orders</button>--%>
-        </div>
+        <a class="btn btn-outline-secondary" href="/admin/orders" role="button">All orders</a>
+        <%--<div class="btn-group" role="group" aria-label="Basic example">--%>
+            <%--<a href="/admin/orders" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">All orders</a>--%>
+            <%--&lt;%&ndash;<button type="button" id="all_orders" class="btn btn-secondary">All orders</button>&ndash;%&gt;--%>
+        <%--</div>--%>
         <div class="btn-group" role="group">
-            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
+            <button id="btnGroupDrop1" type="button" class="btn  btn-outline-secondary dropdown-toggle"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Find by status
             </button>

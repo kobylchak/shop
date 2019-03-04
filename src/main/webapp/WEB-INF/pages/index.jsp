@@ -38,7 +38,8 @@
             </div>
             <%--<div class="col"> <p>${login}</p></div>--%>
             <div class="col-xs-4 align-self-end"><a class="h3" href="/basket/show/${basketName}">
-                <i class="fas fa-shopping-cart"></i></a></div>
+                <i class="fas fa-cart-arrow-down"></i>
+            </a></div>
             <div class="col-xs-4 align-self-end">
                 <c:url value="/logout" var="logoutUrl"/>
                 <p class="h3"><a href="${logoutUrl}"><i class="fas fa-sign-out-alt"></i></a></p></div>
@@ -231,12 +232,12 @@
                                     <div class="col-3">
                                         <a class="h3" href="/basket/${mobile.id}"><i class="fas fa-cart-plus"></i></a>
                                     </div>
-                                    <%--<button type="button" id="basket" class="btn btn-default navbar-btn">basket</button>--%>
+                                        <%--<button type="button" id="basket" class="btn btn-default navbar-btn">basket</button>--%>
                                         <%--<p class="card-text"><a href="http://google.com"><i--%>
                                         <%--class="fas fa-allergies"></i></a>${mobile.description}</p>--%>
                                         <%--<a href="#" class="btn btn-success">Buy</a>--%>
 
-                                    <%--<a href="/basket/${mobile.id}">${mobile.name}</a>--%>
+                                        <%--<a href="/basket/${mobile.id}">${mobile.name}</a>--%>
 
 
                                 </div>

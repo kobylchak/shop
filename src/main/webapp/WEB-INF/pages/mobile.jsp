@@ -15,8 +15,8 @@
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <a href="#" class="navbar-brand">
-            <img src="<c:url value="/static/mob.png"/>" height="30" width="150" alt="logo">
         </a>
+            <img src="<c:url value="/static/mob.png"/>" height="30" width="150" alt="logo">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -147,7 +147,7 @@
         <table class="table table-sm table-hover table-striped">
             <div class="thead-dark">
                 <tr>
-                    <td></td>
+                    <td><b>Model</b></td>
                     <td><b>Brand</b></td>
                     <td><b>Mobile</b></td>
                     <td><b>Photo</b></td>
