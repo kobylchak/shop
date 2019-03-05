@@ -93,7 +93,7 @@
                     <div role="tabpanel" class="tab-pane fade" id="Section2">
 
 
-                        <c:url value="/users/newuser" var="regUrl"/>
+                        <c:url value="/newuser" var="regUrl"/>
                         <form action="${regUrl}" method="POST" class="form-horizontal">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">First Name</label>

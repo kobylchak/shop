@@ -30,7 +30,7 @@
                     <a href="/admin/mobile" class="nav-link">MOBILES</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">PHONES</a>
+                    <a href="/mobilephone" class="nav-link">PHONES</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">BASKETS</a>

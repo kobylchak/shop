@@ -38,7 +38,7 @@
                     <a href="/admin/mobile" class="nav-link">MOBILES</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">PHONES</a>
+                    <a href="/mobilephone" class="nav-link">PHONES</a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">BASKETS</a>
@@ -63,7 +63,7 @@
 
     <nav row class="navbar navbar-expand-lg navbar-light bg-light justify-content-around sticky-top">
 
-        <a class="btn btn-outline-secondary" href="/admin/orders" role="button">All orders</a>
+        <a class="btn btn-outline-primary" href="/admin/orders" role="button">All orders</a>
         <%--<div class="btn-group" role="group" aria-label="Basic example">--%>
             <%--<a href="/admin/orders" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">All orders</a>--%>
             <%--&lt;%&ndash;<button type="button" id="all_orders" class="btn btn-secondary">All orders</button>&ndash;%&gt;--%>
@@ -159,7 +159,7 @@
                 <table class="table table-sm table-hover table-striped">
                     <div class="thead-dark">
                         <tr>
-                            <td></td>
+                            <%--<td></td>--%>
                             <td><p class="h5"><b>Order</b></td>
                             <td><p class="h5"><i class="fas fa-user-circle"></i></p></td>
                             <td><p class="h5"><i class="fas fa-cart-arrow-down"></i></p></td>
@@ -175,8 +175,8 @@
                     </div>
                     <c:forEach items="${orders}" var="order">
                         <tr>
-                            <td><input type="checkbox" name="toDo[]" value="${order.id}" id="checkbox_${order.id}"/>
-                            </td>
+                            <%--<td><input type="checkbox" name="toDo[]" value="${order.id}" id="checkbox_${order.id}"/>--%>
+                            <%--</td>--%>
                             <td><span class="badge badge-danger">${order.id}</span></td>
                             <td><a class="h6" href="/admin/orders/user/${order.user.login}">${order.user.login}</a></td>
                             <td><span class="h6">${order.basket.id}</span></td>
