@@ -63,94 +63,94 @@ public class AdminController {
 //        return "admin";
 //    }
 
-    @GetMapping("/orders/sold")
-    public String getSentOrders(Model model) {
-        List<Order> sentOrders = orderService.findSentOrders();
-        model.addAttribute("fishka", "fishka");
-        model.addAttribute("orders", sentOrders);
-        return "admin";
-    }
+//    @GetMapping("/orders/sold")
+//    public String getSentOrders(Model model) {
+//        List<Order> sentOrders = orderService.findSentOrders();
+//        model.addAttribute("fishka", "fishka");
+//        model.addAttribute("orders", sentOrders);
+//        return "admin";
+//    }
 
-    @GetMapping("/orders/returned")
-    public String getReturnedOrders(Model model) {
-        List<Order> returnedOrders = orderService.findReturnedOrders();
-        model.addAttribute("fishka", "fishka");
-        model.addAttribute("orders", returnedOrders);
-        return "admin";
-    }
+//    @GetMapping("/orders/returned")
+//    public String getReturnedOrders(Model model) {
+//        List<Order> returnedOrders = orderService.findReturnedOrders();
+//        model.addAttribute("fishka", "fishka");
+//        model.addAttribute("orders", returnedOrders);
+//        return "admin";
+//    }
 
-    @GetMapping("/orders/declaration/{order.id}")
-    public String recordNumberDeclaration(Model model,
-                                          @PathVariable(value = "order.id") long orderId) {
-        Order order = orderService.findById(orderId);
-        model.addAttribute("order", order);
-        return "order_record_declaration";
-    }
+//    @GetMapping("/orders/declaration/{order.id}")
+//    public String recordNumberDeclaration(Model model,
+//                                          @PathVariable(value = "order.id") long orderId) {
+//        Order order = orderService.findById(orderId);
+//        model.addAttribute("order", order);
+//        return "order_record_declaration";
+//    }
 
-    @PostMapping("/orders/declaration")
-    public String recordNumber(@RequestParam long orderId,
-                               @RequestParam String declaration) {
-        Order order = orderService.findById(orderId);
-        order.setDeclarationNumber(declaration);
-        order.setStatus(OrderStatus.SOLD);
-        GregorianCalendar gc = new GregorianCalendar();
-        Date dateDispatch = gc.getTime();
-        order.setDateDispatch(dateDispatch);
-        orderService.saveOrder(order);
-        return "redirect:/admin";
-    }
+//    @PostMapping("/orders/declaration")
+//    public String recordNumber(@RequestParam long orderId,
+//                               @RequestParam String declaration) {
+//        Order order = orderService.findById(orderId);
+//        order.setDeclarationNumber(declaration);
+//        order.setStatus(OrderStatus.SOLD);
+//        GregorianCalendar gc = new GregorianCalendar();
+//        Date dateDispatch = gc.getTime();
+//        order.setDateDispatch(dateDispatch);
+//        orderService.saveOrder(order);
+//        return "redirect:/admin";
+//    }
 
-    @GetMapping("/orders/status/{order.id}")
-    public String getChangeStatusPage(Model model,
-                                      @PathVariable(value = "order.id") long orderId) {
-        Order order = orderService.findById(orderId);
-        model.addAttribute("order", order);
-        return "order_change_status";
-    }
+//    @GetMapping("/orders/status/{order.id}")
+//    public String getChangeStatusPage(Model model,
+//                                      @PathVariable(value = "order.id") long orderId) {
+//        Order order = orderService.findById(orderId);
+//        model.addAttribute("order", order);
+//        return "order_change_status";
+//    }
 
-    @PostMapping("/orders/status")
-    public String changeStatusPage(Model model,
-                                   @RequestParam long orderId,
-                                   @RequestParam String status) {
-        Order order = orderService.findById(orderId);
-        OrderStatus orderStatus = OrderStatus.valueOf(status);
-        PhoneStatus phoneStatus = PhoneStatus.valueOf(status);
-        order.setStatus(orderStatus);
-        Basket basket = order.getBasket();
-        for (MobilePhone phone : basket.getPhones()) {
-            phone.setStatus(phoneStatus);
-            mobilePhoneService.saveMobilePhone(phone);
-        }
-        orderService.saveOrder(order);
-        return "redirect:/admin";
-    }
+//    @PostMapping("/orders/status")
+//    public String changeStatusPage(Model model,
+//                                   @RequestParam long orderId,
+//                                   @RequestParam String status) {
+//        Order order = orderService.findById(orderId);
+//        OrderStatus orderStatus = OrderStatus.valueOf(status);
+//        PhoneStatus phoneStatus = PhoneStatus.valueOf(status);
+//        order.setStatus(orderStatus);
+//        Basket basket = order.getBasket();
+//        for (MobilePhone phone : basket.getPhones()) {
+//            phone.setStatus(phoneStatus);
+//            mobilePhoneService.saveMobilePhone(phone);
+//        }
+//        orderService.saveOrder(order);
+//        return "redirect:/admin";
+//    }
 
-    @PostMapping("/orders/search")
-    public String searchOrderById(Model model,
-                                  @RequestParam(required = false, defaultValue = "0") long orderId) {
-        List<Order> orders = orderService.findOrderById(orderId);
-        model.addAttribute("orders", orders);
-        return "admin";
-    }
+//    @PostMapping("/orders/search")
+//    public String searchOrderById(Model model,
+//                                  @RequestParam(required = false, defaultValue = "0") long orderId) {
+//        List<Order> orders = orderService.findOrderById(orderId);
+//        model.addAttribute("orders", orders);
+//        return "admin";
+//    }
 
 
-    @GetMapping("/orders/user/{order.user.login}")
-    public String searchOrdersByUserLogin(Model model,
-                                       @PathVariable(value = "order.user.login") String login) {
-        CustomUser user = userService.getUserByLogin(login);
-        List<Order> orders = orderService.findOrdersByUser(user);
-        model.addAttribute("orders", orders);
-        return "admin";
-    }
+//    @GetMapping("/orders/user/{order.user.login}")
+//    public String searchOrdersByUserLogin(Model model,
+//                                       @PathVariable(value = "order.user.login") String login) {
+//        CustomUser user = userService.getUserByLogin(login);
+//        List<Order> orders = orderService.findOrdersByUser(user);
+//        model.addAttribute("orders", orders);
+//        return "admin";
+//    }
 
-    @PostMapping("/orders/user")
-    public String searchOrdersbyUser(Model model,
-                                     @RequestParam(required = false, defaultValue = "+") String login){
-        CustomUser user = userService.getUserByLogin(login);
-        List<Order> orders = orderService.findOrdersByUser(user);
-        model.addAttribute("orders", orders);
-        return "admin";
-    }
+//    @PostMapping("/orders/user")
+//    public String searchOrdersbyUser(Model model,
+//                                     @RequestParam(required = false, defaultValue = "+") String login){
+//        CustomUser user = userService.getUserByLogin(login);
+//        List<Order> orders = orderService.findOrdersByUser(user);
+//        model.addAttribute("orders", orders);
+//        return "admin";
+//    }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String search(Model model,

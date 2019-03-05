@@ -51,28 +51,28 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/newuser", method = RequestMethod.POST)
-    public String update(@RequestParam String first,
-                         @RequestParam String last,
-                         @RequestParam String login,
-                         @RequestParam String email,
-                         @RequestParam String password,
-                         RedirectAttributes redir,
-                         Model model) {
-        if (userService.existsByLogin(login)) {
-            redir.addFlashAttribute("exists", true);
-            return "redirect:/login";
-        }
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String passHash = passwordEncoder.encode(password);
-        List<Basket> baskets = new ArrayList<>();
-        CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, email, baskets);
-        userService.addUser(dbUser);
-        String basketName = login + "Basket" + dbUser.getBasketNumber();
-        Basket basket = new Basket(basketName, dbUser);
-        basketService.saveBasket(basket);
-        return "redirect:/";
-    }
+//    @RequestMapping(value = "/newuser", method = RequestMethod.POST)
+//    public String update(@RequestParam String first,
+//                         @RequestParam String last,
+//                         @RequestParam String login,
+//                         @RequestParam String email,
+//                         @RequestParam String password,
+//                         RedirectAttributes redir,
+//                         Model model) {
+//        if (userService.existsByLogin(login)) {
+//            redir.addFlashAttribute("exists", true);
+//            return "redirect:/login";
+//        }
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        String passHash = passwordEncoder.encode(password);
+//        List<Basket> baskets = new ArrayList<>();
+//        CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, email, baskets);
+//        userService.addUser(dbUser);
+//        String basketName = login + "Basket" + dbUser.getBasketNumber();
+//        Basket basket = new Basket(basketName, dbUser);
+//        basketService.saveBasket(basket);
+//        return "redirect:/";
+//    }
 
     @GetMapping("/{brand.id}")
     public String findMobilesByBrand(@PathVariable(value = "id") long brandId,

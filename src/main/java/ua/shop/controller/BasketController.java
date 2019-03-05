@@ -110,6 +110,7 @@ public class BasketController {
         dbUser.setBasketNumber(dbUser.getBasketNumber() + 1);
         userService.updateUser(dbUser);
         Basket bas = new Basket(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber(), dbUser);
+                                               // - next order
         basketService.saveBasket(bas);
         return "redirect:/";
     }
