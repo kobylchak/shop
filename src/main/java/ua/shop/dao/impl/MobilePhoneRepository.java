@@ -18,6 +18,11 @@ public interface MobilePhoneRepository extends JpaRepository<MobilePhone, Long> 
 //    MobilePhone getFirstByMobileAndStatus(Mobile mobile, String status);
 //    MobilePhone getMobilePhoneByMobileAndStatus(Mobile mobile, String status);
 
+    List<MobilePhone> findMobilePhonesByStatus(PhoneStatus status);
+
     List<MobilePhone> findByBasketIsNullAndMobile(Mobile mobile);
+
+
+
 
 }
