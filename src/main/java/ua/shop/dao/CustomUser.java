@@ -147,7 +147,7 @@ public class CustomUser {
     }
 
     public int getBasketNumber() {
-        return basketNumber;
+        return this.basketNumber;
     }
 
     public void setBasketNumber(int basketNumber) {

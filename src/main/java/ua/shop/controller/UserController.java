@@ -5,18 +5,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ua.shop.dao.*;
+import ua.shop.dao.Brand;
+import ua.shop.dao.CustomUser;
+import ua.shop.dao.Mobile;
 import ua.shop.service.BasketService;
 import ua.shop.service.BrandService;
 import ua.shop.service.MobileService;
 import ua.shop.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

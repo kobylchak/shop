@@ -25,8 +25,11 @@ public class Order {
     @Temporal(TemporalType.DATE)
     private Date dateDispatch;
 
+//    @ManyToOne
+//    @JoinColumn(name = "basket_id")
+//    private Basket basket;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "basket_id")
     private Basket basket;
 

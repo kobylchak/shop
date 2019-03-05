@@ -33,7 +33,7 @@ public class AdminController {
     @RequestMapping
     public String getNotFulfilledOrders(Model model) {
 
-        List<Order> notFulfilledOrders = orderService.findNotFulfilledOrders();
+        List<Order> notFulfilledOrders = orderService.findOrdersByStatus(OrderStatus.NOTFULFILLED);
         if (notFulfilledOrders.isEmpty())
             model.addAttribute("emp", "emp");
         model.addAttribute("orders", notFulfilledOrders);

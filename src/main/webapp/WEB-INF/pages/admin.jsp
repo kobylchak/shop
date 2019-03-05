@@ -80,7 +80,11 @@
                 <a class="dropdown-item" href="/admin/orders/returned">Returned</a>
             </div>
         </div>
-        <%--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 btn-group" role="group" aria-label="Basic example">--%>
+
+        <a class="btn btn-outline-danger" href="/admin/orders/status/change" role="button">Change status</a>
+
+
+    <%--<div class="col-xs-12 col-sm-4 col-md-4 col-lg-2 btn-group" role="group" aria-label="Basic example">--%>
             <%--<button type="button" id="delete_mobile" class="btn btn-danger"><i class="fas fa-times"></i> Model</button>--%>
             <%--<button type="button" id="delete_photo" class="btn btn-danger"><i class="fas fa-times"></i> Photo</button>--%>
         <%--</div>--%>
@@ -117,14 +121,14 @@
             <form action="/admin/orders/search" method="post" class="form-inline my-2 my-lg-0">
                 <input type="text" name="orderId" class="form-control mr-sm-2" placeholder="By order id"
                        aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                <button class="btn btn-outline-success my-2 my-sm-0">Search order</button>
             </form>
         </div>
         <div>
             <form action="/admin/orders/user" method="post" class="form-inline my-2 my-lg-0">
                 <input type="text" name="login" class="form-control mr-sm-2" placeholder="By user login"
                        aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+                <button class="btn btn-outline-success my-2 my-sm-0">Search order(s)</button>
             </form>
         </div>
     </nav>
@@ -150,7 +154,23 @@
     <c:choose>
         <c:when test="${emp ne null}">
             <div align="center" class="alert alert-success" role="alert">
-                <p class="h3"><i class="fab fa-java"></i> There are no orders executed!</p>
+                <p class="h3"><i class="fab fa-java"></i> There are no fulfilled orders!</p>
+            </div>
+        </c:when>
+        <c:when test="${returnedOrdersEmpty}">
+            <div align="center" class="alert alert-dark" role="alert">
+                Returned orders are missing.
+            </div>
+        </c:when>
+       <c:when test="${soldOrdersEmpty}">
+            <div align="center" class="alert alert-dark" role="alert">
+                Sold orders are missing.
+            </div>
+        </c:when>
+        <c:when test="${orderMissing}">
+            <div align="center" class="alert alert-danger" role="alert">
+                You can change the status only in orders sold and returned!
+                But they are missing.
             </div>
         </c:when>
         <c:otherwise>
@@ -162,10 +182,10 @@
                             <%--<td></td>--%>
                             <td><p class="h5"><b>Order</b></td>
                             <td><p class="h5"><i class="fas fa-user-circle"></i></p></td>
-                            <td><p class="h5"><i class="fas fa-cart-arrow-down"></i></p></td>
-                            <td><p class="h5"><b>Mobiles</b></p></td>
+                            <%--<td><p class="h5"><i class="fas fa-cart-arrow-down"></i></p></td>--%>
+                            <td><p class="h5"><b>Phones(IMEI)</b></p></td>
                             <td><p class="h5"><b>Ip</b></p></td>
-                            <td><p class="h5"><b>Delivery method</b></p></td>
+                            <td><p class="h5"><b>Delivery</b></p></td>
                             <td><p class="h5"><b>Delivery address</b></p></td>
                             <td><p class="h5"><b>Date order</b></p></td>
                             <td><p class="h5"><b>Date dispatcher</b></p></td>
@@ -179,7 +199,7 @@
                             <%--</td>--%>
                             <td><span class="badge badge-danger">${order.id}</span></td>
                             <td><a class="h6" href="/admin/orders/user/${order.user.login}">${order.user.login}</a></td>
-                            <td><span class="h6">${order.basket.id}</span></td>
+                            <%--<td><span class="h6">${order.basket.id}</span></td>--%>
                             <td>
                                 <c:forEach items="${order.basket.phones}" var="phone">
                                     <p class="h6">

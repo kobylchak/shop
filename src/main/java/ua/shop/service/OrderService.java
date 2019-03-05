@@ -57,14 +57,18 @@ public class OrderService {
     }
 
     @Transactional
-    public List<Order> findNotFulfilledOrders() {
-        return orderRepository.findOrdersByStatus(OrderStatus.NOTFULFILLED);
+    public List<Order> findOrdersByStatus(OrderStatus status){
+        return orderRepository.findOrdersByStatus(status);
     }
-
-    @Transactional
-    public List<Order> findSentOrders() {
-        return orderRepository.findOrdersByStatus(OrderStatus.SOLD);
-    }
+//    @Transactional
+//    public List<Order> findNotFulfilledOrders() {
+//        return orderRepository.findOrdersByStatus(OrderStatus.NOTFULFILLED);
+//    }
+//
+//    @Transactional
+//    public List<Order> findSentOrders() {
+//        return orderRepository.findOrdersByStatus(OrderStatus.SOLD);
+//    }
 
     @Transactional
     public List<Order> findReturnedOrders() {

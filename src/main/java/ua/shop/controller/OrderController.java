@@ -47,7 +47,8 @@ public class OrderController {
 
     @GetMapping("/sold")
     public String getSentOrders(Model model) {
-        List<Order> sentOrders = orderService.findSentOrders();
+        List<Order> sentOrders = orderService.findOrdersByStatus(OrderStatus.SOLD);
+        if(sentOrders.isEmpty()) model.addAttribute("soldOrdersEmpty", true);
         model.addAttribute("fishka", "fishka");
         model.addAttribute("orders", sentOrders);
         return "admin";
@@ -56,6 +57,7 @@ public class OrderController {
     @GetMapping("/returned")
     public String getReturnedOrders(Model model) {
         List<Order> returnedOrders = orderService.findReturnedOrders();
+        if (returnedOrders.isEmpty()) model.addAttribute("returnedOrdersEmpty", true);
         model.addAttribute("fishka", "fishka");
         model.addAttribute("orders", returnedOrders);
         return "admin";
@@ -107,6 +109,16 @@ public class OrderController {
         return "redirect:/admin";
     }
 
+    @GetMapping("/status/change")
+    public String getPosibilitiToChangeStatus(Model model){
+        List<Order> orders = orderService.findOrdersByStatus(OrderStatus.RETURNED);
+        List<Order> soldOrders = orderService.findOrdersByStatus(OrderStatus.SOLD);
+        orders.addAll(soldOrders);
+        model.addAttribute("orderMissing", orders.isEmpty());
+        model.addAttribute("fishka", true);
+        return "admin";
+    }
+
     @PostMapping("/search")
     public String searchOrderById(Model model,
                                   @RequestParam(required = false, defaultValue = "0") long orderId) {
@@ -114,6 +126,15 @@ public class OrderController {
         model.addAttribute("orders", orders);
         return "admin";
     }
+
+    @GetMapping("/search/{phone.basket.order.id}")
+    public String searchOrdById(Model model,
+                                  @PathVariable(value = "phone.basket.order.id") long orderId) {
+        List<Order> orders = orderService.findOrderById(orderId);
+        model.addAttribute("orders", orders);
+        return "admin";
+    }
+
 
     @GetMapping("/user/{order.user.login}")
     public String searchOrdersByUserLogin(Model model,

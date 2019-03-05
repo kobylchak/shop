@@ -20,9 +20,14 @@
                 <%--<option value="${brand.id}">${brand.name}</option>--%>
             <%--</c:forEach>--%>
         <%--</select>--%>
-
-        <input class="form-control form-group" type="text" name="delMethod" placeholder="enter delivery method">
-        <input class="form-control form-group" type="text" name="delAddress" placeholder="enter delivert address">
+        <h6>Choose delivery method.</h6>
+        <select class="selectpicker form-control form-group" name="delMethod" required>
+            <option value="nova poshta">Nova poshta</option>
+            <option value="ukrposhta">ukrposhta</option>
+            <option value="intime">intime</option>
+        </select>
+        <%--<input class="form-control form-group" type="text" name="delMethod" placeholder="enter delivery method">--%>
+        <input class="form-control form-group" type="text" name="delAddress" required placeholder="enter delivert address">
         <%--<input class="form-control form-group" type="text" name="color" placeholder="enter color">--%>
         <%--<textarea class="form-control form-group" name="description" placeholder="description"></textarea>--%>
         <%--<input class="form-control form-group" type="text" name="discount" placeholder="discount">--%>

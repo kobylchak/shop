@@ -8,10 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.shop.dao.Brand;
-import ua.shop.dao.Mobile;
-import ua.shop.dao.MobilePhone;
-import ua.shop.dao.PhoneStatus;
+import ua.shop.dao.*;
 import ua.shop.service.BrandService;
 import ua.shop.service.MobilePhoneService;
 import ua.shop.service.MobileService;
@@ -40,6 +37,7 @@ public class MobilePhoneController {
         return "redirect:/admin/mobile";
     }
 
+
     @GetMapping("/{brand.id}")
     public String addMobilePhone(Model model,
                                  @PathVariable(value = "brand.id") long brandId) {
@@ -61,6 +59,23 @@ public class MobilePhoneController {
         return "phone";
     }
 
+    @GetMapping("/description/{phone.id}")
+    public String changeImeiPage(Model model,
+                              @PathVariable(value = "phone.id") long phoneId) {
+        MobilePhone phone = mobilePhoneService.findMobilePhoneById(phoneId);
+        model.addAttribute("phone", phone);
+        return "mobilephone_change_imei";
+    }
+
+    @PostMapping("/description")
+    public String changeImei(@RequestParam long phoneId,
+                                    @RequestParam String newImei) {
+        MobilePhone phone = mobilePhoneService.findMobilePhoneById(phoneId);
+        phone.setImei(newImei);
+        mobilePhoneService.saveMobilePhone(phone);
+        return "redirect:/mobilephone";
+    }
+
     @GetMapping("/forsale")
     public String getForsalePhones(Model model){
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.FORSALE);
@@ -78,6 +93,7 @@ public class MobilePhoneController {
     @GetMapping("/sold")
     public String getSoldPhones(Model model){
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.SOLD);
+        model.addAttribute("fishka", true);
         model.addAttribute("phones", phones);
         return "phone";
     }
@@ -85,7 +101,47 @@ public class MobilePhoneController {
      @GetMapping("/returned")
     public String getReturnedPhones(Model model){
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.RETURNED);
+         model.addAttribute("fishka", true);
         model.addAttribute("phones", phones);
+        return "phone";
+    }
+
+    @PostMapping("/imei")
+    public String findPhoneByImei(Model model,
+                                  @RequestParam(required = false, defaultValue = "0") String imei){
+        List<MobilePhone> phones = mobilePhoneService.findPhoneByImei(imei);
+        model.addAttribute("phones", phones);
+        model.addAttribute("brands", brandService.findBrands());
+        return "phone";
+    }
+
+    @GetMapping("/status/change")
+    public String getPosibilitiToChangeStatus(Model model){
+        List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.RETURNED);
+        List<MobilePhone> soldPhones = mobilePhoneService.findPhonesByStatus(PhoneStatus.SOLD);
+        phones.addAll(soldPhones);
+        if (phones.isEmpty())model.addAttribute("SoldAndReturnedPhonesMissing", true);
+        model.addAttribute("phones", phones);
+        model.addAttribute("brands", brandService.findBrands());
+        model.addAttribute("fishka", true);
+        return "phone";
+    }
+
+    @GetMapping("/status/{phone.id}")
+    public String getChangeStatusPage(Model model,
+                                      @PathVariable(value = "phone.id") long phoneId) {
+        MobilePhone phone = mobilePhoneService.findMobilePhoneById(phoneId);
+        model.addAttribute("phone", phone);
+        return "phone_change_status";
+    }
+
+    @PostMapping("/status")
+    public String changeStatusPage(@RequestParam String status,
+                                   @RequestParam long phoneId) {
+        MobilePhone phone = mobilePhoneService.findMobilePhoneById(phoneId);
+        PhoneStatus phoneStatus = PhoneStatus.valueOf(status);
+        phone.setStatus(phoneStatus);
+        mobilePhoneService.saveMobilePhone(phone);
         return "phone";
     }
 

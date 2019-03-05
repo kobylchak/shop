@@ -79,6 +79,16 @@
             </div>
         </div>
 
+        <a class="btn btn-outline-danger" href="/mobilephone/status/change" role="button">Change status</a>
+
+        <div>
+            <form action="/mobilephone/imei" method="post" class="form-inline my-2 my-lg-0">
+                <input type="text" name="imei" class="form-control mr-sm-2" placeholder="By IMEI"
+                       aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0">Search phone</button>
+            </form>
+        </div>
+
 
     </nav>
 
@@ -101,51 +111,79 @@
             <%--</c:if>--%>
         </ul>
     </nav>
-    <div>
-        <%--<table class="table table-hover table-striped">--%>
-        <table class="table table-sm table-hover table-striped">
-            <div class="thead-dark">
-                <tr>
-                    <%--<td><b>Model</b></td>--%>
-                    <td><b>Brand</b></td>
-                    <td><b>Mobile</b></td>
-                    <%--<td><b>Photo</b></td>--%>
-                    <%--<td><b>Price</b></td>--%>
-                    <%--<td><b>Description</b></td>--%>
-                    <td><b>Color</b></td>
-                    <td><b>IMEI</b></td>
-                    <%--<td><b>Order</b></td>--%>
-                    <td><b>Basket</b></td>
-                    <td><b>Status</b></td>
-                </tr>
+    <c:choose>
+        <c:when test="${SoldAndReturnedPhonesMissing}">
+            <div align="center" class="alert alert-danger" role="alert">
+                You can change the status only in phones sold and returned!
+                But they are missing.
             </div>
-            <c:forEach items="${phones}" var="phone">
-                <tr>
-                        <%--<td><input type="checkbox" name="toDo[]" value="${mobile.id}" id="checkbox_${mobile.id}"/></td>--%>
-                    <td>${phone.mobile.brand.name}</td>
-                    <td>${phone.mobile.name}</td>
-                        <%--<td><a class="h5" href="/photo/download/${mobile.id}"><i class="fas fa-download"></i></a>--%>
-                        <%--<c:forEach items="${mobile.photos}" var="photo">--%>
-                        <%--<input type="checkbox" name="toDeletePhoto[]" value="${photo.id}"--%>
-                        <%--id="checkbox_${photo.id}"/>--%>
-                        <%--<img src="/photo/${photo.id}" height="50" alt="${mobile.name}"/>--%>
-                        <%--</c:forEach>--%>
-                        <%--</td>--%>
-                        <%--<td>${mobile.price}</td>--%>
-                        <%--<td>${mobile.description}<a class="h5" href="/mobile/description/${mobile.id}"> <i--%>
-                        <%--class="fas fa-edit"></i></a>--%>
-                        <%--</td>--%>
-                    <td>${phone.mobile.color}</td>
-                    <td>${phone.imei}</td>
-                    <%--<td>${phone.basket.orders}</td>--%>
-                    <td>${phone.basket.id}</td>
-                        <%--<td>${phone.imei}</td>--%>
+        </c:when>
+        <c:otherwise>
+            <div>
+                    <%--<table class="table table-hover table-striped">--%>
+                <table class="table table-sm table-hover table-striped">
+                    <div class="thead-dark">
+                        <tr>
+                            <td><b>Id</b></td>
+                            <td><b>Brand</b></td>
+                            <td><b>Mobile</b></td>
+                                <%--<td><b>Photo</b></td>--%>
+                                <%--<td><b>Price</b></td>--%>
+                                <%--<td><b>Description</b></td>--%>
+                            <td><b>Color</b></td>
+                            <td><b>IMEI</b></td>
+                            <td><b>Order</b></td>
+                                <%--<td><b>Basket</b></td>--%>
+                            <td><b>Status</b></td>
+                        </tr>
+                    </div>
+                    <c:forEach items="${phones}" var="phone">
+                        <tr>
+                                <%--<td><input type="checkbox" name="toDo[]" value="${mobile.id}" id="checkbox_${mobile.id}"/></td>--%>
 
-                    <td>${phone.status}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
+                            <td>${phone.id}</td>
+                            <td>${phone.mobile.brand.name}</td>
+                            <td>${phone.mobile.name}</td>
+                                <%--<td><a class="h5" href="/photo/download/${mobile.id}"><i class="fas fa-download"></i></a>--%>
+                                <%--<c:forEach items="${mobile.photos}" var="photo">--%>
+                                <%--<input type="checkbox" name="toDeletePhoto[]" value="${photo.id}"--%>
+                                <%--id="checkbox_${photo.id}"/>--%>
+                                <%--<img src="/photo/${photo.id}" height="50" alt="${mobile.name}"/>--%>
+                                <%--</c:forEach>--%>
+                                <%--</td>--%>
+                                <%--<td>${mobile.price}</td>--%>
+                                <%--<td>${mobile.description}<a class="h5" href="/mobile/description/${mobile.id}"> <i--%>
+                                <%--class="fas fa-edit"></i></a>--%>
+                                <%--</td>--%>
+                            <td>${phone.mobile.color}</td>
+                            <td>${phone.imei}<a class="h5" href="/mobilephone/description/${phone.id}"> <i
+                                    class="fas fa-edit"></i></a></td>
+                            <td>
+                                <a href="/admin/orders/search/${phone.basket.order.id}"
+                                   class="badge badge-danger">${phone.basket.order.id}</a>
+                                    <%--<span class="badge badge-danger">--%>
+                                    <%--<a href="/admin/orders/search/${phone.basket.order.id}">${phone.basket.order.id}</a>--%>
+                                    <%--</span>--%>
+                            </td>
+                                <%--<td>${phone.basket.id}</td>--%>
+                                <%--<td>${phone.imei}</td>--%>
+                            <td><c:choose>
+                                <c:when test="${fishka}">
+                                    <a class="h6" href="/mobilephone/status/${phone.id}">${phone.status}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="h6">${phone.status}</span>
+                                </c:otherwise>
+                            </c:choose>
+                            </td>
+                                <%--<td>${phone.status}</td>--%>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </c:otherwise>
+    </c:choose>
+
     <div align="center">
         <c:url value="/logout" var="logoutUrl"/>
         <p>Click to logout: <a href="${logoutUrl}">LOGOUT</a></p>

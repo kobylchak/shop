@@ -156,6 +156,7 @@
                     <td><b>Color</b></td>
                     <td><b>Discount</b></td>
                     <td><b>For sale</b></td>
+                    <td><b>Total</b></td>
                 </tr>
             </div>
             <c:forEach items="${mobiles}" var="mobile">
@@ -177,6 +178,8 @@
                     <td>${mobile.color}</td>
                     <td>${mobile.discount}</td>
                     <td>${mobile.count}</td>
+                    <td>${mobile.generalCount}</td>
+
                 </tr>
             </c:forEach>
         </table>

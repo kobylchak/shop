@@ -50,6 +50,21 @@ public class MobilePhoneService {
         return mobilePhoneRepository.findMobilePhonesByStatus(status);
     }
 
+//    @Transactional
+//    public List<MobilePhone> findSoldAndReturnedPhones(){
+//        return mobilePhoneRepository.findMobilePhonesByStatusAndStatus(PhoneStatus.SOLD, PhoneStatus.RETURNED);
+//    }
+
+//        @Transactional
+//        public List<MobilePhone> findSoldAndReturnedPhones(){
+//            return mobilePhoneRepository.
+//        }
+
+    @Transactional
+    public List<MobilePhone> findPhoneByImei(String imei){
+        return mobilePhoneRepository.findMobilePhoneByImei(imei);
+    }
+
     @Transactional
     public long count(){return mobilePhoneRepository.count();}
 }

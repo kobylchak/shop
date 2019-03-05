@@ -16,11 +16,11 @@
                 <option value="${brand.id}">${brand.name}</option>
             </c:forEach>
         </select>
-        <input class="form-control form-group" type="text" name="name" placeholder="mobile model">
-        <input class="form-control form-group" type="text" name="price" placeholder="enter price 100">
-        <input class="form-control form-group" type="text" name="color" placeholder="enter color">
+        <input class="form-control form-group" type="text" name="name" required placeholder="mobile model">
+        <input class="form-control form-group" type="text" name="price" required placeholder="enter price 100">
+        <input class="form-control form-group" type="text" name="color" required placeholder="enter color">
         <textarea class="form-control form-group" name="description" placeholder="description"></textarea>
-        <input class="form-control form-group" type="text" name="discount" placeholder="discount">
+        <input class="form-control form-group" type="text" name="discount" required placeholder="discount">
         <input type="submit" class="btn btn-primary" value="Add">
     </form>
 </div>

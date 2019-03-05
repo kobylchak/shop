@@ -22,7 +22,10 @@ public interface MobilePhoneRepository extends JpaRepository<MobilePhone, Long> 
 
     List<MobilePhone> findByBasketIsNullAndMobile(Mobile mobile);
 
+    List<MobilePhone> findMobilePhoneByImei(String imei);
 
+//    List<MobilePhone> findMobilePhonesByStatusAndStatus(PhoneStatus soldStatus, PhoneStatus returnedStatus);
 
+//    List<MobilePhone> findAllByStatusEquals(PhoneStatus status,)
 
 }

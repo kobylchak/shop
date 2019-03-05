@@ -10,7 +10,7 @@ public class Basket {
     @Id
     @GeneratedValue
     @Column(name = "basket_id")
-    private long id;
+    private Long id;
 
     private String name;
     private int totalQuantity;
@@ -23,8 +23,11 @@ public class Basket {
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<MobilePhone> phones = new ArrayList<>();
 
-    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
-    private List<Order> orders = new ArrayList<>();
+//    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
+//    private List<Order> orders = new ArrayList<>();
+
+    @OneToOne(mappedBy = "basket")
+    private Order order;
 
     private boolean content;
 
@@ -55,13 +58,13 @@ public class Basket {
         this.us = us;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;
@@ -95,12 +98,24 @@ public class Basket {
         this.phones = phones;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+//    public List<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(List<Order> orders) {
+//        this.orders = orders;
+//    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public String getPaid() {
