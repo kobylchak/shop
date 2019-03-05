@@ -1,6 +1,7 @@
 package ua.shop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Mobile;
@@ -25,6 +26,10 @@ public class MobilePhoneService {
         return mobilePhoneRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public List<MobilePhone> findAll(Pageable pageable){
+        return mobilePhoneRepository.findAll(pageable).getContent();
+    }
 //    @Transactional
 //    public MobilePhone getFirstByBasketIsNullAndMobile(Mobile mobile){
 //        return mobilePhoneRepository.getFirstByBasketIsNullAndMobile(mobile);
@@ -39,4 +44,12 @@ public class MobilePhoneService {
     public List<MobilePhone> findByBasketIsNullAndMobile(Mobile mobile) {
         return mobilePhoneRepository.findByBasketIsNullAndMobile(mobile);
     }
+
+    @Transactional
+    public List<MobilePhone> findPhonesByStatus(PhoneStatus status){
+        return mobilePhoneRepository.findMobilePhonesByStatus(status);
+    }
+
+    @Transactional
+    public long count(){return mobilePhoneRepository.count();}
 }
