@@ -1,4 +1,4 @@
-package ua.shop.controller;
+package ua.shop.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

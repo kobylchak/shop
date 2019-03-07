@@ -1,4 +1,4 @@
-package ua.shop.controller;
+package ua.shop.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping("/brand")
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class BrandController {
-
     private static final int ITEMS_PER_PAGE = 6;
 
     @Autowired
@@ -41,8 +40,8 @@ public class BrandController {
 
     @GetMapping("/{id}")
     public String findMobilesByBrand(@PathVariable(value = "id") long brandId,
-                            @RequestParam(required = false, defaultValue = "0") Integer page,
-                            Model model) {
+                                     @RequestParam(required = false, defaultValue = "0") Integer page,
+                                     Model model) {
         Brand brand = brandService.findBrandById(brandId);
         if (page < 0) page = 0;
         List<Mobile> mobiles = mobileService.findByBrand(brand, new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
@@ -51,12 +50,6 @@ public class BrandController {
         model.addAttribute("byGroupPages", getPageCount(brand));
         model.addAttribute("brandId", brandId);
         return "mobile";
-    }
-
-    @ResponseBody
-    @GetMapping("/all")
-    public List<Brand> showAllBrands(){
-        return brandService.findBrands();
     }
 
     private boolean checkExistBrandName(String name) {
