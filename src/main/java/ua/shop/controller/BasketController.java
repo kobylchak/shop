@@ -39,8 +39,7 @@ public class BasketController {
     @GetMapping("/{mobile.id}")
     public String addMobileToBasket(Model model,
                                     @PathVariable(value = "mobile.id") long mobileId) {
-        CustomUser dbUser = getCustomUser();
-        Basket basket = basketService.findBasketByUserAndStatus(dbUser, BasketStatus.NOT_PAID);
+        Basket basket = basketService.findBasketByUserAndStatus(getCustomUser(), BasketStatus.NOT_PAID);
         Mobile mobile = mobileService.findMobileById(mobileId);
         if (checkAbsentMobilePhones(mobile)) return "redirect:/";
         MobilePhone mobilePhone = mobilePhoneService.getFirstMobilePhoneByMobileAndStatus(mobile, PhoneStatus.FORSALE);
@@ -52,7 +51,7 @@ public class BasketController {
         Date date = gc.getTime();
         basket.setPutInBasket(date);
         basket.setTotalPrice(basket.countTotalPrice());
-        basket.setTotalQuantity(basket.countTotalQuantity());// -додати кількість товару
+        basket.setTotalQuantity(basket.countTotalQuantity());
         basket.setContent(true);
         basketService.saveBasket(basket);
         model.addAttribute("basket", basket);
@@ -62,16 +61,16 @@ public class BasketController {
     @GetMapping("/delete/{phone.id}")
     public String deleteMobileFromBasket(Model model,
                                          @PathVariable(value = "phone.id") long mobilePhoneId) {
-        CustomUser dbUser = getCustomUser();
-        Basket basket = basketService.findBasketByUserAndStatus(dbUser, BasketStatus.NOT_PAID);
         MobilePhone phone = mobilePhoneService.findMobilePhoneById(mobilePhoneId);
         phone.setStatus(PhoneStatus.FORSALE);
         mobilePhoneService.saveMobilePhone(phone);
+        Basket basket = basketService.findBasketByUserAndStatus(getCustomUser(), BasketStatus.NOT_PAID);
         basket.getPhones().remove(phone);
         basket.setTotalPrice(basket.countTotalPrice());
         phone.setBasket(null);
         basket.setTotalQuantity(basket.countTotalQuantity());
-        if (basket.getTotalQuantity() == 0){
+
+        if (basket.getTotalQuantity() == 0) {
             basket.setPutInBasket(null);
             basket.setContent(false);
         }
@@ -80,14 +79,11 @@ public class BasketController {
         return "basket";
     }
 
-
     @GetMapping("/buy")
-    public String showBuy(Model model) {
-        CustomUser dbUser = getCustomUser();
-        Basket basket = basketService.findBasketByName(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber());
-        if (basket.getPhones().isEmpty()) {
-            return "redirect:/";
-        } else return "basket_buy_page";
+    public String showBuy() {
+        Basket basket = basketService.findBasketByName(createBasketName());
+        if (basket.getPhones().isEmpty()) return "redirect:/";
+        return "basket_buy_page";
     }
 
     @PostMapping("/buy")
@@ -97,7 +93,7 @@ public class BasketController {
                             HttpServletRequest request
     ) {
         CustomUser dbUser = getCustomUser();
-        Basket basket = basketService.findBasketByName(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber());
+        Basket basket = basketService.findBasketByName(createBasketName());
         basket.setStatus(BasketStatus.PAID);
         subtractionSoldPhones(basket);
         String ip = request.getRemoteAddr();
@@ -106,12 +102,8 @@ public class BasketController {
         Order order = new Order(dbUser, basket, delMethod, delAddress, ip, orderDate, OrderStatus.NOTFULFILLED);
         orderService.saveOrder(order);
         basketService.saveBasket(basket);
-        dbUser.setBasketNumber(dbUser.getBasketNumber() + 1);
-        dbUser.setAddress(delAddress);
-        dbUser.setPhone(phone);
-        userService.updateUser(dbUser);
-        Basket bas = new Basket(dbUser.getLogin() + "Basket" + dbUser.getBasketNumber(), dbUser);
-        basketService.saveBasket(bas);
+        updateUserData(dbUser, delAddress, phone);
+        createNewBasket();
         return "redirect:/";
     }
 
@@ -123,12 +115,30 @@ public class BasketController {
         }
     }
 
+    private void updateUserData(CustomUser dbUser, String delAddress, String phone) {
+        dbUser.setBasketNumber(dbUser.getBasketNumber() + 1);
+        dbUser.setAddress(delAddress);
+        dbUser.setPhone(phone);
+        userService.updateUser(dbUser);
+    }
+
     private CustomUser getCustomUser() {
         CustomUser dbUser = null;
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = user.getUsername();
         dbUser = userService.getUserByLogin(login);
         return dbUser;
+    }
+
+
+    private void createNewBasket() {
+        Basket bas = new Basket(createBasketName(), getCustomUser());
+        basketService.saveBasket(bas);
+    }
+
+    private String createBasketName() {
+        CustomUser dbUser = getCustomUser();
+        return dbUser.getLogin() + "Basket" + dbUser.getBasketNumber();
     }
 
     private boolean checkAbsentMobilePhones(Mobile mobile) {

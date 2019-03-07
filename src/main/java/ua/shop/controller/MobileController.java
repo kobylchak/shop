@@ -1,6 +1,8 @@
 package ua.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/mobile")
 public class MobileController {
-
+    private static final int ITEMS_PER_PAGE = 6;
     @Autowired
     private BrandService brandService;
 
@@ -24,14 +26,24 @@ public class MobileController {
     private MobileService mobileService;
 
     @GetMapping
+    public String getMobiles(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
+        if (page < 0) page = 0;
+        List<Mobile> mobiles = mobileService
+                .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
+        model.addAttribute("brands", brandService.findBrands());
+        model.addAttribute("allPages", getPageCount());
+        model.addAttribute("mobiles", mobiles);
+        return "mobile";
+    }
+
+    @GetMapping("/page")
     public String mobileAddPage(Model model) {
         model.addAttribute("brands", brandService.findBrands());
         return "mobile_add_page";
     }
 
     @PostMapping
-    public String mobileAdd(Model model,
-                             @RequestParam(value = "brand") long brandId,
+    public String mobileAdd( @RequestParam(value = "brand") long brandId,
                              @RequestParam String name,
                              @RequestParam Double price,
                              @RequestParam String color,
@@ -40,7 +52,7 @@ public class MobileController {
         Brand brand = brandService.findBrandById(brandId);
         Mobile mob = new Mobile(brand, name, price, color, description, discount);
         mobileService.addMobile(mob);
-        return "redirect:/admin/mobile";
+        return "redirect:/mobile";
     }
 
     @GetMapping("/description/{mobile.id}")
@@ -57,7 +69,7 @@ public class MobileController {
         Mobile mobile = mobileService.findMobileById(mobileId);
         mobile.setDescription(newDescription);
         mobileService.saveMobile(mobile);
-        return "redirect:/admin/mobile";
+        return "redirect:/mobile";
     }
 
     @PostMapping("/delete")
@@ -100,5 +112,18 @@ public class MobileController {
         List<Mobile> mobiles = mobileService.findMobilesById(mobileId);
         model.addAttribute("mobiles", mobiles);
         return "mobile";
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public String search(Model model,
+                         @RequestParam String pattern) {
+        model.addAttribute("brands", brandService.findBrands());
+        model.addAttribute("mobiles", mobileService.findMobilesByPattern(pattern));
+        return "mobile";
+    }
+
+    private long getPageCount() {
+        long totalCount = mobileService.count();
+        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
     }
 }

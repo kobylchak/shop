@@ -28,7 +28,7 @@
                     <a href="/admin" class="nav-link">ORDERS</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/mobile" class="nav-link">MOBILES</a>
+                    <a href="/mobile" class="nav-link">MOBILES</a>
                 </li>
                 <li class="nav-item active">
                     <a href="/mobilephone" class="nav-link">PHONES</a>

@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <a href="#" class="navbar-brand">
         </a>
-            <img src="<c:url value="/static/mob.png"/>" height="30" width="150" alt="logo">
+        <img src="<c:url value="/static/mob.png"/>" height="30" width="150" alt="logo">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -27,7 +27,7 @@
                     <a href="/admin" class="nav-link">ORDERS</a>
                 </li>
                 <li class="nav-item active">
-                    <a href="/admin/mobile" class="nav-link">MOBILES</a>
+                    <a href="/mobile" class="nav-link">MOBILES</a>
                 </li>
                 <li class="nav-item">
                     <a href="/mobilephone" class="nav-link">PHONES</a>
@@ -40,7 +40,7 @@
                 </li>
             </ul>
             <div>
-                <form action="/admin/search" method="post" class="d-none d-lg-block form-inline my-2 my-lg-0">
+                <form action="/mobile/search" method="post" class="d-none d-lg-block form-inline my-2 my-lg-0">
                     <input type="text" name="pattern" class="form-control mr-sm-2" placeholder="search mobiles by model"
                            aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
@@ -73,7 +73,7 @@
                 Find by brand
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item" href="/admin/mobile">All mobiles</a>
+                <a class="dropdown-item" href="/mobile">All mobiles</a>
                 <c:forEach items="${brands}" var="brand">
                     <li><a class="dropdown-item" href="/brand/${brand.id}">${brand.name}</a></li>
                 </c:forEach>
@@ -128,7 +128,7 @@
         <ul class="pagination justify-content-center">
             <c:if test="${allPages ne null}">
                 <c:forEach var="i" begin="1" end="${allPages}">
-                    <li class="page-item"><a class="page-link" href="/admin/mobile/?page=<c:out value="${i - 1}"/>">
+                    <li class="page-item"><a class="page-link" href="/mobile/?page=<c:out value="${i - 1}"/>">
                         <c:out value="${i}"/></a>
                     </li>
                 </c:forEach>
@@ -148,7 +148,7 @@
                 <tr>
                     <td><p class="h5"><b>Model</b></p></td>
                     <td><p class="h5"><b>Brand</b></p></td>
-                    <td><p class="h5"><b>Mobile</b></p></td>
+                    <td><p class="h5"><b>Model</b></p></td>
                     <td><p class="h5"><b>Photo</b></p></td>
                     <td><p class="h5"><b>UAH</b></p></td>
                     <td><p class="h5"><b>Description</b></p></td>
@@ -163,7 +163,7 @@
                     <td><input type="checkbox" name="toDo[]" value="${mobile.id}" id="checkbox_${mobile.id}"/></td>
                     <td>${mobile.brand.name}</td>
                     <td><span class="badge badge-pill badge-success">${mobile.name}</span></td>
-                        <td><a class="h5" href="/photo/download/${mobile.id}"><i class="fas fa-download"></i></a>
+                    <td><a class="h5" href="/photo/download/${mobile.id}"><i class="fas fa-download"></i></a>
                         <c:forEach items="${mobile.photos}" var="photo">
                             <input type="checkbox" name="toDeletePhoto[]" value="${photo.id}"
                                    id="checkbox_${photo.id}"/>
@@ -176,64 +176,13 @@
                     </td>
                     <td>${mobile.color}</td>
                     <td>${mobile.discount}</td>
-                    <td>${mobile.count}</td>
+                    <td>${mobile.countForSale}</td>
                     <td>${mobile.generalCount}</td>
                 </tr>
             </c:forEach>
         </table>
     </div>
 </div>
-<script>
-    $('.dropdown-toggle').dropdown();
-    $('#add_mobile').click(function () {
-        window.location.href = '/mobile';
-    });
-
-    $('#add_brand').click(function () {
-        window.location.href = '/brand';
-    });
-    $('#delete_mobile').click(function () {
-        var data = {'toDo[]': []};
-        $(":checked").each(function () {
-            data['toDo[]'].push($(this).val());
-        });
-        $.post("/mobile/delete", data, function (data, status) {
-            window.location.reload();
-        });
-    });
-    $('#delete_photo').click(function () {
-        var data = {'toDeletePhoto[]': []};
-        $(":checked").each(function () {
-            data['toDeletePhoto[]'].push($(this).val());
-        });
-        $.post("/photo/delete", data, function (data, status) {
-            window.location.reload();
-        });
-    });
-    $('#change_price').click(function () {
-        var newPrice = document.getElementById("newPrice").value;
-        var data = {newPrice: newPrice, 'toDo[]': []};
-        $(":checked").each(function () {
-            data['toDo[]'].push($(this).val());
-        });
-        $.post("/mobile/change_price", data, function (data, status) {
-            window.location.reload();
-        });
-    });
-    $('#change_discount').click(function () {
-        var newDiscount = document.getElementById("newDiscount").value;
-        var data = {newDiscount: newDiscount, 'toDo[]': []};
-        $(":checked").each(function () {
-            data['toDo[]'].push($(this).val());
-        });
-        $.post("/mobile/change_discount", data, function (data, status) {
-            window.location.reload();
-        });
-    });
-    $('#find_users').click(function () {
-        window.location.href = '/users';
-    });
-</script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

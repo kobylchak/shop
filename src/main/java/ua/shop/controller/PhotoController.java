@@ -40,7 +40,7 @@ public class PhotoController {
             Mobile mobile = mobileService.findMobileById(mobileId);
             mobile.getPhotos().add(new Photo(mobile, photo.getBytes()));
             mobileService.saveMobile(mobile);
-            return "redirect:/admin/mobile";
+            return "redirect:/mobile";
         } catch (IOException ex) {
             throw new PhotoErrorException();
         }

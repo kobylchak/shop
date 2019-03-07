@@ -34,9 +34,9 @@ public class BrandController {
 
     @PostMapping
     public String brandAdd(@RequestParam String name) {
-        if (checkExistBrandName(name)) return "redirect:/admin/mobile";
+        if (checkExistBrandName(name)) return "redirect:/mobile";
         brandService.addBrand(new Brand(name));
-        return "redirect:/admin/mobile";
+        return "redirect:/mobile";
     }
 
     @GetMapping("/{id}")

@@ -9,9 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.shop.dao.CustomUser;
-import ua.shop.service.BasketService;
-import ua.shop.service.BrandService;
-import ua.shop.service.MobileService;
 import ua.shop.service.UserService;
 
 import java.util.List;

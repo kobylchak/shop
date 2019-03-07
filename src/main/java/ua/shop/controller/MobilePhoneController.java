@@ -34,7 +34,7 @@ public class MobilePhoneController {
         MobilePhone mobilePhone = new MobilePhone(imei, mobile);
         mobile.add();
         mobilePhoneService.saveMobilePhone(mobilePhone);
-        return "redirect:/admin/mobile";
+        return "redirect:/mobile";
     }
 
     @GetMapping("/{brand.id}")

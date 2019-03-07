@@ -160,7 +160,7 @@
                                     </h5>
                                     <p class="card-text">${phone.mobile.description}</p>
                                     <p class="card-text">
-                                        <small class="text-muted">There are ${phone.mobile.count} for sale.</small>
+                                        <small class="text-muted">There are ${phone.mobile.countForSale} for sale.</small>
                                     </p>
                                 </div>
                                     <%--<div class="card-body">--%>
@@ -209,7 +209,7 @@
                             <%--</h5>--%>
                             <%--<p class="card-text">${phone.mobile.description}</p>--%>
                             <%--<p class="card-text">--%>
-                                <%--<small class="text-muted">There are ${phone.mobile.count} for sale.</small>--%>
+                                <%--<small class="text-muted">There are ${phone.mobile.countForSale} for sale.</small>--%>
                             <%--</p>--%>
                         <%--</div>--%>
                             <%--&lt;%&ndash;<div class="card-body">&ndash;%&gt;--%>
