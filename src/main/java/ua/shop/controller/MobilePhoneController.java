@@ -37,7 +37,6 @@ public class MobilePhoneController {
         return "redirect:/admin/mobile";
     }
 
-
     @GetMapping("/{brand.id}")
     public String addMobilePhone(Model model,
                                  @PathVariable(value = "brand.id") long brandId) {
@@ -61,7 +60,7 @@ public class MobilePhoneController {
 
     @GetMapping("/description/{phone.id}")
     public String changeImeiPage(Model model,
-                              @PathVariable(value = "phone.id") long phoneId) {
+                                 @PathVariable(value = "phone.id") long phoneId) {
         MobilePhone phone = mobilePhoneService.findMobilePhoneById(phoneId);
         model.addAttribute("phone", phone);
         return "mobilephone_change_imei";
@@ -69,7 +68,7 @@ public class MobilePhoneController {
 
     @PostMapping("/description")
     public String changeImei(@RequestParam long phoneId,
-                                    @RequestParam String newImei) {
+                             @RequestParam String newImei) {
         MobilePhone phone = mobilePhoneService.findMobilePhoneById(phoneId);
         phone.setImei(newImei);
         mobilePhoneService.saveMobilePhone(phone);
@@ -77,38 +76,42 @@ public class MobilePhoneController {
     }
 
     @GetMapping("/forsale")
-    public String getForsalePhones(Model model){
+    public String getForsalePhones(Model model) {
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.FORSALE);
+        model.addAttribute("brands", brandService.findBrands());
         model.addAttribute("phones", phones);
         return "phone";
     }
 
     @GetMapping("/inbasket")
-    public String getInBasketPhones(Model model){
+    public String getInBasketPhones(Model model) {
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.INBASKET);
+        model.addAttribute("brands", brandService.findBrands());
         model.addAttribute("phones", phones);
         return "phone";
     }
 
     @GetMapping("/sold")
-    public String getSoldPhones(Model model){
+    public String getSoldPhones(Model model) {
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.SOLD);
+        model.addAttribute("brands", brandService.findBrands());
         model.addAttribute("fishka", true);
         model.addAttribute("phones", phones);
         return "phone";
     }
 
-     @GetMapping("/returned")
-    public String getReturnedPhones(Model model){
+    @GetMapping("/returned")
+    public String getReturnedPhones(Model model) {
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.RETURNED);
-         model.addAttribute("fishka", true);
+        model.addAttribute("brands", brandService.findBrands());
+        model.addAttribute("fishka", true);
         model.addAttribute("phones", phones);
         return "phone";
     }
 
     @PostMapping("/imei")
     public String findPhoneByImei(Model model,
-                                  @RequestParam(required = false, defaultValue = "0") String imei){
+                                  @RequestParam(required = false, defaultValue = "0") String imei) {
         List<MobilePhone> phones = mobilePhoneService.findPhoneByImei(imei);
         model.addAttribute("phones", phones);
         model.addAttribute("brands", brandService.findBrands());
@@ -116,14 +119,14 @@ public class MobilePhoneController {
     }
 
     @GetMapping("/status/change")
-    public String getPosibilitiToChangeStatus(Model model){
+    public String getPosibilitiToChangeStatus(Model model) {
         List<MobilePhone> phones = mobilePhoneService.findPhonesByStatus(PhoneStatus.RETURNED);
         List<MobilePhone> soldPhones = mobilePhoneService.findPhonesByStatus(PhoneStatus.SOLD);
         phones.addAll(soldPhones);
-        if (phones.isEmpty())model.addAttribute("SoldAndReturnedPhonesMissing", true);
+        if (phones.isEmpty()) model.addAttribute("SoldAndReturnedPhonesMissing", true);
         model.addAttribute("phones", phones);
         model.addAttribute("brands", brandService.findBrands());
-        model.addAttribute("fishka", true);
+        model.addAttribute("changeStatus", true);
         return "phone";
     }
 

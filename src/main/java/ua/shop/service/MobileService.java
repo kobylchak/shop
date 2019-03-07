@@ -36,6 +36,11 @@ public class MobileService {
         return mobileRepository.getOne(id);
     }
 
+    @Transactional
+    public List<Mobile> findMobilesById(long id){
+        return mobileRepository.findMobilesById(id);
+    }
+
     @Transactional(readOnly = true)
     public List<Mobile> findAll(Pageable pageable) {
         return mobileRepository.findAll(pageable).getContent();

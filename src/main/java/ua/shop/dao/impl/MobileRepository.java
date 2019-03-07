@@ -20,4 +20,6 @@ public interface MobileRepository extends JpaRepository<Mobile, Long> {
     List<Mobile> findByPattern(@Param("pattern") String pattern, Pageable pageable);
 
     List<Mobile> findMobilesByNameContains(String pattern);
+
+    List<Mobile> findMobilesById(long id);
 }

@@ -1,9 +1,11 @@
 package ua.shop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.shop.dao.Basket;
+import ua.shop.dao.BasketStatus;
 import ua.shop.dao.CustomUser;
 import ua.shop.dao.impl.BasketRepository;
 
@@ -26,7 +28,12 @@ public class BasketService {
 
     @Transactional
     public Basket findBasketById(long basketId) {
-        return basketRepository.getOne(basketId);
+        return basketRepository.findBasketById(basketId);
+    }
+
+    @Transactional
+    public List<Basket> findBasketsById(long basketId) {
+        return basketRepository.findBasketsById(basketId);
     }
 
     @Transactional
@@ -35,12 +42,23 @@ public class BasketService {
     }
 
     @Transactional
-    public Basket findBasketByUsAndPaid(CustomUser us, String paid){
-        return basketRepository.findBasketByUsAndPaid(us, paid);
+    public Basket findBasketByUserAndStatus(CustomUser user, BasketStatus status) {
+        return basketRepository.findBasketByUsAndStatus(user, status);
     }
+
     @Transactional
-    public List<Basket> findByCustomUserAndPaid(CustomUser us, String paid) {
-        return basketRepository.findByUsAndPaidEquals(us, paid);
+    public List<Basket> findbaskets(Pageable pageable) {
+        return basketRepository.findAll(pageable).getContent();
+    }
+
+    @Transactional
+    public List<Basket> findBasketsByStatus(BasketStatus status) {
+        return basketRepository.findBasketByStatus(status);
+    }
+
+    @Transactional
+    public long count() {
+        return basketRepository.count();
     }
 }
 

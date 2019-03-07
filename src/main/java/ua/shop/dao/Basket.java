@@ -2,6 +2,7 @@ package ua.shop.dao;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,20 +24,22 @@ public class Basket {
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
     private List<MobilePhone> phones = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL)
-//    private List<Order> orders = new ArrayList<>();
-
     @OneToOne(mappedBy = "basket")
     private Order order;
 
+    @Basic
+    @Temporal(TemporalType.DATE)
+    private Date putInBasket;
+
     private boolean content;
 
-    private String paid;
+    @Enumerated(EnumType.STRING)
+    private BasketStatus status;
 
     public Basket(String name, CustomUser us) {
         this.name = name;
         this.us = us;
-        this.paid = "not paid";
+        this.status = BasketStatus.NOT_PAID;
     }
 
     public Basket() {
@@ -57,14 +60,6 @@ public class Basket {
     public void setUs(CustomUser us) {
         this.us = us;
     }
-
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
 
     public String getName() {
         return name;
@@ -98,13 +93,9 @@ public class Basket {
         this.phones = phones;
     }
 
-//    public List<Order> getOrders() {
-//        return orders;
-//    }
-//
-//    public void setOrders(List<Order> orders) {
-//        this.orders = orders;
-//    }
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -118,12 +109,20 @@ public class Basket {
         this.order = order;
     }
 
-    public String getPaid() {
-        return paid;
+    public Date getPutInBasket() {
+        return putInBasket;
     }
 
-    public void setPaid(String paid) {
-        this.paid = paid;
+    public void setPutInBasket(Date putInBasket) {
+        this.putInBasket = putInBasket;
+    }
+
+    public BasketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BasketStatus status) {
+        this.status = status;
     }
 
     public double countTotalPrice() {

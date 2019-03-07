@@ -12,25 +12,14 @@
     <form role="form" class="form-horizontal" content="application/x-www-form-urlencoded" accept-charset="UTF-8"
           action="/basket/buy" method="POST">
         <h3>BUY:</h3>
-        <%--<h6>Choose mobile brand or at first create mobile brand--%>
-            <%--<input type="submit" value="Add brand" onclick="window.location='/brand';"/>--%>
-        <%--</h6>--%>
-        <%--<select class="selectpicker form-control form-group" name="brand" required>--%>
-            <%--<c:forEach items="${brands}" var="brand">--%>
-                <%--<option value="${brand.id}">${brand.name}</option>--%>
-            <%--</c:forEach>--%>
-        <%--</select>--%>
         <h6>Choose delivery method.</h6>
         <select class="selectpicker form-control form-group" name="delMethod" required>
             <option value="nova poshta">Nova poshta</option>
             <option value="ukrposhta">ukrposhta</option>
             <option value="intime">intime</option>
         </select>
-        <%--<input class="form-control form-group" type="text" name="delMethod" placeholder="enter delivery method">--%>
-        <input class="form-control form-group" type="text" name="delAddress" required placeholder="enter delivert address">
-        <%--<input class="form-control form-group" type="text" name="color" placeholder="enter color">--%>
-        <%--<textarea class="form-control form-group" name="description" placeholder="description"></textarea>--%>
-        <%--<input class="form-control form-group" type="text" name="discount" placeholder="discount">--%>
+        <input class="form-control form-group" type="text" name="delAddress" required placeholder="Enter delivert address">
+        <input class="form-control form-group" type="text" name="phone" required placeholder="Enter your phone number">
         <input type="submit" class="btn btn-primary" value="Add">
     </form>
 </div>

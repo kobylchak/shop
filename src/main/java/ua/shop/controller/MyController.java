@@ -24,7 +24,6 @@ import java.util.List;
 
 @Controller
 public class MyController {
-//    private static final int ITEMS_PER_PAGE = 6;
     @Autowired
     private BrandService brandService;
     @Autowired
@@ -79,18 +78,13 @@ public class MyController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String passHash = passwordEncoder.encode(password);
         List<Basket> baskets = new ArrayList<>();
-        CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, email, baskets);
+        CustomUser dbUser = new CustomUser(login, passHash, UserRole.USER, first, last, email, baskets);
         userService.addUser(dbUser);
         String basketName = login + "Basket" + dbUser.getBasketNumber();
         Basket basket = new Basket(basketName, dbUser);
-                                                        // - first order
         basketService.saveBasket(basket);
         return "redirect:/";
     }
-//    @RequestMapping("/register")
-//    public String register() {
-//        return "register";
-//    }
 
     @RequestMapping("/forgot")
     public String forgot() {
@@ -103,29 +97,4 @@ public class MyController {
         model.addAttribute("login", user.getUsername());
         return "unauthorized";
     }
-
-//    @RequestMapping("/admin")
-//    public String admin(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-//        if (page < 0) page = 0;
-//        List<Mobile> mobiles = mobileService
-//                .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-//        model.addAttribute("brands", brandService.findBrands());
-//        model.addAttribute("allPages", getPageCount());
-//        model.addAttribute("mobiles", mobiles);
-//        return "admin";
-//    }
-
-//    @RequestMapping(value = "/admin/search", method = RequestMethod.POST)
-//    public String search(Model model,
-//                         @RequestParam String pattern) {
-//
-//        model.addAttribute("brands", brandService.findBrands());
-//        model.addAttribute("mobiles", mobileService.findByPattern(pattern, null));
-//        return "mobile";
-//    }
-
-//    private long getPageCount() {
-//        long totalCount = mobileService.count();
-//        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
-//    }
 }

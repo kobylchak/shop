@@ -11,6 +11,8 @@ import ua.shop.dao.Mobile;
 import ua.shop.service.BrandService;
 import ua.shop.service.MobileService;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/mobile")
 public class MobileController {
@@ -90,5 +92,13 @@ public class MobileController {
             }
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{phone.mobile.id}")
+    public String findMobileById(Model model,
+                                 @PathVariable(value = "phone.mobile.id") long mobileId){
+        List<Mobile> mobiles = mobileService.findMobilesById(mobileId);
+        model.addAttribute("mobiles", mobiles);
+        return "mobile";
     }
 }

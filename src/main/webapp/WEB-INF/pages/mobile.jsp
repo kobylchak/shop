@@ -9,7 +9,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <title>ADMIN</title>
+    <title>ADMIN MOBILES</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -32,11 +32,11 @@
                 <li class="nav-item">
                     <a href="/mobilephone" class="nav-link">PHONES</a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">BASKETS</a>
+                <li class="nav-item ">
+                    <a href="/baskets" class="nav-link">BASKETS</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">USERS</a>
+                    <a href="/users" class="nav-link">USERS</a>
                 </li>
             </ul>
             <div>
@@ -143,28 +143,27 @@
         </ul>
     </nav>
     <div>
-        <%--<table class="table table-hover table-striped">--%>
         <table class="table table-sm table-hover table-striped">
             <div class="thead-dark">
                 <tr>
-                    <td><b>Model</b></td>
-                    <td><b>Brand</b></td>
-                    <td><b>Mobile</b></td>
-                    <td><b>Photo</b></td>
-                    <td><b>Price</b></td>
-                    <td><b>Description</b></td>
-                    <td><b>Color</b></td>
-                    <td><b>Discount</b></td>
-                    <td><b>For sale</b></td>
-                    <td><b>Total</b></td>
+                    <td><p class="h5"><b>Model</b></p></td>
+                    <td><p class="h5"><b>Brand</b></p></td>
+                    <td><p class="h5"><b>Mobile</b></p></td>
+                    <td><p class="h5"><b>Photo</b></p></td>
+                    <td><p class="h5"><b>UAH</b></p></td>
+                    <td><p class="h5"><b>Description</b></p></td>
+                    <td><p class="h5"><b>Color</b></p></td>
+                    <td><p class="h5"><b>Discount</b></p></td>
+                    <td><p class="h5"><b>For sale</b></p></td>
+                    <td><p class="h5"><b>Total</b></p></td>
                 </tr>
             </div>
             <c:forEach items="${mobiles}" var="mobile">
                 <tr>
                     <td><input type="checkbox" name="toDo[]" value="${mobile.id}" id="checkbox_${mobile.id}"/></td>
                     <td>${mobile.brand.name}</td>
-                    <td>${mobile.name}</td>
-                    <td><a class="h5" href="/photo/download/${mobile.id}"><i class="fas fa-download"></i></a>
+                    <td><span class="badge badge-pill badge-success">${mobile.name}</span></td>
+                        <td><a class="h5" href="/photo/download/${mobile.id}"><i class="fas fa-download"></i></a>
                         <c:forEach items="${mobile.photos}" var="photo">
                             <input type="checkbox" name="toDeletePhoto[]" value="${photo.id}"
                                    id="checkbox_${photo.id}"/>
@@ -179,7 +178,6 @@
                     <td>${mobile.discount}</td>
                     <td>${mobile.count}</td>
                     <td>${mobile.generalCount}</td>
-
                 </tr>
             </c:forEach>
         </table>

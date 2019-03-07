@@ -1,8 +1,6 @@
 package ua.shop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.shop.dao.*;
 import ua.shop.service.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,7 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin/orders")
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-public class OrderController {
+public class OrdersController {
     private static final int ITEMS_PER_PAGE = 6;
     @Autowired
     private BrandService brandService;
@@ -33,33 +30,30 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping
-    public String getOrders(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-        if (page < 0) page = 0;
-        List<Order> orders = orderService.findAllOrders(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-//                mobileService
-//                .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
-//        model.addAttribute("brands", brandService.findBrands());
-        model.addAttribute("allPages", getPageCount());
-        model.addAttribute("orders", orders);
-        return "admin";
-    }
-
     @GetMapping("/sold")
     public String getSentOrders(Model model) {
-        List<Order> sentOrders = orderService.findOrdersByStatus(OrderStatus.SOLD);
-        if(sentOrders.isEmpty()) model.addAttribute("soldOrdersEmpty", true);
-        model.addAttribute("fishka", "fishka");
-        model.addAttribute("orders", sentOrders);
+        List<Order> soldOrders = orderService.findOrdersByStatus(OrderStatus.SOLD);
+        model.addAttribute("soldOrdersEmpty", soldOrders.isEmpty());
+        model.addAttribute("changeStatus", true);
+        model.addAttribute("orders", soldOrders);
         return "admin";
     }
 
     @GetMapping("/returned")
     public String getReturnedOrders(Model model) {
         List<Order> returnedOrders = orderService.findReturnedOrders();
-        if (returnedOrders.isEmpty()) model.addAttribute("returnedOrdersEmpty", true);
-        model.addAttribute("fishka", "fishka");
+        model.addAttribute("returnedOrdersEmpty", returnedOrders.isEmpty());
+        model.addAttribute("changeStatus", true);
         model.addAttribute("orders", returnedOrders);
+        return "admin";
+    }
+
+    @GetMapping("/notfulfilled")
+    public String getNotfulfilledOrders(Model model) {
+        List<Order> notFulfilledOrders = orderService.findOrdersByStatus(OrderStatus.NOTFULFILLED);
+        model.addAttribute("notFulfilledOrders", notFulfilledOrders.isEmpty());
+        model.addAttribute("headNotfulfilledOrders", true);
+        model.addAttribute("orders", notFulfilledOrders);
         return "admin";
     }
 
@@ -115,7 +109,8 @@ public class OrderController {
         List<Order> soldOrders = orderService.findOrdersByStatus(OrderStatus.SOLD);
         orders.addAll(soldOrders);
         model.addAttribute("orderMissing", orders.isEmpty());
-        model.addAttribute("fishka", true);
+        model.addAttribute("orders", orders);
+        model.addAttribute("changeStatus", true);
         return "admin";
     }
 
