@@ -38,6 +38,9 @@
                 <li class="nav-item">
                     <a href="/users" class="nav-link">USERS</a>
                 </li>
+                <li class="nav-item ">
+                    <a href="/statistic" class="nav-link">STATISTIC</a>
+                </li>
             </ul>
             <div>
                 <form action="/mobile/search" method="post" class="d-none d-lg-block form-inline my-2 my-lg-0">
@@ -126,8 +129,8 @@
     </div>
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <c:if test="${allPages ne null}">
-                <c:forEach var="i" begin="1" end="${allPages}">
+            <c:if test="${pages ne null}">
+                <c:forEach var="i" begin="1" end="${pages}">
                     <li class="page-item"><a class="page-link" href="/mobile/?page=<c:out value="${i - 1}"/>">
                         <c:out value="${i}"/></a>
                     </li>
@@ -155,6 +158,7 @@
                     <td><p class="h5"><b>Color</b></p></td>
                     <td><p class="h5"><b>Discount</b></p></td>
                     <td><p class="h5"><b>For sale</b></p></td>
+                    <td><p class="h5"><b>Sold</b></p></td>
                     <td><p class="h5"><b>Total</b></p></td>
                 </tr>
             </div>
@@ -177,6 +181,7 @@
                     <td>${mobile.color}</td>
                     <td>${mobile.discount}</td>
                     <td>${mobile.countForSale}</td>
+                    <td>${mobile.countSold}</td>
                     <td>${mobile.generalCount}</td>
                 </tr>
             </c:forEach>
@@ -195,4 +200,3 @@
 <script src="/static/js/admin.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </body>
-</html>

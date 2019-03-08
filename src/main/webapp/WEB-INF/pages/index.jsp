@@ -33,9 +33,11 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            <div class="col-xs-4 align-self-end"><a class="h3" href="/basket/show/${basketName}">
-                <i class="fas fa-cart-arrow-down"></i>
-            </a></div>
+            <c:if test="${who ne login}">
+                <div class="col-xs-4 align-self-end"><a class="h3" href="/basket/show/${basket.name}">
+                    <i class="fas fa-cart-arrow-down"></i>
+                </a></div>
+            </c:if>
             <div class="col-xs-4 align-self-end">
                 <c:url value="/logout" var="logoutUrl"/>
                 <p class="h3"><a href="${logoutUrl}"><i class="fas fa-sign-out-alt"></i></a></p></div>
@@ -93,15 +95,16 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <c:forEach items="${brands}" var="brand">
-                            <a class="dropdown-item" href="/users/${brand.id}">${brand.name}</a>
+                            <a class="dropdown-item" href="/mobiles/${brand.id}">${brand.name}</a>
                         </c:forEach>
                     </div>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input type="text" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
+            <form action="/mobile/search" method="post" class="d-none d-lg-block form-inline my-2 my-lg-0">
+                <input type="text" name="pattern" class="form-control mr-sm-2" placeholder="search mobiles by model"
+                       aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
-            </form> <!-- action add NECESSERY-->
+            </form>
         </div>
     </nav>
 

@@ -9,7 +9,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <title>ADMIN USERS</title>
+    <title>ADMIN STATISTIC</title>
 </head>
 <body>
 <div class="container-fluid">
@@ -35,12 +35,13 @@
                 <li class="nav-item ">
                     <a href="/baskets" class="nav-link">BASKETS</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a href="/users" class="nav-link">USERS</a>
                 </li>
-                <li class="nav-item ">
+                <li class="nav-item active">
                     <a href="/statistic" class="nav-link">STATISTIC</a>
                 </li>
+
             </ul>
         </div>
         <div class="d-none d-lg-block">
@@ -50,66 +51,40 @@
     </nav>
     <nav row class="navbar navbar-expand-lg navbar-light bg-light justify-content-around sticky-top">
 
-        <a class="btn btn-outline-primary" href="/users" role="button">All users</a>
-
-        <div>
-            <form action="/users/find" method="post" class="form-inline my-2 my-lg-0">
-                <input type="text" name="userId" class="form-control mr-sm-2" placeholder="By user id"
-                       aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0">Search order</button>
-            </form>
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn  btn-outline-secondary dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Statistic by brand
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <c:forEach items="${brands}" var="brand">
+                    <li><a class="dropdown-item" href="/statistic/${brand.id}">${brand.name}</a></li>
+                </c:forEach>
+            </div>
         </div>
     </nav>
-    <div class="d-block d-sm-block d-md-block d-lg-none" align="center">
-        <c:url value="/logout" var="logoutUrl"/>
-        <p>Click to logout: <a href="${logoutUrl}">LOGOUT</a></p>
-    </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <c:if test="${allPages ne null}">
-                <c:forEach var="i" begin="1" end="${allPages}">
-                    <li class="page-item"><a class="page-link" href="/admin/mobile/?page=<c:out value="${i - 1}"/>">
-                        <c:out value="${i}"/></a>
-                    </li>
+
+
+        <div>
+            <table class="table table-sm table-hover table-striped">
+                <div class="thead-dark">
+                    <tr>
+                        <td><p class="h5"><b>Model</b></p></td>
+                        <td><p class="h5"><b>For sale</b></p></td>
+                        <td><p class="h5"><b>Sold</b></p></td>
+                        <td><p class="h5"><b>Total</b></p></td>
+                    </tr>
+                </div>
+                <c:forEach items="${mobiles}" var="mobile">
+                    <tr>
+                        <td>${mobile.name}</td>
+                        <td>${mobile.countForSale}</td>
+                        <td>${mobile.countSold}</td>
+                        <td>${mobile.generalCount}</td>
+                        </tr>
                 </c:forEach>
-            </c:if>
-            <c:if test="${byGroupPages ne null}">
-                <c:forEach var="i" begin="1" end="${byGroupPages}">
-                    <li class="page-item"><a class="page-link"
-                                             href="/brand/${brandId}?page=<c:out value="${i - 1}"/>"><c:out
-                            value="${i}"/></a></li>
-                </c:forEach>
-            </c:if>
-        </ul>
-    </nav>
-    <div>
-        <table class="table table-sm table-hover table-striped">
-            <div class="thead-dark">
-                <tr>
-                    <td></td>
-                    <td><p class="h5"><i class="fas fa-user-circle"></i></p></td>
-                    <td><p class="h5"><b>Login</b></p></td>
-                    <td><p class="h5"><b>Name</b></p></td>
-                    <td><p class="h5"><b>Surname</b></p></td>
-                    <td><p class="h5"><b>Email</b></p></td>
-                    <td><p class="h5"><b>№ phone</b></p></td>
-                    <td><p class="h5"><b>Address</b></p></td>
-                </tr>
-            </div>
-            <c:forEach items="${users}" var="user">
-                <tr>
-                    <td><input type="checkbox" name="toDo[]" value="${user.id}" id="checkbox_${user.id}"/></td>
-                    <td>${user.id}</td>
-                    <td>${user.login}</td>
-                    <td>${user.name}</td>
-                    <td>${user.surname}</td>
-                    <td>${user.email}</td>
-                    <td>${user.phone}</td>
-                    <td>${user.address}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
+            </table>
+        </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

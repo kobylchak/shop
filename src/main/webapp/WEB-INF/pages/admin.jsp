@@ -40,6 +40,9 @@
                 <li class="nav-item ">
                     <a href="/users" class="nav-link">USERS</a>
                 </li>
+                <li class="nav-item ">
+                    <a href="/statistic" class="nav-link">STATISTIC</a>
+                </li>
 
             </ul>
         </div>

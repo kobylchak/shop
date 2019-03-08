@@ -8,10 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.shop.dao.*;
 import ua.shop.service.*;
@@ -49,6 +46,18 @@ public class MyController {
         model.addAttribute("login", login);
         model.addAttribute("roles", user.getAuthorities());
         model.addAttribute("mobiles", mobileService.findAll());
+        return "index";
+    }
+
+    @GetMapping("/mobiles/{brand.id}")
+    public String getBrandMobiles(Model model,
+                                  RedirectAttributes redir,
+                                  @PathVariable(value = "brand.id") long brandId){
+
+        Brand brand = brandService.findBrandById(brandId);
+        List<Mobile> mobiles = mobileService.findByBrand(brand);
+        redir.addFlashAttribute("mobiles", mobiles);
+//        model.addAttribute("mobiles", mobiles);
         return "index";
     }
 
@@ -106,6 +115,11 @@ public class MyController {
         model.addAttribute("orders", orders);
         return "admin";
     }
+//
+//    private String createBasketName() {
+//        CustomUser dbUser = getCustomUser();
+//        return dbUser.getLogin() + "Basket" + dbUser.getBasketNumber();
+//    }
 
     private long getPageCount() {
         long totalCount = orderService.count();

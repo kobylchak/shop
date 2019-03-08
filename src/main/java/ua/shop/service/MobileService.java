@@ -56,6 +56,11 @@ public class MobileService {
         return mobileRepository.findByBrand(brand, pageable);
     }
 
+    @Transactional
+    public List<Mobile> findByBrand(Brand brand){
+        return mobileRepository.findByBrand(brand);
+    }
+
     @Transactional(readOnly = true)
     public long countByBrand(Brand brand) {
         return mobileRepository.countByBrand(brand);

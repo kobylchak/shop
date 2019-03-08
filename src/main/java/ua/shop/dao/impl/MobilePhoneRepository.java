@@ -1,6 +1,7 @@
 package ua.shop.dao.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import ua.shop.dao.Brand;
 import ua.shop.dao.Mobile;
 import ua.shop.dao.MobilePhone;
 import ua.shop.dao.PhoneStatus;
@@ -23,6 +24,14 @@ public interface MobilePhoneRepository extends JpaRepository<MobilePhone, Long> 
     List<MobilePhone> findByBasketIsNullAndMobile(Mobile mobile);
 
     List<MobilePhone> findMobilePhoneByImei(String imei);
+
+    long countByStatus(PhoneStatus status);
+
+    long countByStatusAndMobileBrand(PhoneStatus status, Brand brand);
+
+//    long countByStatusAndMobileBrand()
+
+    long countByStatusAndMobile(PhoneStatus status, Mobile mobile);
 
 //    List<MobilePhone> findMobilePhonesByStatusAndStatus(PhoneStatus soldStatus, PhoneStatus returnedStatus);
 

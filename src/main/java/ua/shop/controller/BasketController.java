@@ -28,9 +28,9 @@ public class BasketController {
     @Autowired
     private MobilePhoneService mobilePhoneService;
 
-    @GetMapping("/show/{basketName}")
+    @GetMapping("/show/{basket.name}")
     public String showBasket(Model model,
-                             @PathVariable String basketName) {
+                             @PathVariable (value = "basket.name") String basketName) {
         Basket basket = basketService.findBasketByName(basketName);
         model.addAttribute("basket", basket);
         return "basket";
@@ -54,7 +54,7 @@ public class BasketController {
         basket.setTotalQuantity(basket.countTotalQuantity());
         basket.setContent(true);
         basketService.saveBasket(basket);
-        model.addAttribute("basket", basket);
+//        model.addAttribute("basket", basket);
         return "redirect:/";
     }
 
@@ -110,6 +110,7 @@ public class BasketController {
     private void subtractionSoldPhones(Basket basket) {
         for (MobilePhone phone : basket.getPhones()) {
             phone.getMobile().delete();
+
             phone.setStatus(PhoneStatus.SOLD);
             mobilePhoneService.saveMobilePhone(phone);
         }

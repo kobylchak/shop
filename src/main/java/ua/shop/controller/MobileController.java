@@ -25,13 +25,14 @@ public class MobileController {
     @Autowired
     private MobileService mobileService;
 
+
     @GetMapping
     public String getMobiles(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
         if (page < 0) page = 0;
         List<Mobile> mobiles = mobileService
                 .findAll(new PageRequest(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id"));
         model.addAttribute("brands", brandService.findBrands());
-        model.addAttribute("allPages", getPageCount());
+        model.addAttribute("pages", getPageCount());
         model.addAttribute("mobiles", mobiles);
         return "mobile";
     }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.shop.dao.Brand;
 import ua.shop.dao.Mobile;
 import ua.shop.dao.MobilePhone;
 import ua.shop.dao.PhoneStatus;
@@ -48,6 +49,21 @@ public class MobilePhoneService {
     @Transactional
     public List<MobilePhone> findPhonesByStatus(PhoneStatus status){
         return mobilePhoneRepository.findMobilePhonesByStatus(status);
+    }
+
+    @Transactional
+    public long countSoldPhones(){
+        return mobilePhoneRepository.countByStatus(PhoneStatus.SOLD);
+    }
+
+    @Transactional
+    public long countSoldPhonesByBrand(Brand brand){
+        return mobilePhoneRepository.countByStatusAndMobileBrand(PhoneStatus.SOLD, brand);
+    }
+
+    @Transactional
+    public long countSoldPhonesByMobile(Mobile mobile){
+        return mobilePhoneRepository.countByStatusAndMobile(PhoneStatus.SOLD, mobile);
     }
 
 //    @Transactional

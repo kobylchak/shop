@@ -22,4 +22,6 @@ public interface MobileRepository extends JpaRepository<Mobile, Long> {
     List<Mobile> findMobilesByNameContains(String pattern);
 
     List<Mobile> findMobilesById(long id);
+
+    List<Mobile> findByBrand(Brand brand);
 }

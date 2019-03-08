@@ -23,6 +23,7 @@ public class Mobile {
     private int discount;
     @OneToMany(mappedBy = "mobile", cascade = CascadeType.ALL)
     private List<MobilePhone> phones = new ArrayList<>();
+    private int countSold;
     private int countForSale;
     @Column(name = "general_count")
     private int generalCount;
@@ -127,6 +128,14 @@ public class Mobile {
         this.countForSale = countForSale;
     }
 
+    public int getCountSold() {
+        return countSold;
+    }
+
+    public void setCountSold(int countSold) {
+        this.countSold = countSold;
+    }
+
     public void add() {
         synchronized (this) {
             countForSale += 1;
@@ -137,6 +146,7 @@ public class Mobile {
     public void delete() {
         synchronized (this) {
             countForSale -= 1;
+            countSold += 1;
         }
     }
 
