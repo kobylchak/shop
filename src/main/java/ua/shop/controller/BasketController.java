@@ -131,7 +131,6 @@ public class BasketController {
         return dbUser;
     }
 
-
     private void createNewBasket() {
         Basket bas = new Basket(createBasketName(), getCustomUser());
         basketService.saveBasket(bas);

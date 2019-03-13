@@ -14,7 +14,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -63,7 +62,7 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();
-        resolver.setPrefix("/WEB-INF/pages/");
+        resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);
         resolver.setOrder(1);
